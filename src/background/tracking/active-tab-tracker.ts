@@ -1,4 +1,4 @@
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import { Alarms, browser, Tabs } from 'webextension-polyfill-ts';
 import { debounce } from 'debounce';
 
 export type ActiveTabTrackerListener = (newTab: Tabs.Tab | undefined) => void;
@@ -9,14 +9,21 @@ type ActiveTabChangeHandler = (
 
 type FocusedWindowChangeHandler = (windowId: number) => void;
 
+type AlarmHandler = (name: Alarms.Alarm) => void;
+
 const LISTENER_DEBOUNCE_PERIOD = 1000;
+const ACTIVE_TAB_CHECK_ALARM_NAME = 'active-tab-check-interval';
 
 export class ActiveTabTracker {
   private handlers = new Map<
     Function,
-    [ActiveTabChangeHandler, FocusedWindowChangeHandler]
+    [ActiveTabChangeHandler, FocusedWindowChangeHandler, AlarmHandler]
   >();
   private lastActiveTabId: number | null = null;
+
+  constructor() {
+    browser.alarms.create(ACTIVE_TAB_CHECK_ALARM_NAME, { periodInMinutes: 1 });
+  }
 
   async getActiveTab() {
     const lastFocusedWindow = await browser.windows.getLastFocused();
@@ -58,14 +65,18 @@ export class ActiveTabTracker {
       this.createActiveTabChangeHandler(debouncedListener);
     const windowFocusChangeHandler =
       this.createWindowFocusChangeHandler(debouncedListener);
+    const activeTabPeriodicAlarmHandler =
+      this.createAlarmHandler(debouncedListener);
 
     browser.tabs.onActivated.addListener(activeTabChangeHandler);
     browser.tabs.onUpdated.addListener(activeTabChangeHandler);
     browser.windows.onFocusChanged.addListener(windowFocusChangeHandler);
+    browser.alarms.onAlarm.addListener(activeTabPeriodicAlarmHandler);
 
     this.handlers.set(listener, [
       activeTabChangeHandler,
       windowFocusChangeHandler,
+      activeTabPeriodicAlarmHandler,
     ]);
   }
 
@@ -107,17 +118,32 @@ export class ActiveTabTracker {
     };
   }
 
+  private createAlarmHandler(listener: ActiveTabTrackerListener): AlarmHandler {
+    return async (alarm) => {
+      if (alarm.name !== ACTIVE_TAB_CHECK_ALARM_NAME) {
+        return;
+      }
+
+      const tab =
+        (await this.getCachedLastActiveTab()) || (await this.getActiveTab());
+
+      listener(tab);
+    };
+  }
+
   removeListner(listener: ActiveTabTrackerListener) {
     if (!this.handlers.has(listener)) {
       console.warn('No listner');
       return;
     }
 
-    const [tabsListener, windowFocusListener] = this.handlers.get(listener)!;
+    const [tabsListener, windowFocusListener, alarmHandler] =
+      this.handlers.get(listener)!;
 
     browser.tabs.onActivated.removeListener(tabsListener);
     browser.tabs.onUpdated.removeListener(tabsListener);
     browser.windows.onFocusChanged.removeListener(windowFocusListener);
+    browser.alarms.onAlarm.removeListener(alarmHandler);
 
     this.handlers.delete(listener);
   }
