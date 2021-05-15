@@ -1,0 +1,16 @@
+{
+    "name": "BroTime",
+    "action": {},
+    "manifest_version": 3,
+    "version": "0.1",
+    "key": "mlanfnfndggpfphmjedckmjfcmafagid",
+    "description": "Time Tracking Assistant that helps to be in charge of your time during web browsing",
+    "permissions": [
+        "tabs",
+        "identity",
+        "storage"
+    ],
+    "background": {
+        "service_worker": "background.bundle.js"
+    }
+}
