@@ -25,6 +25,7 @@
   "homepage": "https://github.com/PsychoSanchez/bro-time-tracker#readme",
   "devDependencies": {
     "@types/chrome": "^0.0.140",
+    "@types/debounce": "^1.2.0",
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.5",
     "copy-webpack-plugin": "^8.1.1",
@@ -37,6 +38,7 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
+    "debounce": "^1.2.1",
     "react-dom": "^17.0.2",
     "webextension-polyfill-ts": "^0.25.0"
   }

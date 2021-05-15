@@ -1,17 +1,20 @@
 import { browser, Tabs } from 'webextension-polyfill-ts';
+import { debounce } from 'debounce';
 
-export type ActiveTabTrackerListener = (
-  newTab: Tabs.Tab | undefined,
-  previousTab: Tabs.Tab | undefined
-) => void;
+export type ActiveTabTrackerListener = (newTab: Tabs.Tab | undefined) => void;
+
+type ActiveTabChangeHandler = (
+  tabInfo: number | chrome.tabs.TabActiveInfo
+) => Promise<void>;
+
+type FocusedWindowChangeHandler = (windowId: number) => void;
+
+const LISTENER_DEBOUNCE_PERIOD = 1000;
 
 export class ActiveTabTracker {
   private handlers = new Map<
     Function,
-    [
-      (tabInfo: number | chrome.tabs.TabActiveInfo) => Promise<void>,
-      (windowId: number) => void
-    ]
+    [ActiveTabChangeHandler, FocusedWindowChangeHandler]
   >();
   private lastActiveTabId: number | null = null;
 
@@ -49,49 +52,59 @@ export class ActiveTabTracker {
       return;
     }
 
-    const activeTabChangeHandler = async (
-      tabInfo: number | chrome.tabs.TabActiveInfo
-    ) => {
+    const debouncedListener = debounce(listener, LISTENER_DEBOUNCE_PERIOD);
+
+    const activeTabChangeHandler =
+      this.createActiveTabChangeHandler(debouncedListener);
+    const windowFocusChangeHandler =
+      this.createWindowFocusChangeHandler(debouncedListener);
+
+    browser.tabs.onActivated.addListener(activeTabChangeHandler);
+    browser.tabs.onUpdated.addListener(activeTabChangeHandler);
+    browser.windows.onFocusChanged.addListener(windowFocusChangeHandler);
+
+    this.handlers.set(listener, [
+      activeTabChangeHandler,
+      windowFocusChangeHandler,
+    ]);
+  }
+
+  private createActiveTabChangeHandler(
+    listener: ActiveTabTrackerListener
+  ): ActiveTabChangeHandler {
+    return async (tabInfo) => {
       if (typeof tabInfo === 'number' && this.lastActiveTabId !== tabInfo) {
         return;
       }
 
-      const previousTab = await this.getCachedLastActiveTab();
-
-      this.lastActiveTabId =
+      const newPageTabId =
         typeof tabInfo === 'number' ? tabInfo : tabInfo.tabId;
 
+      this.lastActiveTabId = newPageTabId;
+
       const tab = await this.getCachedLastActiveTab();
-      listener(tab, previousTab);
+      listener(tab);
     };
+  }
 
-    const windowFocusChangeHandler = async (windowId: number) => {
+  private createWindowFocusChangeHandler(
+    listener: ActiveTabTrackerListener
+  ): FocusedWindowChangeHandler {
+    return async (windowId) => {
       if (windowId === browser.windows.WINDOW_ID_NONE) {
-        const tab = await this.getCachedLastActiveTab();
-
-        listener(undefined, tab);
+        listener(undefined);
 
         this.lastActiveTabId = null;
 
         return;
       }
 
-      const previousTab = await this.getCachedLastActiveTab();
       const newTab = await this.getWindowActiveTab(windowId);
 
       this.lastActiveTabId = newTab?.id || null;
 
-      listener(newTab, previousTab);
+      listener(newTab);
     };
-
-    this.handlers.set(listener, [
-      activeTabChangeHandler,
-      windowFocusChangeHandler,
-    ]);
-
-    browser.tabs.onActivated.addListener(activeTabChangeHandler);
-    browser.tabs.onUpdated.addListener(activeTabChangeHandler);
-    browser.windows.onFocusChanged.addListener(windowFocusChangeHandler);
   }
 
   removeListner(listener: ActiveTabTrackerListener) {
