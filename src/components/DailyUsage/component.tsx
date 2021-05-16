@@ -6,6 +6,7 @@ import { DailyUsageChart } from '../DailyUsageChart/component';
 
 export interface DailyUsageProps {
   date: string;
+  onDateChange: React.ComponentProps<typeof ActivityDatePicker>['onChange'];
   totalDailyActivity: number;
   dailyActivity: Record<string, number>;
 }
@@ -26,6 +27,7 @@ const presentTotalDailyActivity = (totalDailyActivity: number) => {
 
 export const DailyUsage: React.FC<DailyUsageProps> = ({
   date,
+  onDateChange,
   dailyActivity,
   totalDailyActivity,
 }) => {
@@ -33,19 +35,25 @@ export const DailyUsage: React.FC<DailyUsageProps> = ({
     <div>
       <div className="daily-usage-header app-font">
         <span className="daily-usage-text">Daily Usage</span>
-        <ActivityDatePicker />
+        <ActivityDatePicker date={date} onChange={onDateChange} />
       </div>
       <div className="daily-usage-time app-font">
         {presentTotalDailyActivity(totalDailyActivity)}
       </div>
-      {totalDailyActivity > MINUTE_IN_MS ? (
-        <div className="daily-usage-chart">
-          <DailyUsageChart
-            date={date}
-            activity={dailyActivity}
-          ></DailyUsageChart>
-        </div>
-      ) : null}
+      <div className="daily-usage-chart-container">
+        {totalDailyActivity > MINUTE_IN_MS ? (
+          <div className="daily-usage-chart">
+            <DailyUsageChart
+              date={date}
+              activity={dailyActivity}
+            ></DailyUsageChart>
+          </div>
+        ) : (
+          <div className="daily-usage-chart-empty app-font">
+            Nothing to see here yet...
+          </div>
+        )}
+      </div>
       {/* <AppsDailyUsageTable></AppsDailyUsageTable> */}
     </div>
   );
