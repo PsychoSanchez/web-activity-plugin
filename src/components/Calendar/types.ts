@@ -1,3 +1,5 @@
+import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
+
 export enum CalendarDisplayedActivityType {
   VeryLow = 1,
   Low,
@@ -13,3 +15,7 @@ export type CalendarDisplayedActivity = Record<
 export type ActivityCalendarProps = {
   activity: CalendarDisplayedActivity;
 };
+
+export interface CalendarContainerProps {
+  storage: BrowserSyncStorage;
+}

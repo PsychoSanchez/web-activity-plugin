@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FC } from 'react';
 import { DailyUsageContainer } from '../components/DailyUsage/container';
 
-import { ActivityCalendarContainer } from '../containers/Calendar/container';
+import { ActivityCalendarContainer } from '../components/Calendar/container';
 import { createGlobalSyncStorageListener } from '../shared/browser-sync-storage';
 
 import './App.css';
