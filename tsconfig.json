@@ -9,6 +9,7 @@
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node",
-    "jsxFactory": "React.createElement"
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment"
   }
 }

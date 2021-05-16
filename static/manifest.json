@@ -1,6 +1,10 @@
 {
     "name": "BroTime",
-    "action": {},
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {}
+    },
+    "icons": {},
     "manifest_version": 3,
     "version": "0.1",
     "key": "mlanfnfndggpfphmjedckmjfcmafagid",
@@ -13,5 +17,6 @@
     ],
     "background": {
         "service_worker": "background.bundle.js"
-    }
+    },
+    "offline_enabled": true
 }

@@ -1,5 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
-import { AccumulatedDailyActivityStorage } from './background/storage/accumulated-daily-activity';
+import { addActivityTimeToHost } from './background/storage/accumulated-daily-activity';
 import { HistoryActivityStorage } from './background/storage/history-activity';
 import {
   ActiveTabTrackerListener,
@@ -32,7 +32,6 @@ const isLastActiveTabAudible = async () => {
 try {
   const activeTabTracker = new ActiveTabTracker();
   const history = new HistoryActivityStorage();
-  const accumulated = new AccumulatedDailyActivityStorage();
 
   const handleActiveTabChange: ActiveTabTrackerListener = async (newTab) => {
     const url = newTab?.url;
@@ -54,7 +53,7 @@ try {
     }
 
     if (prevActivePage) {
-      accumulated.addTime(prevActivePage.hostname, ts - prevActivePage.date);
+      addActivityTimeToHost(prevActivePage.hostname, ts - prevActivePage.date);
     }
   };
 
