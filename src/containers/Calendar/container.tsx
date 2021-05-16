@@ -1,10 +1,7 @@
 import * as React from 'react';
 import './container.css';
 
-import {
-  getAllBrowserActivity,
-  TOTAL_DAILY_BROWSER_ACTIVITY,
-} from '../../background/storage/accumulated-daily-activity';
+import { TOTAL_DAILY_BROWSER_ACTIVITY } from '../../background/storage/accumulated-daily-activity';
 import { ActivityCalendar } from '../../components/Calendar/Calendar';
 import { getActivityLevel } from '../../components/Calendar/helpers';
 import { CalendarDisplayedActivity } from '../../components/Calendar/types';
@@ -39,7 +36,7 @@ export const ActivityCalendarContainer: React.FC<CalendarContainerProps> = ({
       setIsLoading(false);
     };
 
-    storage.subscsribe(listener);
+    storage.subscribe(listener);
 
     return () => {
       storage.unsubscribe(listener);
@@ -48,7 +45,7 @@ export const ActivityCalendarContainer: React.FC<CalendarContainerProps> = ({
 
   return (
     <div className="calendar-panel">
-      <div className="calendar-panel-header">Activity</div>
+      <div className="panel-header calendar-panel-header">Activity</div>
       <div className="calendar-panel-body">
         {isLoading ? (
           <div className="calendar-panel-preloader">Loading your activity</div>

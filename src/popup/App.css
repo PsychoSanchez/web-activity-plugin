@@ -11,3 +11,22 @@ body {
   flex-direction: column;
   padding: 20px;
 }
+
+.root > * {
+  margin-bottom: 20px;
+}
+
+.panel-body {
+  background-color: #151728;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.app-font,
+.panel-header {
+  /* font-family: 'Trebuchet MS', sans-serif; */
+  font-family: 'Arial', sans-serif;
+  color: #eaeaea;
+  font-size: 18px;
+  background-color: #151728;
+}

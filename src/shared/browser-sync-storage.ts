@@ -13,7 +13,7 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
   browser.storage.onChanged.addListener((changes) => {
     cachedStorage = {
       ...cachedStorage,
-      ...changes,
+      ...changes.newValue,
     };
 
     subscsribers.forEach((sub) => sub(cachedStorage));
@@ -23,7 +23,7 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
     getCachedStorage() {
       return cachedStorage;
     },
-    subscsribe(listener: StorageSubcriber) {
+    subscribe(listener: StorageSubcriber) {
       listener(cachedStorage);
       subscsribers.push(listener);
     },
@@ -39,6 +39,6 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
 
 export interface BrowserSyncStorage {
   getCachedStorage(): Store;
-  subscsribe(listener: StorageSubcriber): void;
+  subscribe(listener: StorageSubcriber): void;
   unsubscribe(listener: StorageSubcriber): void;
 }
