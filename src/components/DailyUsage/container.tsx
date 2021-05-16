@@ -35,6 +35,7 @@ export const DailyUsageContainer: React.FC<DailyUsageContainerProps> = ({}) => {
     <div className="panel-body daily-usage-body">
       <DailyUsage
         date={date}
+        onDateChange={setDate}
         dailyActivity={dailyActivity}
         totalDailyActivity={totalDailyActivity}
       ></DailyUsage>

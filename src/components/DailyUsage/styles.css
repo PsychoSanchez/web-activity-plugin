@@ -8,6 +8,18 @@ div.daily-usage-time {
   padding-top: 10px;
 }
 
+.daily-usage-chart-container {
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+div.daily-usage-chart-empty {
+  text-align: center;
+  color: #484a5d;
+}
+
 .daily-usage-header {
   display: flex;
   flex-direction: row;
@@ -16,8 +28,4 @@ div.daily-usage-time {
 
 .daily-usage-chart > canvas {
   max-height: 150px;
-}
-
-.daily-usage-activity {
-  min-height: 240px;
 }

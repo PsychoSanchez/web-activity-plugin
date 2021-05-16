@@ -46,9 +46,7 @@ export const addGetActivityStoreMessageListener = (
     //@ts-ignore
     const sendResponse: (message: any) => void = params[0];
 
-    console.log(sendResponse);
-
-    if (message.type === GET_ACTIVITY_STORE) {
+    if (message.type === GET_ACTIVITY_STORE && sendResponse) {
       sendResponse(browserSyncStorage.getCachedStorage());
     }
   });
