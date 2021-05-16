@@ -1,0 +1,19 @@
+div.daily-usage-time {
+  font-size: 32px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #4f5165;
+}
+
+.daily-usage-chart {
+  padding-top: 10px;
+}
+
+.daily-usage-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.daily-usage-chart > canvas {
+  max-height: 300px;
+}

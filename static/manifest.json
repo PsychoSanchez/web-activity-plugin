@@ -11,6 +11,7 @@
     "description": "Time Tracking Assistant that helps to be in charge of your time during web browsing",
     "permissions": [
         "tabs",
+        "idle",
         "identity",
         "storage",
         "alarms"

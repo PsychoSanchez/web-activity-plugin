@@ -2,15 +2,11 @@
 }
 
 .calendar-panel-header {
-  font-family: 'Trebuchet MS', sans-serif;
-  color: #d8d6d6;
-  font-size: 18px;
-
   width: 25%;
   clip-path: polygon(0% 0%, 80% 0%, 100% 100%, 100% 100%, 0% 100%);
   padding-left: 34px;
   padding-top: 10px;
-  border-radius: 3px;
+  border-radius: 4px;
   border-bottom-left-radius: 0px;
 
   background-color: #151728;

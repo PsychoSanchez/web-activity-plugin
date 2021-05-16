@@ -31,7 +31,3 @@ export const addActivityTimeToHost = async (host: string, duration: number) => {
 
   await browser.storage.sync.set(store);
 };
-
-export const getAllBrowserActivity = async () => {
-  return (await browser.storage.sync.get()) || {};
-};

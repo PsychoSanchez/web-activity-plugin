@@ -1,0 +1,8 @@
+.custom-date-input {
+  cursor: pointer;
+  background: #0058b7;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 3px;
+}
