@@ -2,7 +2,7 @@ import * as React from 'react';
 import './container.css';
 
 import { TOTAL_DAILY_BROWSER_ACTIVITY } from '../../background/storage/accumulated-daily-activity';
-import { ActivityCalendar } from '../../components/Calendar/Calendar';
+import { ActivityCalendar } from './component';
 import { getActivityLevel } from '../../components/Calendar/helpers';
 import { CalendarDisplayedActivity } from '../../components/Calendar/types';
 import { CalendarContainerProps } from './types';
