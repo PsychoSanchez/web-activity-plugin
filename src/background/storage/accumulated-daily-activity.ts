@@ -1,50 +1,37 @@
+import { browser } from 'webextension-polyfill-ts';
+import { getIsoDate } from '../../shared/dates-helper';
+
 export type DaylyWebsiteActivity = Record<string, number>;
 
 // TODO: Take in account background time
 // Splt metrics to total active and total bckground time
+// Add simultanious usage on several devices into account
 
-export class AccumulatedDailyActivityStorage {
-  private storage: Record<string, DaylyWebsiteActivity> = {};
+export const TOTAL_DAILY_BROWSER_ACTIVITY = 'total-time-spent';
 
-  addTime(host: string, duration: number) {
-    const accTimeSpent = this.getTodayHostActivityTime(host) + duration;
+export const addActivityTimeToHost = async (host: string, duration: number) => {
+  const currentDate = getIsoDate(new Date());
 
-    this.setTodaysHostActivityTime(host, accTimeSpent);
-  }
+  const store = await browser.storage.sync.get();
 
-  private getTodayHostActivityTime(host: string) {
-    const storage = this.getTodayStorageRecord();
+  // Update host time
+  const currentDateRecord = store[currentDate] || {};
 
-    return storage[host] || 0;
-  }
+  currentDateRecord[host] = (currentDateRecord[host] || 0) + duration;
 
-  private setTodaysHostActivityTime(host: string, time: number) {
-    const key = this.getTodayStorageKey();
-    const record = this.storage[key] || {};
+  store[currentDate] = currentDateRecord;
 
-    record[host] = time;
+  // Update total browser activity time
+  const totalBrowserActivity = store[TOTAL_DAILY_BROWSER_ACTIVITY] || {};
 
-    this.updateStorageRecord(key, record);
-  }
+  totalBrowserActivity[currentDate] =
+    (totalBrowserActivity[currentDate] || 0) + duration;
 
-  private updateStorageRecord(key: string, record: DaylyWebsiteActivity) {
-    this.storage[key] = record;
+  store[TOTAL_DAILY_BROWSER_ACTIVITY] = totalBrowserActivity;
 
-    console.log(this.storage);
-  }
+  await browser.storage.sync.set(store);
+};
 
-  private getTodayStorageRecord() {
-    const key = this.getTodayStorageKey();
-
-    return this.storage[key] || {};
-  }
-
-  private getTodayStorageKey() {
-    const today = new Date();
-    const key =
-      today.getFullYear().toString() +
-      today.getMonth().toString().padStart(2, '0') +
-      today.getDate().toString().padStart(2, '0');
-    return key;
-  }
-}
+export const getAllBrowserActivity = async () => {
+  return (await browser.storage.sync.get()) || {};
+};

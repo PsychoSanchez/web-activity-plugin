@@ -1,0 +1,13 @@
+html,
+body {
+  width: 500px;
+  background: #0c0e17;
+  padding: 0;
+  margin: 0;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}

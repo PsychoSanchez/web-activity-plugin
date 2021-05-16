@@ -1,0 +1,27 @@
+.calendar-panel {
+}
+
+.calendar-panel-header {
+  font-family: 'Trebuchet MS', sans-serif;
+  color: #d8d6d6;
+  font-size: 18px;
+
+  width: 25%;
+  clip-path: polygon(0% 0%, 80% 0%, 100% 100%, 100% 100%, 0% 100%);
+  padding-left: 34px;
+  padding-top: 10px;
+  border-radius: 3px;
+  border-bottom-left-radius: 0px;
+
+  background-color: #151728;
+}
+
+.calendar-panel-body {
+  background-color: #151728;
+  border-radius: 4px;
+  border-top-left-radius: 0px;
+
+  padding: 20px;
+  /* box-shadow: 0px 1px 60px -50px rgb(84 12 114); */
+  min-height: 115px;
+}
