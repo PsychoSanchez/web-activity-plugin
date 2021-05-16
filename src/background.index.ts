@@ -1,10 +1,16 @@
 import { browser } from 'webextension-polyfill-ts';
+
 import { addActivityTimeToHost } from './background/storage/accumulated-daily-activity';
 import { HistoryActivityStorage } from './background/storage/history-activity';
 import {
   ActiveTabTrackerListener,
   ActiveTabTracker,
 } from './background/tracking/active-tab-tracker';
+import {
+  addGetActivityStoreMessageListener,
+  sendMessageWithStoreUpdate,
+} from './shared/background-browser-sync-storage';
+import { createGlobalSyncStorageListener } from './shared/browser-sync-storage';
 
 const isAudioConference = async () => {
   try {
@@ -30,8 +36,12 @@ const isLastActiveTabAudible = async () => {
 };
 
 try {
+  const browserSyncStorage = createGlobalSyncStorageListener();
   const activeTabTracker = new ActiveTabTracker();
   const history = new HistoryActivityStorage();
+
+  addGetActivityStoreMessageListener(browserSyncStorage);
+  browserSyncStorage.subscribe(sendMessageWithStoreUpdate);
 
   const handleActiveTabChange: ActiveTabTrackerListener = async (newTab) => {
     const url = newTab?.url;
@@ -53,11 +63,17 @@ try {
     }
 
     if (prevActivePage) {
-      addActivityTimeToHost(prevActivePage.hostname, ts - prevActivePage.date);
+      addActivityTimeToHost(
+        browserSyncStorage,
+        prevActivePage.hostname,
+        ts - prevActivePage.date
+      );
     }
   };
 
   activeTabTracker.addListener(handleActiveTabChange);
+  // @ts-ignore
+  global.browserSyncStorage = browserSyncStorage;
 } catch (error) {
   console.error(error);
 }

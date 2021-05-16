@@ -3,19 +3,13 @@ import { FC } from 'react';
 import { DailyUsageContainer } from '../components/DailyUsage/container';
 
 import { ActivityCalendarContainer } from '../components/Calendar/container';
-import { createGlobalSyncStorageListener } from '../shared/browser-sync-storage';
-
 import './App.css';
-
-const syncStorage = createGlobalSyncStorageListener();
 
 export const PopupApp: FC<{}> = () => {
   return (
     <div className="root">
-      <ActivityCalendarContainer
-        storage={syncStorage}
-      ></ActivityCalendarContainer>
-      <DailyUsageContainer storage={syncStorage}></DailyUsageContainer>
+      <ActivityCalendarContainer></ActivityCalendarContainer>
+      <DailyUsageContainer></DailyUsageContainer>
     </div>
   );
 };

@@ -4,9 +4,10 @@ import { Doughnut } from 'react-chartjs-2';
 
 const DOUGHNUT_CHART_OPTIONS = {
   responsive: true,
+  animation: false,
   plugins: {
     legend: {
-      position: 'top',
+      position: 'left',
     },
   },
 };

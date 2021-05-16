@@ -16,6 +16,4 @@ export type ActivityCalendarProps = {
   activity: CalendarDisplayedActivity;
 };
 
-export interface CalendarContainerProps {
-  storage: BrowserSyncStorage;
-}
+export interface CalendarContainerProps {}

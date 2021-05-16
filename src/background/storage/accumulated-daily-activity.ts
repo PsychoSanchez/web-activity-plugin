@@ -1,4 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
+import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
 import { getIsoDate } from '../../shared/dates-helper';
 
 export type DaylyWebsiteActivity = Record<string, number>;
@@ -9,10 +10,14 @@ export type DaylyWebsiteActivity = Record<string, number>;
 
 export const TOTAL_DAILY_BROWSER_ACTIVITY = 'total-time-spent';
 
-export const addActivityTimeToHost = async (host: string, duration: number) => {
+export const addActivityTimeToHost = (
+  storage: BrowserSyncStorage,
+  host: string,
+  duration: number
+) => {
   const currentDate = getIsoDate(new Date());
 
-  const store = await browser.storage.sync.get();
+  const store = storage.getCachedStorage();
 
   // Update host time
   const currentDateRecord = store[currentDate] || {};
@@ -29,5 +34,5 @@ export const addActivityTimeToHost = async (host: string, duration: number) => {
 
   store[TOTAL_DAILY_BROWSER_ACTIVITY] = totalBrowserActivity;
 
-  await browser.storage.sync.set(store);
+  return storage.set(store);
 };
