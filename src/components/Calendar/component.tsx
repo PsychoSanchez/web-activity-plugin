@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './Calendar.css';
+import './component.css';
 
 import Calendar from 'react-github-contribution-calendar';
 

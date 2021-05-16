@@ -15,5 +15,9 @@ div.daily-usage-time {
 }
 
 .daily-usage-chart > canvas {
-  max-height: 300px;
+  max-height: 150px;
+}
+
+.daily-usage-activity {
+  min-height: 240px;
 }

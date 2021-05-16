@@ -1,17 +1,16 @@
 import * as React from 'react';
-import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
+import {
+  subscribeToBackgroundBrowserSyncStoreUpdate,
+  unsubscribeFromBackgroundBrowserSyncStoreUpdate,
+} from '../../shared/background-browser-sync-storage';
 import { getIsoDate } from '../../shared/dates-helper';
 import { DailyUsage } from './component';
 
 import './styles.css';
 
-export interface DailyUsageContainer {
-  storage: BrowserSyncStorage;
-}
+export interface DailyUsageContainerProps {}
 
-export const DailyUsageContainer: React.FC<DailyUsageContainer> = ({
-  storage,
-}) => {
+export const DailyUsageContainer: React.FC<DailyUsageContainerProps> = ({}) => {
   const [date, setDate] = React.useState(getIsoDate(new Date()));
   const [dailyActivity, setDailyActivity] = React.useState<
     Record<string, number>
@@ -22,10 +21,10 @@ export const DailyUsageContainer: React.FC<DailyUsageContainer> = ({
       setDailyActivity(activity[date] || {});
     };
 
-    storage.subscribe(storageListener);
+    subscribeToBackgroundBrowserSyncStoreUpdate(storageListener);
 
     return () => {
-      storage.unsubscribe(storageListener);
+      unsubscribeFromBackgroundBrowserSyncStoreUpdate(storageListener);
     };
   }, [date]);
 
@@ -33,7 +32,7 @@ export const DailyUsageContainer: React.FC<DailyUsageContainer> = ({
     Object.values(dailyActivity).reduce((acc, val) => acc + val, 0) || 0;
 
   return (
-    <div className="panel-body">
+    <div className="panel-body daily-usage-body">
       <DailyUsage
         date={date}
         dailyActivity={dailyActivity}
