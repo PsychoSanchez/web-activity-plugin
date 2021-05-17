@@ -1,8 +1,13 @@
 import * as React from 'react';
+import classNames from 'classnames/bind';
+
 import { getHoursInMs, getMinutesInMs } from '../../shared/dates-helper';
 import { ActivityDatePicker } from '../ActivityDatePicker/component';
-
 import { DailyUsageChart } from '../DailyUsageChart/component';
+
+import styles from './styles.css';
+
+const cx = classNames.bind(styles);
 
 export interface DailyUsageProps {
   date: string;
@@ -33,23 +38,23 @@ export const DailyUsage: React.FC<DailyUsageProps> = ({
 }) => {
   return (
     <div>
-      <div className="daily-usage-header app-font">
-        <span className="daily-usage-text">Daily Usage</span>
+      <div className={cx('daily-usage-header', 'app-font')}>
+        <span className={cx('daily-usage-text')}>Daily Usage</span>
         <ActivityDatePicker date={date} onChange={onDateChange} />
       </div>
-      <div className="daily-usage-time app-font">
+      <div className={cx('daily-usage-time', 'app-font')}>
         {presentTotalDailyActivity(totalDailyActivity)}
       </div>
-      <div className="daily-usage-chart-container">
+      <div className={cx('daily-usage-chart-container')}>
         {totalDailyActivity > MINUTE_IN_MS ? (
-          <div className="daily-usage-chart">
+          <div className={cx('daily-usage-chart')}>
             <DailyUsageChart
               date={date}
               activity={dailyActivity}
             ></DailyUsageChart>
           </div>
         ) : (
-          <div className="daily-usage-chart-empty app-font">
+          <div className={cx('daily-usage-chart-empty', 'app-font')}>
             Nothing to see here yet...
           </div>
         )}

@@ -1,7 +1,5 @@
-import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
-
 export enum CalendarDisplayedActivityType {
-  VeryLow = 1,
+  Inactive = 0,
   Low,
   Medium,
   High,

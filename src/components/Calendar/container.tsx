@@ -1,5 +1,9 @@
 import * as React from 'react';
-import './container.css';
+import classNames from 'classnames/bind';
+
+import styles from './container.css';
+
+const cx = classNames.bind(styles);
 
 import { TOTAL_DAILY_BROWSER_ACTIVITY } from '../../background/storage/accumulated-daily-activity';
 import { getActivityLevel } from '../../components/Calendar/helpers';
@@ -48,11 +52,13 @@ export const ActivityCalendarContainer: React.FC<CalendarContainerProps> =
     }, []);
 
     return (
-      <div className="calendar-panel">
-        <div className="panel-header calendar-panel-header">Activity</div>
-        <div className="calendar-panel-body">
+      <div className={cx('calendar-panel')}>
+        <div className={cx('panel-header', 'calendar-panel-header')}>
+          Activity
+        </div>
+        <div className={cx('calendar-panel-body')}>
           {isLoading ? (
-            <div className="calendar-panel-preloader">
+            <div className={cx('calendar-panel-preloader')}>
               Loading your activity
             </div>
           ) : (

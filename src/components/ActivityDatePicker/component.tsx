@@ -1,6 +1,9 @@
 import * as React from 'react';
+import classNames from 'classnames/bind';
 
-import './styles.css';
+import styles from './component.css';
+
+const cx = classNames.bind(styles);
 
 interface ActivityDatePickerProps {
   date: string;
@@ -12,10 +15,10 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
   onChange,
 }) => {
   return (
-    <div className="date-wrapper">
+    <div className={cx('activity-date')}>
       <input
         type="date"
-        className="custom-date-input"
+        className={cx('custom-date-input')}
         value={date}
         onChange={(event) => {
           onChange(event.currentTarget.value);
