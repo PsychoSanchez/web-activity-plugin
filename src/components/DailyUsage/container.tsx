@@ -1,4 +1,6 @@
 import * as React from 'react';
+import classNames from 'classnames/bind';
+
 import {
   subscribeToBackgroundBrowserSyncStoreUpdate,
   unsubscribeFromBackgroundBrowserSyncStoreUpdate,
@@ -6,7 +8,9 @@ import {
 import { getIsoDate } from '../../shared/dates-helper';
 import { DailyUsage } from './component';
 
-import './styles.css';
+import styles from './styles.css';
+
+const cx = classNames.bind(styles);
 
 export interface DailyUsageContainerProps {}
 
@@ -32,13 +36,13 @@ export const DailyUsageContainer: React.FC<DailyUsageContainerProps> = ({}) => {
     Object.values(dailyActivity).reduce((acc, val) => acc + val, 0) || 0;
 
   return (
-    <div className="panel-body daily-usage-body">
+    <div className={cx('panel-body', 'daily-usage-body')}>
       <DailyUsage
         date={date}
         onDateChange={setDate}
         dailyActivity={dailyActivity}
         totalDailyActivity={totalDailyActivity}
-      ></DailyUsage>
+      />
     </div>
   );
 };

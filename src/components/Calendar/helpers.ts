@@ -4,8 +4,8 @@ import { CalendarDisplayedActivityType } from './types';
 export const getActivityLevel = (
   timeInMs: number
 ): CalendarDisplayedActivityType => {
-  if (timeInMs < getMinutesInMs(30)) {
-    return CalendarDisplayedActivityType.VeryLow;
+  if (timeInMs < getMinutesInMs(1)) {
+    return CalendarDisplayedActivityType.Inactive;
   }
 
   if (timeInMs < getHoursInMs(2.5)) {
