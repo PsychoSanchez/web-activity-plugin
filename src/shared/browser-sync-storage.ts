@@ -1,7 +1,15 @@
+import { throttle } from 'throttle-debounce';
 import { browser } from 'webextension-polyfill-ts';
 
 type Store = Record<string, any>;
 type StorageSubcriber = (store: Store) => void;
+
+const THROTTLE_TIMEOUT = 15000;
+
+// Sync storage needs to throttle, max amount of updates per day is 8000
+const throttledStorageSyncSet = throttle(THROTTLE_TIMEOUT, (store: Store) =>
+  browser.storage.sync.set(store)
+);
 
 export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
   const subscsribers: StorageSubcriber[] = [];
@@ -35,7 +43,7 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
       }
     },
     set(store: Store) {
-      return browser.storage.sync.set(store);
+      return throttledStorageSyncSet(store);
     },
   };
 };

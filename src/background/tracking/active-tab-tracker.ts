@@ -1,183 +1,171 @@
 import { Alarms, browser, Idle, Tabs } from 'webextension-polyfill-ts';
-import { debounce } from 'debounce';
 
 export type ActiveTabTrackerListener = (newTab: Tabs.Tab | undefined) => void;
 
-type ActiveTabChangeHandler = (
-  tabInfo: number | chrome.tabs.TabActiveInfo
-) => Promise<void>;
+type ActiveTabChangeHandler = Parameters<
+  Tabs.Static['onActivated']['addListener']
+>[0];
 type FocusedWindowChangeHandler = (windowId: number) => void;
 type AlarmHandler = (name: Alarms.Alarm) => void;
 type IdleStateChangeHandler = (state: Idle.IdleState) => void;
+type TabUpdateHandler = Parameters<Tabs.onUpdatedEvent['addListener']>[0];
 
-const LISTENER_DEBOUNCE_PERIOD = 1000;
 const ACTIVE_TAB_CHECK_ALARM_NAME = 'active-tab-check-interval';
 
-export class ActiveTabTracker {
-  private handlers = new Map<
-    Function,
-    [
-      ActiveTabChangeHandler,
-      FocusedWindowChangeHandler,
-      AlarmHandler,
-      IdleStateChangeHandler
-    ]
-  >();
-  private lastActiveTabId: number | null = null;
-  private idleState: Idle.IdleState = 'active';
+export type ActiveTabState = {
+  lastActiveTab: Tabs.Tab | null;
+  focusedWindowId: number;
+  idleState: Idle.IdleState;
+};
 
-  constructor() {
-    browser.alarms.create(ACTIVE_TAB_CHECK_ALARM_NAME, { periodInMinutes: 1 });
+const DEFAULT_ACTIVE_TAB_STATE: ActiveTabState = {
+  lastActiveTab: null,
+  focusedWindowId: browser.windows.WINDOW_ID_NONE,
+  idleState: 'active',
+};
+
+type ActiveTabStateChangeHandler = (state: ActiveTabState) => void;
+
+export class WindowActiveTabStateMonitor {
+  private state = DEFAULT_ACTIVE_TAB_STATE;
+  private stateChangeListener: ActiveTabStateChangeHandler = () => {};
+
+  onStateChange(handler: ActiveTabStateChangeHandler) {
+    this.stateChangeListener = handler;
   }
 
-  async getActiveTab() {
-    const lastFocusedWindow = await browser.windows.getLastFocused();
+  async init() {
+    const window = await browser.windows.getLastFocused();
+    const [tab = null] = await browser.tabs.query({
+      windowId: window.id,
+      active: true,
+    });
 
-    if (!lastFocusedWindow?.id) {
-      return undefined;
+    this.setState({
+      focusedWindowId: window.id,
+      lastActiveTab: tab,
+    });
+
+    this.addBrowserActivityListeners();
+  }
+
+  addBrowserActivityListeners() {
+    browser.tabs.onActivated.addListener(this.activeTabChangeHandler);
+    browser.tabs.onUpdated.addListener(this.tabUpdateHandler);
+    browser.windows.onFocusChanged.addListener(this.windowFocusChangeHadler);
+    browser.alarms.onAlarm.addListener(this.activeTabAlarmHandler);
+    browser.idle.onStateChanged.addListener(this.idleStateChangeHandler);
+  }
+
+  removeActivityListeners() {
+    browser.tabs.onActivated.removeListener(this.activeTabChangeHandler);
+    browser.tabs.onUpdated.removeListener(this.tabUpdateHandler);
+    // browser.tabs.onRemoved
+    browser.windows.onFocusChanged.removeListener(this.windowFocusChangeHadler);
+    // browser.windows.onRemoved
+    browser.alarms.onAlarm.removeListener(this.activeTabAlarmHandler);
+    browser.idle.onStateChanged.removeListener(this.idleStateChangeHandler);
+    // browser.idle.
+  }
+
+  setState(newState: Partial<ActiveTabState>) {
+    this.state = {
+      ...this.state,
+      ...newState,
+    };
+
+    this.stateChangeListener(this.state);
+  }
+
+  private idleStateChangeHandler: IdleStateChangeHandler = async (
+    idleState
+  ) => {
+    this.setState({
+      idleState,
+    });
+  };
+
+  private activeTabChangeHandler: ActiveTabChangeHandler = async (tabInfo) => {
+    const { windowId, tabId } = tabInfo;
+    const eventWindow = await browser.windows.get(windowId);
+    if (!eventWindow.focused) {
+      return;
     }
+    const tabs = await browser.tabs.query({
+      windowId,
+    });
 
-    return await this.getWindowActiveTab(lastFocusedWindow.id);
-  }
+    const activeTab = tabs.find((tab) => tabId === tab.id) || null;
 
-  private async getWindowActiveTab(windowId: number) {
-    const [tab] =
-      (await browser.tabs.query({
-        windowId: windowId,
-        active: true,
-      })) || [];
+    this.setState({
+      focusedWindowId: windowId,
+      lastActiveTab: activeTab,
+    });
+  };
 
-    return tab;
-  }
+  private tabUpdateHandler: TabUpdateHandler = (_1, _2, tab) => {
+    const isActiveAndFollowedTab =
+      tab.active &&
+      this.state.lastActiveTab?.windowId === tab.windowId &&
+      this.state.lastActiveTab?.id === tab.id;
 
-  async getCachedLastActiveTab() {
-    if (!this.lastActiveTabId) {
-      return undefined;
+    if (isActiveAndFollowedTab) {
+      this.setState({
+        lastActiveTab: tab,
+      });
     }
+  };
 
-    return await browser.tabs.get(this.lastActiveTabId);
-  }
+  private windowFocusChangeHadler: FocusedWindowChangeHandler = async (
+    windowId
+  ) => {
+    if (windowId === browser.windows.WINDOW_ID_NONE) {
+      this.setState({
+        focusedWindowId: windowId,
+        lastActiveTab: null,
+      });
 
-  addListener(listener: ActiveTabTrackerListener) {
-    if (this.handlers.has(listener)) {
-      console.warn('Listner already exist');
       return;
     }
 
-    const debouncedListener = debounce(
-      (...args: Parameters<typeof listener>) => {
-        if (this.idleState === 'active') {
-          listener(...args);
-        }
-      },
-      LISTENER_DEBOUNCE_PERIOD
-    );
+    const [activeTab = null] = await browser.tabs.query({
+      windowId,
+      active: true,
+    });
 
-    const activeTabChangeHandler =
-      this.createActiveTabChangeHandler(debouncedListener);
-    const windowFocusChangeHandler =
-      this.createWindowFocusChangeHandler(debouncedListener);
-    const activeTabPeriodicAlarmHandler =
-      this.createAlarmHandler(debouncedListener);
-    const idleStateListener = this.createIdleStateChangeListener(listener);
+    this.setState({
+      focusedWindowId: windowId,
+      lastActiveTab: activeTab,
+    });
+  };
 
-    browser.tabs.onActivated.addListener(activeTabChangeHandler);
-    browser.tabs.onUpdated.addListener(activeTabChangeHandler);
-    browser.windows.onFocusChanged.addListener(windowFocusChangeHandler);
-    browser.alarms.onAlarm.addListener(activeTabPeriodicAlarmHandler);
-    browser.idle.onStateChanged.addListener(idleStateListener);
-
-    this.handlers.set(listener, [
-      activeTabChangeHandler,
-      windowFocusChangeHandler,
-      activeTabPeriodicAlarmHandler,
-      idleStateListener,
-    ]);
-  }
-
-  private createIdleStateChangeListener(
-    listener: ActiveTabTrackerListener
-  ): IdleStateChangeHandler {
-    return async (newState) => {
-      this.idleState = newState;
-
-      if (newState === 'idle' || newState === 'locked') {
-        listener(undefined);
-      } else {
-        const tab =
-          (await this.getCachedLastActiveTab()) || (await this.getActiveTab());
-
-        listener(tab);
-      }
-    };
-  }
-
-  private createActiveTabChangeHandler(
-    listener: ActiveTabTrackerListener
-  ): ActiveTabChangeHandler {
-    return async (tabInfo) => {
-      if (typeof tabInfo === 'number' && this.lastActiveTabId !== tabInfo) {
-        return;
-      }
-
-      const newPageTabId =
-        typeof tabInfo === 'number' ? tabInfo : tabInfo.tabId;
-
-      this.lastActiveTabId = newPageTabId;
-
-      const tab = await this.getCachedLastActiveTab();
-      listener(tab);
-    };
-  }
-
-  private createWindowFocusChangeHandler(
-    listener: ActiveTabTrackerListener
-  ): FocusedWindowChangeHandler {
-    return async (windowId) => {
-      if (windowId === browser.windows.WINDOW_ID_NONE) {
-        listener(undefined);
-
-        this.lastActiveTabId = null;
-
-        return;
-      }
-
-      const newTab = await this.getWindowActiveTab(windowId);
-
-      this.lastActiveTabId = newTab?.id || null;
-
-      listener(newTab);
-    };
-  }
-
-  private createAlarmHandler(listener: ActiveTabTrackerListener): AlarmHandler {
-    return async (alarm) => {
-      if (alarm.name !== ACTIVE_TAB_CHECK_ALARM_NAME) {
-        return;
-      }
-
-      const tab =
-        (await this.getCachedLastActiveTab()) || (await this.getActiveTab());
-
-      listener(tab);
-    };
-  }
-
-  removeListner(listener: ActiveTabTrackerListener) {
-    if (!this.handlers.has(listener)) {
-      console.warn('No listner');
+  private activeTabAlarmHandler: AlarmHandler = async (alarm) => {
+    if (alarm.name !== ACTIVE_TAB_CHECK_ALARM_NAME) {
       return;
     }
 
-    const [tabsListener, windowFocusListener, alarmHandler, idleStateListener] =
-      this.handlers.get(listener)!;
+    if (
+      this.state.focusedWindowId === browser.windows.WINDOW_ID_NONE ||
+      this.state.lastActiveTab === null
+    ) {
+      return;
+    }
 
-    browser.tabs.onActivated.removeListener(tabsListener);
-    browser.tabs.onUpdated.removeListener(tabsListener);
-    browser.windows.onFocusChanged.removeListener(windowFocusListener);
-    browser.alarms.onAlarm.removeListener(alarmHandler);
-    browser.idle.onStateChanged.removeListener(idleStateListener);
+    const [activeTab = null] = await browser.tabs.query({
+      windowId: this.state.focusedWindowId,
+      active: true,
+    });
 
-    this.handlers.delete(listener);
-  }
+    if (activeTab?.id === this.state.lastActiveTab?.id) {
+      this.setState({
+        lastActiveTab: activeTab,
+      });
+    }
+  };
 }
+
+// remember last active tab
+// if idle state changes to idle clear stopwatch and send time
+// while state is idle (user did not interract for a minute) and last active tab audible keep sending heartbeats
+// do not track time in locked state
+// once idle state changes back to active, start track last active tab again

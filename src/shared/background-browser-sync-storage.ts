@@ -42,12 +42,11 @@ export const sendMessageWithStoreUpdate = (newStore: any) => {
 export const addGetActivityStoreMessageListener = (
   browserSyncStorage: BrowserSyncStorage
 ) => {
-  browser.runtime.onMessage.addListener((message, _sender, ...params) => {
-    //@ts-ignore
-    const sendResponse: (message: any) => void = params[0];
-
-    if (message.type === GET_ACTIVITY_STORE && sendResponse) {
-      sendResponse(browserSyncStorage.getCachedStorage());
+  browser.runtime.onMessage.addListener((message) => {
+    if (message.type === GET_ACTIVITY_STORE) {
+      return new Promise((resolve) => {
+        resolve(browserSyncStorage.getCachedStorage());
+      });
     }
   });
 };
