@@ -17,13 +17,13 @@ type TabUpdateHandler = Parameters<Tabs.onUpdatedEvent['addListener']>[0];
 const ACTIVE_TAB_CHECK_ALARM_NAME = 'active-tab-check-interval';
 
 export type ActiveTabState = {
-  lastActiveTab: Tabs.Tab | null;
+  activeTab: Tabs.Tab | null;
   focusedWindowId: number;
   idleState: Idle.IdleState;
 };
 
 const DEFAULT_ACTIVE_TAB_STATE: ActiveTabState = {
-  lastActiveTab: null,
+  activeTab: null,
   focusedWindowId: browser.windows.WINDOW_ID_NONE,
   idleState: 'active',
 };
@@ -47,7 +47,7 @@ export class WindowActiveTabStateMonitor {
 
     this.setState({
       focusedWindowId: window.id,
-      lastActiveTab: tab,
+      activeTab: tab,
     });
 
     this.addBrowserActivityListeners();
@@ -89,42 +89,54 @@ export class WindowActiveTabStateMonitor {
 
   private activeTabChangeHandler: ActiveTabChangeHandler = async (tabInfo) => {
     const { windowId, tabId } = tabInfo;
-    const eventWindow = await browser.windows.get(windowId);
-    if (!eventWindow.focused) {
+    const activeTabWindow = await browser.windows.get(windowId);
+    if (!activeTabWindow.focused) {
       return;
     }
-    const tabs = await browser.tabs.query({
-      windowId,
-    });
 
-    const activeTab = tabs.find((tab) => tabId === tab.id) || null;
+    const activeTab =
+      activeTabWindow.tabs?.find((tab) => tabId === tab.id) ?? null;
 
     this.setState({
       focusedWindowId: windowId,
-      lastActiveTab: activeTab,
+      activeTab: activeTab,
     });
   };
 
   private tabUpdateHandler: TabUpdateHandler = (_1, _2, tab) => {
-    const isActiveAndFollowedTab =
-      tab.active &&
-      this.state.lastActiveTab?.windowId === tab.windowId &&
-      this.state.lastActiveTab?.id === tab.id;
+    const isActiveAndFollowed =
+      tab.active && this.state.activeTab?.id === tab.id;
 
-    if (isActiveAndFollowedTab) {
-      this.setState({
-        lastActiveTab: tab,
-      });
+    if (!isActiveAndFollowed) {
+      return;
     }
+
+    const isLastFocusedWindowNoneAndTabNotAudible =
+      this.state.focusedWindowId === browser.windows.WINDOW_ID_NONE &&
+      !tab.audible;
+
+    if (isLastFocusedWindowNoneAndTabNotAudible) {
+      this.setState({
+        activeTab: null,
+      });
+
+      return;
+    }
+
+    this.setState({
+      activeTab: tab,
+    });
   };
 
   private windowFocusChangeHadler: FocusedWindowChangeHandler = async (
     windowId
   ) => {
     if (windowId === browser.windows.WINDOW_ID_NONE) {
+      const [activeAudibleTab = null] = await getActiveAudibleTab();
+
       this.setState({
         focusedWindowId: windowId,
-        lastActiveTab: null,
+        activeTab: activeAudibleTab,
       });
 
       return;
@@ -137,7 +149,7 @@ export class WindowActiveTabStateMonitor {
 
     this.setState({
       focusedWindowId: windowId,
-      lastActiveTab: activeTab,
+      activeTab: activeTab,
     });
   };
 
@@ -146,25 +158,36 @@ export class WindowActiveTabStateMonitor {
       return;
     }
 
-    if (
-      this.state.focusedWindowId === browser.windows.WINDOW_ID_NONE ||
-      this.state.lastActiveTab === null
-    ) {
+    const lastFocusedWindowId = this.state.focusedWindowId;
+
+    if (lastFocusedWindowId === browser.windows.WINDOW_ID_NONE) {
+      const [activeAudibleTab = null] = await getActiveAudibleTab();
+
+      this.setState({
+        focusedWindowId: lastFocusedWindowId,
+        activeTab: activeAudibleTab,
+      });
+
       return;
     }
 
-    const [activeTab = null] = await browser.tabs.query({
-      windowId: this.state.focusedWindowId,
+    const [lastActiveTab = null] = await browser.tabs.query({
+      windowId: lastFocusedWindowId,
       active: true,
     });
 
-    if (activeTab?.id === this.state.lastActiveTab?.id) {
-      this.setState({
-        lastActiveTab: activeTab,
-      });
-    }
+    this.setState({
+      focusedWindowId: lastFocusedWindowId,
+      activeTab: lastActiveTab,
+    });
   };
 }
+
+const getActiveAudibleTab = () =>
+  browser.tabs.query({
+    active: true,
+    audible: true,
+  });
 
 // remember last active tab
 // if idle state changes to idle clear stopwatch and send time
