@@ -1,10 +1,11 @@
 import { throttle } from 'throttle-debounce';
 import { browser } from 'webextension-polyfill-ts';
+import { getMinutesInMs } from './dates-helper';
 
 type Store = Record<string, any>;
-type StorageSubcriber = (store: Store) => void;
+type StorageSubscriber = (store: Store) => void;
 
-const THROTTLE_TIMEOUT = 15000;
+const THROTTLE_TIMEOUT = getMinutesInMs(5);
 
 // Sync storage needs to throttle, max amount of updates per day is 8000
 const throttledStorageSyncSet = throttle(THROTTLE_TIMEOUT, (store: Store) =>
@@ -12,7 +13,7 @@ const throttledStorageSyncSet = throttle(THROTTLE_TIMEOUT, (store: Store) =>
 );
 
 export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
-  const subscsribers: StorageSubcriber[] = [];
+  const subscribers: StorageSubscriber[] = [];
   let cachedStore = {};
 
   browser.storage.sync.get().then((store) => {
@@ -25,22 +26,22 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
       ...changes.newValue,
     };
 
-    subscsribers.forEach((sub) => sub(cachedStore));
+    subscribers.forEach((sub) => sub(cachedStore));
   });
 
   return {
     getCachedStorage() {
       return { ...cachedStore };
     },
-    onChanged(listener: StorageSubcriber) {
+    onChanged(listener: StorageSubscriber) {
       listener(cachedStore);
-      subscsribers.push(listener);
+      subscribers.push(listener);
     },
-    unsubscribe(listener: StorageSubcriber) {
-      const index = subscsribers.findIndex((sub) => sub === listener);
+    unsubscribe(listener: StorageSubscriber) {
+      const index = subscribers.findIndex((sub) => sub === listener);
 
       if (index > -1) {
-        subscsribers.splice(index, 1);
+        subscribers.splice(index, 1);
       }
     },
     set(store: Store) {
@@ -51,7 +52,7 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
 
 export interface BrowserSyncStorage {
   getCachedStorage(): Store;
-  onChanged(listener: StorageSubcriber): void;
-  unsubscribe(listener: StorageSubcriber): void;
+  onChanged(listener: StorageSubscriber): void;
+  unsubscribe(listener: StorageSubscriber): void;
   set(store: Store): Promise<void>;
 }

@@ -17,16 +17,26 @@ import {
 } from '../../shared/background-browser-sync-storage';
 
 const convertTotalDailyActiityToCalendarActivity = (
-  totalActivity: Record<string, number> = {}
+  totalActivity: TotalDailyActivity = {}
 ): CalendarDisplayedActivity => {
   const calendarActivity: CalendarDisplayedActivity = {};
 
-  return Object.keys(totalActivity).reduce((acc, key) => {
-    acc[key] = getActivityLevel(totalActivity[key]);
+  const totalBrowserActivity = Object.keys(totalActivity)
+    .filter((key) => key.indexOf('-') === 4)
+    .reduce((acc, key) => {
+      const totalTimeSpentThatDay = Object.values(totalActivity[key]).reduce(
+        (acc, val) => acc + val,
+        0
+      );
+      acc[key] = getActivityLevel(totalTimeSpentThatDay);
 
-    return acc;
-  }, calendarActivity);
+      return acc;
+    }, calendarActivity);
+
+  return totalBrowserActivity;
 };
+
+type TotalDailyActivity = Record<string, Record<string, number>>;
 
 export const ActivityCalendarContainer: React.FC<CalendarContainerProps> =
   () => {
@@ -35,10 +45,9 @@ export const ActivityCalendarContainer: React.FC<CalendarContainerProps> =
       React.useState<CalendarDisplayedActivity>({});
 
     React.useEffect(() => {
-      const listener = (activity: Record<string, Record<string, number>>) => {
-        const totalBrowserActivity = activity[TOTAL_DAILY_BROWSER_ACTIVITY];
+      const listener = (activity: TotalDailyActivity) => {
         setCalendarActivity(
-          convertTotalDailyActiityToCalendarActivity(totalBrowserActivity)
+          convertTotalDailyActiityToCalendarActivity(activity)
         );
 
         setIsLoading(false);

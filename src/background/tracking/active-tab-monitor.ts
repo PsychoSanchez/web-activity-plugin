@@ -1,6 +1,12 @@
 import { Alarms, browser, Idle, Tabs, Windows } from 'webextension-polyfill-ts';
 
-export type ActiveTabTrackerListener = (newTab: Tabs.Tab | undefined) => void;
+const ACTIVE_TAB_CHECK_ALARM_NAME = 'active-tab-check-interval';
+const ACTIVE_TAB_CHECK_WINDOW_INTERVAL = 10000;
+const DEFAULT_ACTIVE_TAB_STATE: ActiveTabState = {
+  activeTab: null,
+  focusedWindowId: browser.windows.WINDOW_ID_NONE,
+  idleState: 'active',
+};
 
 type ActiveTabChangeHandler = Parameters<
   Tabs.Static['onActivated']['addListener']
@@ -13,8 +19,7 @@ type IdleStateChangeHandler = Parameters<
   Idle.Static['onStateChanged']['addListener']
 >[0];
 type TabUpdateHandler = Parameters<Tabs.onUpdatedEvent['addListener']>[0];
-
-const ACTIVE_TAB_CHECK_ALARM_NAME = 'active-tab-check-interval';
+type ActiveTabStateChangeHandler = (state: ActiveTabState) => void;
 
 export type ActiveTabState = {
   activeTab: Tabs.Tab | null;
@@ -22,16 +27,9 @@ export type ActiveTabState = {
   idleState: Idle.IdleState;
 };
 
-const DEFAULT_ACTIVE_TAB_STATE: ActiveTabState = {
-  activeTab: null,
-  focusedWindowId: browser.windows.WINDOW_ID_NONE,
-  idleState: 'active',
-};
-
-type ActiveTabStateChangeHandler = (state: ActiveTabState) => void;
-
 export class WindowActiveTabStateMonitor {
   private state = DEFAULT_ACTIVE_TAB_STATE;
+  private transactionChain = Promise.resolve();
   private stateChangeListener: ActiveTabStateChangeHandler = () => {};
 
   onStateChange(handler: ActiveTabStateChangeHandler) {
@@ -54,19 +52,49 @@ export class WindowActiveTabStateMonitor {
   }
 
   addBrowserActivityListeners() {
-    browser.tabs.onActivated.addListener(this.activeTabChangeHandler);
-    browser.tabs.onUpdated.addListener(this.tabUpdateHandler);
-    browser.windows.onFocusChanged.addListener(this.windowFocusChangeHadler);
-    browser.alarms.onAlarm.addListener(this.activeTabAlarmHandler);
-    browser.idle.onStateChanged.addListener(this.idleStateChangeHandler);
+    const wrapInTransactionChain =
+      (handler: (...args: any[]) => any) =>
+      (...args: any[]) => {
+        this.transactionChain = this.transactionChain
+          .then(() => handler(...args))
+          .catch(console.error);
+      };
+
+    browser.tabs.onActivated.addListener(
+      wrapInTransactionChain(this.activeTabChangeHandler)
+    );
+    browser.tabs.onUpdated.addListener(
+      wrapInTransactionChain(this.tabUpdateHandler)
+    );
+    // onFocusChanged does not work in Windows 7/8/10 when user alt-tabs or clicks away
+    browser.windows.onFocusChanged.addListener(
+      wrapInTransactionChain(this.windowFocusChangeHandler)
+    );
+    browser.idle.onStateChanged.addListener(
+      wrapInTransactionChain(this.idleStateChangeHandler)
+    );
+
+    browser.alarms.onAlarm.addListener(
+      wrapInTransactionChain(this.alarmHandler)
+    );
+    // SetInterval in background is inconsistent and might not work as expected but it is necessary for window focus polling
+    setInterval(
+      () =>
+        wrapInTransactionChain(this.alarmHandler)({
+          name: ACTIVE_TAB_CHECK_ALARM_NAME,
+        }),
+      ACTIVE_TAB_CHECK_WINDOW_INTERVAL
+    );
   }
 
   removeActivityListeners() {
     browser.tabs.onActivated.removeListener(this.activeTabChangeHandler);
     browser.tabs.onUpdated.removeListener(this.tabUpdateHandler);
-    browser.windows.onFocusChanged.removeListener(this.windowFocusChangeHadler);
+    browser.windows.onFocusChanged.removeListener(
+      this.windowFocusChangeHandler
+    );
     // browser.windows.onRemoved ?
-    browser.alarms.onAlarm.removeListener(this.activeTabAlarmHandler);
+    browser.alarms.onAlarm.removeListener(this.alarmHandler);
     browser.idle.onStateChanged.removeListener(this.idleStateChangeHandler);
   }
 
@@ -94,8 +122,11 @@ export class WindowActiveTabStateMonitor {
       return;
     }
 
-    const activeTab =
-      activeTabWindow.tabs?.find((tab) => tabId === tab.id) ?? null;
+    const tabs = await browser.tabs.query({
+      windowId,
+    });
+
+    const activeTab = tabs.find((tab) => tabId === tab.id) || null;
 
     this.setState({
       focusedWindowId: windowId,
@@ -128,7 +159,7 @@ export class WindowActiveTabStateMonitor {
     });
   };
 
-  private windowFocusChangeHadler: FocusedWindowChangeHandler = async (
+  private windowFocusChangeHandler: FocusedWindowChangeHandler = async (
     windowId
   ) => {
     if (windowId === browser.windows.WINDOW_ID_NONE) {
@@ -153,18 +184,23 @@ export class WindowActiveTabStateMonitor {
     });
   };
 
-  private activeTabAlarmHandler: AlarmHandler = async (alarm) => {
+  private alarmHandler: AlarmHandler = async (alarm) => {
     if (alarm.name !== ACTIVE_TAB_CHECK_ALARM_NAME) {
       return;
     }
 
-    const lastFocusedWindowId = this.state.focusedWindowId;
+    // Windows focus change handler does not work, so we do it manually by polling
+    const focusedWindowId = await getFocusedWindowId();
 
-    if (lastFocusedWindowId === browser.windows.WINDOW_ID_NONE) {
+    if (focusedWindowId !== this.state.focusedWindowId) {
+      await this.windowFocusChangeHandler(focusedWindowId);
+    }
+
+    if (this.state.focusedWindowId === browser.windows.WINDOW_ID_NONE) {
       const [activeAudibleTab = null] = await getActiveAudibleTab();
 
       this.setState({
-        focusedWindowId: lastFocusedWindowId,
+        focusedWindowId: browser.windows.WINDOW_ID_NONE,
         activeTab: activeAudibleTab,
       });
 
@@ -172,16 +208,26 @@ export class WindowActiveTabStateMonitor {
     }
 
     const [lastActiveTab = null] = await browser.tabs.query({
-      windowId: lastFocusedWindowId,
+      windowId: this.state.focusedWindowId,
       active: true,
     });
 
     this.setState({
-      focusedWindowId: lastFocusedWindowId,
+      focusedWindowId: this.state.focusedWindowId,
       activeTab: lastActiveTab,
     });
   };
 }
+
+const getFocusedWindowId = () => {
+  return browser.windows
+    .getAll()
+    .then(
+      (windows) =>
+        windows.find((window) => window.focused)?.id ||
+        browser.windows.WINDOW_ID_NONE
+    );
+};
 
 const getActiveAudibleTab = () =>
   browser.tabs.query({
@@ -191,6 +237,6 @@ const getActiveAudibleTab = () =>
 
 // remember last active tab
 // if idle state changes to idle clear stopwatch and send time
-// while state is idle (user did not interract for a minute) and last active tab audible keep sending heartbeats
+// while state is idle (user did not interact for a minute) and last active tab audible keep sending heartbeats
 // do not track time in locked state
 // once idle state changes back to active, start track last active tab again
