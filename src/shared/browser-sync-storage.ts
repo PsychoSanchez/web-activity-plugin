@@ -5,24 +5,29 @@ import { getMinutesInMs } from './dates-helper';
 type Store = Record<string, any>;
 type StorageSubscriber = (store: Store) => void;
 
-const THROTTLE_TIMEOUT = getMinutesInMs(5);
+const SYNC_STORAGE_THROTTLE_TIMEOUT = getMinutesInMs(1);
 
 // Sync storage needs to throttle, max amount of updates per day is 8000
-const throttledStorageSyncSet = throttle(THROTTLE_TIMEOUT, (store: Store) =>
-  browser.storage.sync.set(store)
+const throttledStorageSyncSet = throttle(
+  SYNC_STORAGE_THROTTLE_TIMEOUT,
+  (store: Store) => browser.storage.sync.set(store)
 );
 
 export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
   const subscribers: StorageSubscriber[] = [];
   let cachedStore = {};
 
-  browser.storage.sync.get().then((store) => {
-    cachedStore = store;
-  });
+  Promise.race([browser.storage.local.get(), browser.storage.sync.get()]).then(
+    (store = {}) => {
+      cachedStore = store;
+    }
+  );
 
-  browser.storage.onChanged.addListener((changes) => {
+  browser.storage.onChanged.addListener(async (changes) => {
+    const localStore = await browser.storage.local.get();
     cachedStore = {
       ...cachedStore,
+      ...localStore,
       ...changes.newValue,
     };
 
@@ -45,6 +50,7 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
       }
     },
     set(store: Store) {
+      browser.storage.local.set(store);
       return throttledStorageSyncSet(store);
     },
   };
