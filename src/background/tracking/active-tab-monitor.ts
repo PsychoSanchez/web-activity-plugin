@@ -1,13 +1,17 @@
-import { Alarms, browser, Idle, Tabs } from 'webextension-polyfill-ts';
+import { Alarms, browser, Idle, Tabs, Windows } from 'webextension-polyfill-ts';
 
 export type ActiveTabTrackerListener = (newTab: Tabs.Tab | undefined) => void;
 
 type ActiveTabChangeHandler = Parameters<
   Tabs.Static['onActivated']['addListener']
 >[0];
-type FocusedWindowChangeHandler = (windowId: number) => void;
-type AlarmHandler = (name: Alarms.Alarm) => void;
-type IdleStateChangeHandler = (state: Idle.IdleState) => void;
+type FocusedWindowChangeHandler = Parameters<
+  Windows.Static['onFocusChanged']['addListener']
+>[0];
+type AlarmHandler = Parameters<Alarms.Static['onAlarm']['addListener']>[0];
+type IdleStateChangeHandler = Parameters<
+  Idle.Static['onStateChanged']['addListener']
+>[0];
 type TabUpdateHandler = Parameters<Tabs.onUpdatedEvent['addListener']>[0];
 
 const ACTIVE_TAB_CHECK_ALARM_NAME = 'active-tab-check-interval';
@@ -60,12 +64,10 @@ export class WindowActiveTabStateMonitor {
   removeActivityListeners() {
     browser.tabs.onActivated.removeListener(this.activeTabChangeHandler);
     browser.tabs.onUpdated.removeListener(this.tabUpdateHandler);
-    // browser.tabs.onRemoved
     browser.windows.onFocusChanged.removeListener(this.windowFocusChangeHadler);
-    // browser.windows.onRemoved
+    // browser.windows.onRemoved ?
     browser.alarms.onAlarm.removeListener(this.activeTabAlarmHandler);
     browser.idle.onStateChanged.removeListener(this.idleStateChangeHandler);
-    // browser.idle.
   }
 
   setState(newState: Partial<ActiveTabState>) {
