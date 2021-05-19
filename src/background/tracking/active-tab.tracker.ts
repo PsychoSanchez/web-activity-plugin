@@ -49,18 +49,18 @@ export class ActiveTabTracker {
   ): FinishTrackingEvent {
     console.log('New State', activeTabState);
 
-    const activeTabUrl = activeTabState.lastActiveTab?.url;
+    const activeTabUrl = activeTabState.activeTab?.url;
 
     if (
       activeTabState.idleState === 'locked' ||
-      activeTabState.lastActiveTab === null ||
+      activeTabState.activeTab === null ||
       isInvalidUrl(activeTabUrl)
     ) {
       return startEmptyTracker();
     }
 
     if (activeTabState.idleState === 'idle') {
-      return activeTabState.lastActiveTab.audible
+      return activeTabState.activeTab.audible
         ? startUrlTracker(activeTabUrl, this.storage)
         : startEmptyTracker();
     }
