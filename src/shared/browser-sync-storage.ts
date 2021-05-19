@@ -14,6 +14,7 @@ const throttledStorageSyncSet = throttle(THROTTLE_TIMEOUT, (store: Store) =>
 export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
   const subscsribers: StorageSubcriber[] = [];
   let cachedStore = {};
+
   browser.storage.sync.get().then((store) => {
     cachedStore = store;
   });
@@ -31,7 +32,7 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
     getCachedStorage() {
       return { ...cachedStore };
     },
-    subscribe(listener: StorageSubcriber) {
+    onChanged(listener: StorageSubcriber) {
       listener(cachedStore);
       subscsribers.push(listener);
     },
@@ -50,7 +51,7 @@ export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
 
 export interface BrowserSyncStorage {
   getCachedStorage(): Store;
-  subscribe(listener: StorageSubcriber): void;
+  onChanged(listener: StorageSubcriber): void;
   unsubscribe(listener: StorageSubcriber): void;
   set(store: Store): Promise<void>;
 }

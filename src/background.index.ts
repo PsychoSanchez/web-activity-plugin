@@ -2,86 +2,84 @@ import { addActivityTimeToHost } from './background/storage/accumulated-daily-ac
 import {
   ActiveTabState,
   WindowActiveTabStateMonitor,
-} from './background/tracking/active-tab-tracker';
+} from './background/tracking/active-tab-monitor';
 import {
-  addGetActivityStoreMessageListener,
+  addGetActivityStoreMessageListener as addRuntimeStoreMessageListener,
   sendMessageWithStoreUpdate,
 } from './shared/background-browser-sync-storage';
-import { createGlobalSyncStorageListener } from './shared/browser-sync-storage';
+import {
+  BrowserSyncStorage,
+  createGlobalSyncStorageListener,
+} from './shared/browser-sync-storage';
 
-try {
-  const browserSyncStorage = createGlobalSyncStorageListener();
-  // const activeTabTracker = new ActiveTabTracker();
-  // const history = new HistoryActivityStorage();
+type FinishTrackingEvent = () => void;
 
-  let previousStateChange: {
-    state: ActiveTabState | null;
-    date: number;
-  } = {
-    state: null,
-    date: Date.now(),
+const startUrlTracker = (
+  url: string,
+  storage: BrowserSyncStorage
+): FinishTrackingEvent => {
+  const trackingStartDate = Date.now();
+
+  return () => {
+    const { hostname } = new URL(url);
+
+    addActivityTimeToHost(storage, hostname, Date.now() - trackingStartDate);
   };
+};
 
-  const tryAddTimeToHostname = (url: string | undefined, date: number) => {
-    if (!url) {
-      return;
+const startEmptyTracker = (): FinishTrackingEvent => () => {};
+
+const isInvalidUrl = (url: string | undefined): url is undefined => {
+  return !url || url.startsWith('chrome');
+};
+
+class ActiveTabTracker {
+  private invokeTrackingFinishEvent: FinishTrackingEvent = startEmptyTracker();
+
+  constructor(private storage: BrowserSyncStorage) {}
+
+  trackNewActiveTabState(tabState: ActiveTabState) {
+    this.invokeTrackingFinishEvent();
+
+    this.invokeTrackingFinishEvent =
+      this.createNewTrackerFromTabState(tabState);
+  }
+
+  private createNewTrackerFromTabState(
+    activeTabState: ActiveTabState
+  ): FinishTrackingEvent {
+    const activeTabUrl = activeTabState.lastActiveTab?.url;
+    if (
+      activeTabState.idleState === 'locked' ||
+      activeTabState.lastActiveTab === null ||
+      isInvalidUrl(activeTabUrl)
+    ) {
+      return startEmptyTracker();
     }
 
-    const { hostname } = new URL(url);
-    console.log(hostname, date - previousStateChange.date);
+    if (activeTabState.idleState === 'idle') {
+      return activeTabState.lastActiveTab.audible
+        ? startUrlTracker(activeTabUrl, this.storage)
+        : startEmptyTracker();
+    }
 
-    addActivityTimeToHost(
-      browserSyncStorage,
-      hostname,
-      date - previousStateChange.date
-    );
-  };
+    return startUrlTracker(activeTabUrl, this.storage);
+  }
+}
 
-  const isActiveOrIdleAndTabAudible = (state: ActiveTabState) =>
-    state.idleState === 'active' ||
-    (state.idleState === 'idle' && state.lastActiveTab?.audible);
-
+try {
+  const storage = createGlobalSyncStorageListener();
+  const activeTabTracker = new ActiveTabTracker(storage);
   const activeTabMonitor = new WindowActiveTabStateMonitor();
+
   activeTabMonitor.init().then(() => {
-    activeTabMonitor.onStateChange((newState) => {
-      console.log(previousStateChange.state, newState);
-      const date = Date.now();
-
-      if (previousStateChange.state === null) {
-        previousStateChange = { state: newState, date };
-        return;
-      }
-
-      if (
-        newState.idleState === 'locked' ||
-        (newState.idleState === 'idle' &&
-          newState.lastActiveTab &&
-          !newState.lastActiveTab.audible)
-      ) {
-        if (isActiveOrIdleAndTabAudible(previousStateChange.state)) {
-          tryAddTimeToHostname(
-            previousStateChange.state?.lastActiveTab?.url,
-            date
-          );
-        }
-
-        previousStateChange = { state: null, date };
-
-        return;
-      }
-      if (isActiveOrIdleAndTabAudible(previousStateChange.state)) {
-        tryAddTimeToHostname(
-          previousStateChange.state?.lastActiveTab?.url,
-          date
-        );
-      }
-
-      previousStateChange = { state: newState, date };
-    });
+    activeTabMonitor.onStateChange((newState) =>
+      activeTabTracker.trackNewActiveTabState(newState)
+    );
   });
 
-  addGetActivityStoreMessageListener(browserSyncStorage);
-  browserSyncStorage.subscribe(sendMessageWithStoreUpdate);
+  addRuntimeStoreMessageListener(storage);
+  storage.onChanged(sendMessageWithStoreUpdate);
 } catch (error) {
   console.error(error);
 }

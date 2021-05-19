@@ -1,4 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
 import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
 import { getIsoDate } from '../../shared/dates-helper';
 
