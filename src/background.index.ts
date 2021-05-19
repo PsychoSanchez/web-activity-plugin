@@ -19,15 +19,24 @@ const startUrlTracker = (
   storage: BrowserSyncStorage
 ): FinishTrackingEvent => {
   const trackingStartDate = Date.now();
+  const { hostname } = new URL(url);
+
+  console.log(hostname, 'Active');
 
   return () => {
-    const { hostname } = new URL(url);
+    const activityTime = Date.now() - trackingStartDate;
 
-    addActivityTimeToHost(storage, hostname, Date.now() - trackingStartDate);
+    console.log(hostname, activityTime);
+
+    addActivityTimeToHost(storage, hostname, activityTime);
   };
 };
 
-const startEmptyTracker = (): FinishTrackingEvent => () => {};
+const startEmptyTracker = (): FinishTrackingEvent => {
+  console.log('Inactive');
+
+  return () => {};
+};
 
 const isInvalidUrl = (url: string | undefined): url is undefined => {
   return !url || url.startsWith('chrome');
@@ -48,7 +57,10 @@ class ActiveTabTracker {
   private createNewTrackerFromTabState(
     activeTabState: ActiveTabState
   ): FinishTrackingEvent {
+    console.log('New State', activeTabState);
+
     const activeTabUrl = activeTabState.lastActiveTab?.url;
+
     if (
       activeTabState.idleState === 'locked' ||
       activeTabState.lastActiveTab === null ||
