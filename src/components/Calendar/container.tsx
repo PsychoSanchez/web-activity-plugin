@@ -1,20 +1,16 @@
 import * as React from 'react';
 import classNames from 'classnames/bind';
+import { browser } from 'webextension-polyfill-ts';
 
-import styles from './container.css';
-
-const cx = classNames.bind(styles);
-
-import { TOTAL_DAILY_BROWSER_ACTIVITY } from '../../background/storage/accumulated-daily-activity';
 import { getActivityLevel } from '../../components/Calendar/helpers';
 import { CalendarDisplayedActivity } from '../../components/Calendar/types';
 
 import { ActivityCalendar } from './component';
 import { CalendarContainerProps } from './types';
-import {
-  subscribeToBackgroundBrowserSyncStoreUpdate,
-  unsubscribeFromBackgroundBrowserSyncStoreUpdate,
-} from '../../shared/background-browser-sync-storage';
+
+import styles from './container.css';
+
+const cx = classNames.bind(styles);
 
 const convertTotalDailyActiityToCalendarActivity = (
   totalActivity: TotalDailyActivity = {}
@@ -45,19 +41,13 @@ export const ActivityCalendarContainer: React.FC<CalendarContainerProps> =
       React.useState<CalendarDisplayedActivity>({});
 
     React.useEffect(() => {
-      const listener = (activity: TotalDailyActivity) => {
+      browser.storage.local.get().then((activity: TotalDailyActivity) => {
         setCalendarActivity(
           convertTotalDailyActiityToCalendarActivity(activity)
         );
 
         setIsLoading(false);
-      };
-
-      subscribeToBackgroundBrowserSyncStoreUpdate(listener);
-
-      return () => {
-        unsubscribeFromBackgroundBrowserSyncStoreUpdate(listener);
-      };
+      });
     }, []);
 
     return (

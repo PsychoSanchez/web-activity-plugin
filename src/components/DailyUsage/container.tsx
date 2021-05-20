@@ -1,10 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames/bind';
+import { browser } from 'webextension-polyfill-ts';
 
-import {
-  subscribeToBackgroundBrowserSyncStoreUpdate,
-  unsubscribeFromBackgroundBrowserSyncStoreUpdate,
-} from '../../shared/background-browser-sync-storage';
 import { getIsoDate } from '../../shared/dates-helper';
 import { DailyUsage } from './component';
 
@@ -21,15 +18,9 @@ export const DailyUsageContainer: React.FC<DailyUsageContainerProps> = ({}) => {
   >({});
 
   React.useEffect(() => {
-    const storageListener = (activity: Record<string, any>) => {
+    browser.storage.local.get().then((activity: Record<string, any>) => {
       setDailyActivity(activity[date] || {});
-    };
-
-    subscribeToBackgroundBrowserSyncStoreUpdate(storageListener);
-
-    return () => {
-      unsubscribeFromBackgroundBrowserSyncStoreUpdate(storageListener);
-    };
+    });
   }, [date]);
 
   const totalDailyActivity =
