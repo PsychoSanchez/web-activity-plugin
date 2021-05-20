@@ -51,6 +51,7 @@ export const DailyUsage: React.FC<DailyUsageProps> = ({
             <DailyUsageChart
               date={date}
               activity={dailyActivity}
+              totalDailyActivity={totalDailyActivity}
             ></DailyUsageChart>
           </div>
         ) : (

@@ -4,10 +4,22 @@ import { Doughnut } from 'react-chartjs-2';
 
 const DOUGHNUT_CHART_OPTIONS = {
   responsive: true,
-  animation: false,
   plugins: {
     legend: {
       position: 'left',
+      labels: {
+        color: '#fff',
+      },
+    },
+    tooltip: {
+      callbacks: {
+        title: ([item]: any) => {
+          return `${item?.label}`;
+        },
+        label: (item: any) => {
+          return ` ${item.formattedValue}%`;
+        },
+      },
     },
   },
 };
@@ -25,11 +37,13 @@ const ITEMS_COLORS = [
 interface DailyUsageChartProps {
   date: string;
   activity: Record<string, number>;
+  totalDailyActivity: number;
 }
 
 const buildChartDataFromActivity = ({
   date,
   activity,
+  totalDailyActivity,
 }: DailyUsageChartProps) => {
   const entriesByDesc = Object.entries(activity).sort(
     ([_, value1], [_2, value2]) => {
@@ -48,7 +62,9 @@ const buildChartDataFromActivity = ({
   }
 
   const labels = itemsToDisplay.map(([key]) => key);
-  const data = itemsToDisplay.map(([_, value]) => Math.floor(value / 1000));
+  const data = itemsToDisplay.map(([_, value]) =>
+    Math.floor((value / totalDailyActivity) * 100)
+  );
 
   return {
     labels,
