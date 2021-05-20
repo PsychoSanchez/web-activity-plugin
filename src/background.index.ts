@@ -1,4 +1,4 @@
-import { WindowActiveTabStateMonitor } from './background/tracking/active-tab-monitor';
+import { WindowActiveTabStateMonitor } from './background/tracking/active-tabs.monitor';
 import { ActiveTabTracker } from './background/tracking/active-tab.tracker';
 import {
   addGetActivityStoreMessageListener as addRuntimeStoreMessageListener,

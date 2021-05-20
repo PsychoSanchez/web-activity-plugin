@@ -1,6 +1,6 @@
 import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
 import { addActivityTimeToHost } from '../storage/accumulated-daily-activity';
-import { ActiveTabState } from './active-tab-monitor';
+import { ActiveTabState } from './active-tabs.monitor';
 
 type FinishTrackingEvent = () => void;
 
