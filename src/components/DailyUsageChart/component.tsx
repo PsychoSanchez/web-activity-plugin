@@ -26,12 +26,12 @@ const DOUGHNUT_CHART_OPTIONS = {
 
 const ITEMS_TO_DISPLAY = 5;
 const ITEMS_COLORS = [
-  '#063f3e',
-  '#165b44',
-  '#30884e',
-  '#4ca657',
-  '#79c365',
-  '#c4ea99',
+  '#ffa600',
+  '#f97144',
+  '#d44d63',
+  '#9a3f70',
+  '#5a3764',
+  '#262944',
 ];
 
 interface DailyUsageChartProps {
