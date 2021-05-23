@@ -4,8 +4,8 @@ import { getIsoDate } from '../../shared/dates-helper';
 export type DaylyWebsiteActivity = Record<string, number>;
 
 // TODO: Take in account background time
-// Splt metrics to total active and total bckground time
-// Add simultanious usage on several devices into account
+// Split metrics to total active and total background time
+// Add simultaneous usage on several devices into account
 
 export const TOTAL_DAILY_BROWSER_ACTIVITY = 'total-time-spent';
 

@@ -87,15 +87,16 @@ export class WindowActiveTabStateMonitor {
   private transactionChain = Promise.resolve();
   private stateChangeListener: ActiveTabStateChangeHandler = () => {};
 
-  private idleStateChangeHandler: IdleStateChangeHandler =
-    this.wrapInTransactionChain(async (idleState) => {
+  idleStateChangeHandler: IdleStateChangeHandler = this.wrapInTransactionChain(
+    async (idleState) => {
       this.setState({
         idleState,
       });
-    });
+    }
+  );
 
-  private activeTabChangeHandler: ActiveTabChangeHandler =
-    this.wrapInTransactionChain(async (tabInfo) => {
+  activeTabChangeHandler: ActiveTabChangeHandler = this.wrapInTransactionChain(
+    async (tabInfo) => {
       const { windowId, tabId } = tabInfo;
 
       const activeTabs = await getAllActiveTabs();
@@ -108,9 +109,10 @@ export class WindowActiveTabStateMonitor {
         activeTabs,
         ...focusedWindowAndActiveTab,
       });
-    });
+    }
+  );
 
-  private tabUpdateHandler: TabUpdateHandler = this.wrapInTransactionChain(
+  tabUpdateHandler: TabUpdateHandler = this.wrapInTransactionChain(
     async (_1, _2, tab) => {
       if (!tab.active) {
         return;
@@ -147,32 +149,30 @@ export class WindowActiveTabStateMonitor {
     });
   };
 
-  private windowFocusChangeHandler: FocusedWindowChangeHandler =
+  windowFocusChangeHandler: FocusedWindowChangeHandler =
     this.wrapInTransactionChain(this._windowFocusChangeHandler);
 
-  private alarmHandler: AlarmHandler = this.wrapInTransactionChain(
-    async (alarm) => {
-      if (alarm.name !== ACTIVE_TAB_CHECK_ALARM_NAME) {
-        return;
-      }
-
-      // Windows focus change handler does not work, so we do it manually by polling
-      const focusedWindowId = await getFocusedWindowId();
-
-      if (focusedWindowId !== this.state.focusedWindowId) {
-        await this._windowFocusChangeHandler(focusedWindowId);
-      }
-
-      const focusedActiveTab = await getActiveTabFromWindowId(
-        this.state.focusedWindowId
-      );
-
-      this.setState({
-        focusedWindowId: this.state.focusedWindowId,
-        focusedActiveTab,
-      });
+  alarmHandler: AlarmHandler = this.wrapInTransactionChain(async (alarm) => {
+    if (alarm.name !== ACTIVE_TAB_CHECK_ALARM_NAME) {
+      return;
     }
-  );
+
+    // Windows focus change handler does not work, so we do it manually by polling
+    const focusedWindowId = await getFocusedWindowId();
+
+    if (focusedWindowId !== this.state.focusedWindowId) {
+      await this._windowFocusChangeHandler(focusedWindowId);
+    }
+
+    const focusedActiveTab = await getActiveTabFromWindowId(
+      this.state.focusedWindowId
+    );
+
+    this.setState({
+      focusedWindowId: this.state.focusedWindowId,
+      focusedActiveTab,
+    });
+  });
 
   private wrapInTransactionChain<T extends (...args: any[]) => any>(
     handler: T
@@ -211,15 +211,13 @@ export class WindowActiveTabStateMonitor {
     browser.idle.onStateChanged.addListener(this.idleStateChangeHandler);
 
     browser.alarms.onAlarm.addListener(this.alarmHandler);
-    // SetInterval in background is inconsistent and might not work as expected but it is necessary for window focus polling
-    setInterval(
-      () =>
-        this.wrapInTransactionChain(this.alarmHandler)({
-          name: ACTIVE_TAB_CHECK_ALARM_NAME,
-        } as Alarms.Alarm),
-      ACTIVE_TAB_CHECK_WINDOW_INTERVAL
-    );
+    setInterval(this.intervalHandler, ACTIVE_TAB_CHECK_WINDOW_INTERVAL);
   }
+
+  intervalHandler = () =>
+    this.wrapInTransactionChain(this.alarmHandler)({
+      name: ACTIVE_TAB_CHECK_ALARM_NAME,
+    } as Alarms.Alarm);
 
   private removeActivityListeners() {
     browser.tabs.onActivated.removeListener(this.activeTabChangeHandler);
