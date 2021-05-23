@@ -13,13 +13,40 @@ const throttledStorageSyncSet = throttle(
   (store: Store) => browser.storage.sync.set(store)
 );
 
+// const mergeStatistics = (storeA, storeB) => {
+//   const storeAKeys = Object.keys(storeA);
+//   const storeBKeys = Object.keys(storeB);
+
+//   const keys = Array.from(new Set([...storeAKeys, ...storeBKeys]));
+
+//   return keys.reduce((res, key) => {
+//     const valA = storeA[key] || 0;
+//     const valB = storeB[key] || 0;
+
+//     if (typeof valA === 'number' && typeof valB === 'number') {
+//       res[key] = Math.max(valA, valB);
+//     } else {
+
+//     }
+
+//     return res;
+//   }, {});
+// };
+
 export const createGlobalSyncStorageListener = (): BrowserSyncStorage => {
   const subscribers: StorageSubscriber[] = [];
   let cachedStore = {};
 
-  Promise.race([browser.storage.local.get(), browser.storage.sync.get()]).then(
-    (store = {}) => {
-      cachedStore = store;
+  Promise.all([browser.storage.local.get(), browser.storage.sync.get()]).then(
+    ([localStore, syncedStore]) => {
+      const updatedStore = {
+        ...cachedStore,
+        ...localStore,
+        ...syncedStore,
+      };
+
+      browser.storage.local.set(updatedStore);
+      browser.storage.sync.set(updatedStore);
     }
   );
 
