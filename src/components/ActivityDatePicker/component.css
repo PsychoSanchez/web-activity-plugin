@@ -1,8 +1,18 @@
+.activity-date {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 16px;
+}
+
 .custom-date-input {
   cursor: pointer;
-  background: #0058b7;
+  background: transparent;
   border: none;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 3px;
+  color: #eaeaea;
+  font-size: 16px;
+}
+
+.custom-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }

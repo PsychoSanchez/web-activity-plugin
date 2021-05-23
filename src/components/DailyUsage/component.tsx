@@ -15,6 +15,7 @@ export interface DailyUsageProps {
   date: string;
   onDateChange: React.ComponentProps<typeof ActivityDatePicker>['onChange'];
   totalDailyActivity: number;
+  weeklyAverage: number;
   dailyActivity: Record<string, number>;
 }
 
@@ -32,16 +33,26 @@ export const DailyUsage: React.FC<DailyUsageProps> = ({
   date,
   onDateChange,
   dailyActivity,
+  weeklyAverage,
   totalDailyActivity,
 }) => {
+  console.log(totalDailyActivity, weeklyAverage);
+  const percent = Math.round((totalDailyActivity / weeklyAverage) * 100 - 100);
+
+  const weekComparison = `${Math.abs(percent)} % ${
+    percent < 0 ? 'lower ' : 'higher'
+  } than this week average`;
+
   return (
     <div className={cx('panel', 'daily-usage')}>
       <div className={cx('daily-usage-header', 'app-font')}>
         <span className={cx('daily-usage-text')}>Daily Usage</span>
-        {/* <ActivityDatePicker date={date} onChange={onDateChange} /> */}
       </div>
       <div className={cx('daily-usage-time', 'app-font')}>
-        {presentTotalDailyActivity(totalDailyActivity)}
+        <span className={cx('usage-time')}>
+          {presentTotalDailyActivity(totalDailyActivity)}
+        </span>
+        <span className={cx('week-comparison')}>{weekComparison}</span>
       </div>
       <div className={cx('daily-usage-chart-container')}>
         {totalDailyActivity > MINUTE_IN_MS ? (

@@ -1,14 +1,37 @@
 import * as React from 'react';
-import { browser } from 'webextension-polyfill-ts';
 
-import { getIsoDate } from '../../shared/dates-helper';
+import { getHoursInMs, getIsoDate } from '../../shared/dates-helper';
+import { ActivityDatePicker } from '../ActivityDatePicker/component';
 import { ActivityTable } from '../ActivityTable/ActivityTable';
-import { ActivityCalendarContainer } from '../Calendar/container';
 import { DailyUsage } from '../DailyUsage/component';
 
 interface ActivityPageProps {
   store: Record<string, any>;
 }
+
+const getWeeklyAverage = (activityStore: Record<string, any>) => {
+  const today = Date.now();
+  const totalFor7Days = new Array(7)
+    .fill(0)
+    .map((_, index) => {
+      return getIsoDate(new Date(today - getHoursInMs(24) * (index + 1)));
+    })
+    .map((date) => {
+      const dateRecord = activityStore[date];
+
+      if (!dateRecord) {
+        return 0;
+      }
+
+      return Object.values(dateRecord as Record<string, number>).reduce(
+        (sum, val) => sum + val,
+        0
+      );
+    })
+    .reduce((sum, dailyTotal) => sum + dailyTotal, 0);
+
+  return totalFor7Days / 7;
+};
 
 export const ActivityPage: React.FC<ActivityPageProps> = ({ store }) => {
   const [date, setDate] = React.useState(getIsoDate(new Date()));
@@ -17,10 +40,8 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ store }) => {
   >({});
 
   React.useEffect(() => {
-    browser.storage.local.get().then((activity: Record<string, any>) => {
-      setDailyActivity(activity[date] || {});
-    });
-  }, [date]);
+    setDailyActivity(store[date] || {});
+  }, [store, date]);
 
   const totalDailyActivity = React.useMemo(
     () =>
@@ -29,14 +50,17 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ store }) => {
     [dailyActiveWebsites]
   );
 
+  const weeklyAverage = getWeeklyAverage(store);
+
   return (
     <>
-      <ActivityCalendarContainer store={store} />
+      <ActivityDatePicker date={date} onChange={setDate} />
       <DailyUsage
         date={date}
         onDateChange={setDate}
         dailyActivity={dailyActiveWebsites}
         totalDailyActivity={totalDailyActivity}
+        weeklyAverage={weeklyAverage}
       />
       <ActivityTable activity={dailyActiveWebsites} />
     </>

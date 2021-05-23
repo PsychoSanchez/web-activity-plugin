@@ -2,6 +2,19 @@ div.daily-usage-time {
   font-size: 32px;
   padding-bottom: 10px;
   border-bottom: 1px solid #757575;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.week-comparison {
+  font-size: 12px;
+}
+
+div.daily-usage-time {
+  font-size: 32px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #757575;
 }
 
 .daily-usage-chart {

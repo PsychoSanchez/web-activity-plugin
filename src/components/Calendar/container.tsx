@@ -34,10 +34,7 @@ const convertTotalDailyActiityToCalendarActivity = (
 export const ActivityCalendarContainer: React.FC<CalendarContainerProps> = ({
   store,
 }) => {
-  const calendarActivity = React.useMemo(
-    () => convertTotalDailyActiityToCalendarActivity(store),
-    []
-  );
+  const calendarActivity = convertTotalDailyActiityToCalendarActivity(store);
 
   return (
     <div className={cx('calendar-panel', 'panel')}>

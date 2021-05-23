@@ -3,6 +3,7 @@ import * as React from 'react';
 import { browser } from 'webextension-polyfill-ts';
 
 import { ActivityPage } from '../components/ActivityPage/ActivityPage';
+import { ActivityCalendarContainer } from '../components/Calendar/container';
 import styles from './App.css';
 
 const cx = classNames.bind(styles);
@@ -29,7 +30,7 @@ export const PopupApp: React.FC<{}> = () => {
   const renderedActiveTab = React.useMemo(() => {
     switch (activeTab) {
       case Tabs.Overall:
-        return <>{/* <DailyUsageContainer /> */}</>;
+        return <ActivityCalendarContainer store={activityStore} />;
       case Tabs.Activity:
         return <ActivityPage store={activityStore} />;
       case Tabs.Goals:
@@ -40,7 +41,7 @@ export const PopupApp: React.FC<{}> = () => {
       default:
         return null;
     }
-  }, [activeTab]);
+  }, [activeTab, activityStore]);
 
   return (
     <div className={cx('root')}>
