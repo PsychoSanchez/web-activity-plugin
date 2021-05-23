@@ -1,14 +1,15 @@
-import * as React from 'react';
 import classNames from 'classnames/bind';
+import * as React from 'react';
 import { browser } from 'webextension-polyfill-ts';
 
 import { getActivityLevel } from '../../components/Calendar/helpers';
-import { CalendarDisplayedActivity } from '../../components/Calendar/types';
-
+import {
+  CalendarDisplayedActivity,
+  TotalDailyActivity,
+} from '../../components/Calendar/types';
 import { ActivityCalendar } from './component';
-import { CalendarContainerProps } from './types';
-
 import styles from './container.css';
+import { CalendarContainerProps } from './types';
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +18,7 @@ const convertTotalDailyActiityToCalendarActivity = (
 ): CalendarDisplayedActivity => {
   const calendarActivity: CalendarDisplayedActivity = {};
 
-  const totalBrowserActivity = Object.keys(totalActivity)
+  return Object.keys(totalActivity)
     .filter((key) => key.indexOf('-') === 4)
     .reduce((acc, key) => {
       const totalTimeSpentThatDay = Object.values(totalActivity[key]).reduce(
@@ -28,42 +29,24 @@ const convertTotalDailyActiityToCalendarActivity = (
 
       return acc;
     }, calendarActivity);
-
-  return totalBrowserActivity;
 };
 
-type TotalDailyActivity = Record<string, Record<string, number>>;
+export const ActivityCalendarContainer: React.FC<CalendarContainerProps> = ({
+  store,
+}) => {
+  const calendarActivity = React.useMemo(
+    () => convertTotalDailyActiityToCalendarActivity(store),
+    []
+  );
 
-export const ActivityCalendarContainer: React.FC<CalendarContainerProps> =
-  () => {
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [calendarActivity, setCalendarActivity] =
-      React.useState<CalendarDisplayedActivity>({});
-
-    React.useEffect(() => {
-      browser.storage.local.get().then((activity: TotalDailyActivity) => {
-        setCalendarActivity(
-          convertTotalDailyActiityToCalendarActivity(activity)
-        );
-
-        setIsLoading(false);
-      });
-    }, []);
-
-    return (
-      <div className={cx('calendar-panel')}>
-        <div className={cx('panel-header', 'calendar-panel-header')}>
-          Activity
-        </div>
-        <div className={cx('calendar-panel-body')}>
-          {isLoading ? (
-            <div className={cx('calendar-panel-preloader')}>
-              Loading your activity
-            </div>
-          ) : (
-            <ActivityCalendar activity={calendarActivity}></ActivityCalendar>
-          )}
-        </div>
+  return (
+    <div className={cx('calendar-panel', 'panel')}>
+      <div className={cx('panel-header', 'calendar-panel-header')}>
+        Overall Calendar Activity
       </div>
-    );
-  };
+      <div className={cx('calendar-panel-body', 'panel-body')}>
+        <ActivityCalendar activity={calendarActivity}></ActivityCalendar>
+      </div>
+    </div>
+  );
+};

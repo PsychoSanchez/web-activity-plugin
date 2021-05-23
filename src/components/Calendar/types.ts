@@ -14,4 +14,7 @@ export type ActivityCalendarProps = {
   activity: CalendarDisplayedActivity;
 };
 
-export interface CalendarContainerProps {}
+export type TotalDailyActivity = Record<string, Record<string, number>>;
+export interface CalendarContainerProps {
+  store: TotalDailyActivity;
+}

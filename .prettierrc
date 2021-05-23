@@ -3,5 +3,9 @@
   "semi": true,
   "arrowParens": "always",
   "bracketSpacing": true,
-  "printWidth": 80
+  "printWidth": 80,
+  "importOrder": [
+    "^[./]"
+  ],
+  "importOrderSeparation": true
 }

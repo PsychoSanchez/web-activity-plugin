@@ -29,7 +29,12 @@ const startEmptyTracker = (): FinishTrackingEvent => {
 };
 
 const isInvalidUrl = (url: string | undefined): url is undefined => {
-  return !url || url.startsWith('chrome');
+  return (
+    !url ||
+    ['chrome', 'opera', 'edge', 'coccoc', 'yabro'].some((broName) =>
+      url.startsWith(broName)
+    )
+  );
 };
 
 export class ActiveTabTracker {

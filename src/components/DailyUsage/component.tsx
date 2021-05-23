@@ -1,10 +1,12 @@
-import * as React from 'react';
 import classNames from 'classnames/bind';
+import * as React from 'react';
 
-import { getHoursInMs, getMinutesInMs } from '../../shared/dates-helper';
+import {
+  getMinutesInMs,
+  getTimeWithoutSeconds,
+} from '../../shared/dates-helper';
 import { ActivityDatePicker } from '../ActivityDatePicker/component';
 import { DailyUsageChart } from '../DailyUsageChart/component';
-
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
@@ -17,17 +19,13 @@ export interface DailyUsageProps {
 }
 
 const MINUTE_IN_MS = getMinutesInMs(1);
-const HOURS_IN_MS = getHoursInMs(1);
 
 const presentTotalDailyActivity = (totalDailyActivity: number) => {
   if (totalDailyActivity < MINUTE_IN_MS) {
     return 'No Activity';
   }
 
-  const minutes = Math.floor((totalDailyActivity / MINUTE_IN_MS) % 60);
-  const hours = Math.floor((totalDailyActivity / HOURS_IN_MS) % 24);
-
-  return `${hours > 0 ? `${hours}h ` : ''}${minutes}m`;
+  return getTimeWithoutSeconds(totalDailyActivity);
 };
 
 export const DailyUsage: React.FC<DailyUsageProps> = ({
@@ -37,10 +35,10 @@ export const DailyUsage: React.FC<DailyUsageProps> = ({
   totalDailyActivity,
 }) => {
   return (
-    <div>
+    <div className={cx('panel', 'daily-usage')}>
       <div className={cx('daily-usage-header', 'app-font')}>
         <span className={cx('daily-usage-text')}>Daily Usage</span>
-        <ActivityDatePicker date={date} onChange={onDateChange} />
+        {/* <ActivityDatePicker date={date} onChange={onDateChange} /> */}
       </div>
       <div className={cx('daily-usage-time', 'app-font')}>
         {presentTotalDailyActivity(totalDailyActivity)}
@@ -60,7 +58,6 @@ export const DailyUsage: React.FC<DailyUsageProps> = ({
           </div>
         )}
       </div>
-      {/* <AppsDailyUsageTable></AppsDailyUsageTable> */}
     </div>
   );
 };
