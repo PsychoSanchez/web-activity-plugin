@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/PsychoSanchez/bro-time-tracker#readme",
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^2.0.2",
     "@types/chrome": "^0.0.140",
     "@types/debounce": "^1.2.0",
     "@types/react": "^17.0.5",

@@ -2,6 +2,7 @@ html,
 body {
   width: 500px;
   background: #191919;
+  font-family: 'Trebuchet MS', sans-serif;
   padding: 0;
   margin: 0;
 }
@@ -9,24 +10,55 @@ body {
 .root {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 16px;
 }
 
-.root > * {
-  margin-bottom: 20px;
+.tabs {
+  display: flex;
+  padding-bottom: 16px;
+}
+
+.tab {
+  border-bottom: 1px solid #757575;
+  cursor: pointer;
+  text-transform: capitalize;
+  color: #757575;
+  padding: 16px;
+  font-size: 16px;
+  flex: 1;
+  text-align: center;
+}
+
+.tab:hover {
+  color: #eaeaea;
+}
+
+.tab.active {
+  color: #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+}
+
+:global(.panel) {
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  background-color: #111;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.6);
 }
 
 :global(.panel-body) {
-  background-color: #111;
-  border-radius: 4px;
-  padding: 20px;
+  padding-top: 16px;
 }
 
 :global(.app-font),
 :global(.panel-header) {
-  /* font-family: 'Trebuchet MS', sans-serif; */
-  font-family: 'Arial', sans-serif;
+  font-family: 'Trebuchet MS', sans-serif;
+  /* font-family: 'Arial', sans-serif; */
   color: #eaeaea;
   font-size: 18px;
-  background-color: #111;
+}
+
+.tabs .tab {
+  text-transform: capitalize;
 }
