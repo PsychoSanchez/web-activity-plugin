@@ -1,15 +1,16 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
-import { browser } from 'webextension-polyfill-ts';
 
 import { getActivityLevel } from '../../components/Calendar/helpers';
 import {
   CalendarDisplayedActivity,
   TotalDailyActivity,
 } from '../../components/Calendar/types';
+
 import { ActivityCalendar } from './component';
-import styles from './container.css';
 import { CalendarContainerProps } from './types';
+
+import styles from './container.css';
 
 const cx = classNames.bind(styles);
 

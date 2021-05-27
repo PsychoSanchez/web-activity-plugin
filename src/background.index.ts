@@ -1,7 +1,8 @@
-import { WindowActiveTabStateMonitor } from './background/tracking/active-tabs.monitor';
-import { ActiveTabTracker } from './background/tracking/active-tab.tracker';
-import { createGlobalSyncStorageListener } from './shared/browser-sync-storage';
 import { browser } from 'webextension-polyfill-ts';
+
+import { ActiveTabTracker } from './background/tracking/active-tab.tracker';
+import { WindowActiveTabStateMonitor } from './background/tracking/active-tabs.monitor';
+import { createGlobalSyncStorageListener } from './shared/browser-sync-storage';
 
 const PULL_SYNC_STORAGE_ALARM_NAME = 'pull-sync-storage';
 const SYNC_STORAGE_INTERVAL_MINUTES = 30;

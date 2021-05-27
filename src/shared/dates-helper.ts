@@ -25,6 +25,7 @@ export const getPastWeekIsoDates = () => {
 export const getMinutesInMs = (number: number) => number * MINUTE_IN_MS;
 
 export const getHoursInMs = (number: number) => number * HOUR_IN_MS;
+export const getDaysInMs = (number: number) => number * DAY_IN_MS;
 
 export const getTimeFromMs = (number: number) => {
   const seconds = Math.floor((number / SECOND_IN_MS) % 60);

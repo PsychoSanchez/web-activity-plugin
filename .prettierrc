@@ -5,7 +5,11 @@
   "bracketSpacing": true,
   "printWidth": 80,
   "importOrder": [
-    "^[./]"
+    "^[a-z]",
+    "^../../",
+    "^../[a-z]*",
+    "^\\./.*(?<!css)$",
+    "\\.css$"
   ],
   "importOrderSeparation": true
 }

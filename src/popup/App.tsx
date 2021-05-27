@@ -4,6 +4,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { ActivityPage } from '../components/ActivityPage/ActivityPage';
 import { ActivityCalendarContainer } from '../components/Calendar/container';
+
 import styles from './App.css';
 
 const cx = classNames.bind(styles);
