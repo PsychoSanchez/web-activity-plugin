@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { getHoursInMs, getIsoDate } from '../../shared/dates-helper';
+
 import { ActivityDatePicker } from '../ActivityDatePicker/component';
 import { ActivityTable } from '../ActivityTable/ActivityTable';
 import { DailyUsage } from '../DailyUsage/component';

@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { Doughnut } from 'react-chartjs-2';
 
 const DOUGHNUT_CHART_OPTIONS = {

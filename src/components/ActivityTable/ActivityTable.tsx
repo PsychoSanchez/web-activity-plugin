@@ -5,6 +5,7 @@ import {
   getTimeFromMs,
   getTimeWithoutSeconds,
 } from '../../shared/dates-helper';
+
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
