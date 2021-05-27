@@ -87,6 +87,10 @@ export class WindowActiveTabStateMonitor {
   private transactionChain = Promise.resolve();
   private stateChangeListener: ActiveTabStateChangeHandler = () => {};
 
+  constructor() {
+    browser.alarms.create(ACTIVE_TAB_CHECK_ALARM_NAME, { periodInMinutes: 1 });
+  }
+
   idleStateChangeHandler: IdleStateChangeHandler = this.wrapInTransactionChain(
     async (idleState) => {
       this.setState({

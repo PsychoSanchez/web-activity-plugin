@@ -1,7 +1,7 @@
 import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
 import { getIsoDate } from '../../shared/dates-helper';
 
-export type DaylyWebsiteActivity = Record<string, number>;
+export type DailyWebsiteActivity = Record<string, number>;
 
 // TODO: Take in account background time
 // Split metrics to total active and total background time
@@ -21,12 +21,20 @@ export const addActivityTimeToHost = (
   // Update host time
   const currentDateRecord = store[currentDate] || {};
 
+  if (typeof currentDateRecord !== 'object') {
+    return;
+  }
+
   currentDateRecord[host] = (currentDateRecord[host] || 0) + duration;
 
   store[currentDate] = currentDateRecord;
 
   // Update total browser activity time
   const totalBrowserActivity = store[TOTAL_DAILY_BROWSER_ACTIVITY] || {};
+
+  if (typeof totalBrowserActivity !== 'object') {
+    return;
+  }
 
   totalBrowserActivity[currentDate] =
     (totalBrowserActivity[currentDate] || 0) + duration;
