@@ -1,3 +1,8 @@
 .calendar svg rect {
   rx: 3;
+  cursor: pointer;
+}
+
+.calendar svg rect:hover{
+  
 }

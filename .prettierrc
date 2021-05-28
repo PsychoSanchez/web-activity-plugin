@@ -9,7 +9,7 @@
     "^../../",
     "^../[a-z]*",
     "^\\./.*(?<!css)$",
-    "\\.css$"
+    "css$"
   ],
   "importOrderSeparation": true
 }
