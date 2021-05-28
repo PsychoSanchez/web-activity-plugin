@@ -34,6 +34,7 @@ const convertTotalDailyActiityToCalendarActivity = (
 
 export const ActivityCalendarContainer: React.FC<CalendarContainerProps> = ({
   store,
+  navigateToDateActivityPage,
 }) => {
   const calendarActivity = convertTotalDailyActiityToCalendarActivity(store);
 
@@ -43,7 +44,10 @@ export const ActivityCalendarContainer: React.FC<CalendarContainerProps> = ({
         Overall Calendar Activity
       </div>
       <div className={cx('calendar-panel-body', 'panel-body')}>
-        <ActivityCalendar activity={calendarActivity}></ActivityCalendar>
+        <ActivityCalendar
+          activity={calendarActivity}
+          navigateToDateActivityPage={navigateToDateActivityPage}
+        />
       </div>
     </div>
   );

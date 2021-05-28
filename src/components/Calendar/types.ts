@@ -12,9 +12,11 @@ export type CalendarDisplayedActivity = Record<
 
 export type ActivityCalendarProps = {
   activity: CalendarDisplayedActivity;
+  navigateToDateActivityPage: (isoDate: string) => void;
 };
 
 export type TotalDailyActivity = Record<string, Record<string, number>>;
 export interface CalendarContainerProps {
   store: TotalDailyActivity;
+  navigateToDateActivityPage: (isoDate: string) => void;
 }

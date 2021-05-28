@@ -8,6 +8,7 @@ import { DailyUsage } from '../DailyUsage/component';
 
 interface ActivityPageProps {
   store: Record<string, any>;
+  date?: string;
 }
 
 const getWeeklyAverage = (activityStore: Record<string, any>) => {
@@ -34,15 +35,20 @@ const getWeeklyAverage = (activityStore: Record<string, any>) => {
   return totalFor7Days / 7;
 };
 
-export const ActivityPage: React.FC<ActivityPageProps> = ({ store }) => {
-  const [date, setDate] = React.useState(getIsoDate(new Date()));
+export const ActivityPage: React.FC<ActivityPageProps> = ({
+  store,
+  date: openOnDate,
+}) => {
+  const [pickedIsoDate, setPickedIsoDate] = React.useState(
+    openOnDate || getIsoDate(new Date())
+  );
   const [dailyActiveWebsites, setDailyActivity] = React.useState<
     Record<string, number>
   >({});
 
   React.useEffect(() => {
-    setDailyActivity(store[date] || {});
-  }, [store, date]);
+    setDailyActivity(store[pickedIsoDate] || {});
+  }, [store, pickedIsoDate]);
 
   const totalDailyActivity = React.useMemo(
     () =>
@@ -55,10 +61,10 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ store }) => {
 
   return (
     <>
-      <ActivityDatePicker date={date} onChange={setDate} />
+      <ActivityDatePicker date={pickedIsoDate} onChange={setPickedIsoDate} />
       <DailyUsage
-        date={date}
-        onDateChange={setDate}
+        date={pickedIsoDate}
+        onDateChange={setPickedIsoDate}
         dailyActivity={dailyActiveWebsites}
         totalDailyActivity={totalDailyActivity}
         weeklyAverage={weeklyAverage}

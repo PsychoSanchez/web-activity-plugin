@@ -12,14 +12,14 @@ try {
   const activeTabTracker = new ActiveTabTracker(storage);
   const activeTabMonitor = new WindowActiveTabStateMonitor();
 
-  browser.alarms.create(PULL_SYNC_STORAGE_ALARM_NAME, {
-    periodInMinutes: SYNC_STORAGE_INTERVAL_MINUTES,
-  });
-
   activeTabMonitor.init().then(() => {
     activeTabMonitor.onStateChange((newState) =>
       activeTabTracker.trackNewActiveTabState(newState)
     );
+  });
+
+  browser.alarms.create(PULL_SYNC_STORAGE_ALARM_NAME, {
+    periodInMinutes: SYNC_STORAGE_INTERVAL_MINUTES,
   });
 
   browser.alarms.onAlarm.addListener(
