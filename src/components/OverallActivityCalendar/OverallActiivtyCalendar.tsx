@@ -10,7 +10,7 @@ import {
 
 import { getActivityLevel } from './helpers';
 
-import styles from './container.css';
+import styles from './styles.css';
 
 const cx = classNames.bind(styles);
 
