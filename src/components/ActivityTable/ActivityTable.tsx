@@ -6,25 +6,26 @@ import {
   getTimeWithoutSeconds,
 } from '../../shared/dates-helper';
 
+import { ActivityTableProps } from './types';
+
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
 
-interface ActivityTableProps {
-  activity: Record<string, number>;
-}
+const DEFAULT_TITLE = 'Websites This Day';
 
 export const ActivityTable: React.FC<ActivityTableProps> = ({
   activity = {},
+  title = DEFAULT_TITLE,
 }) => {
-  const totalDailyActivity =
+  const totalActivity =
     Object.values(activity).reduce((acc, val) => acc + val, 0) || 0;
 
   return (
     <div className={cx('activity-table', 'panel')}>
       <div className={cx('panel-header', 'activity-table-header')}>
-        <span>Websites This Day</span>
-        <span>{getTimeWithoutSeconds(totalDailyActivity)}</span>
+        <span>{title}</span>
+        <span>{getTimeWithoutSeconds(totalActivity)}</span>
       </div>
       {Object.entries(activity)
         .sort(([, timeA], [, timeB]) => timeB - timeA)

@@ -17,7 +17,3 @@ export type GithubCalendarProps = {
 };
 
 export type TotalDailyActivity = Record<string, Record<string, number>>;
-export interface CalendarContainerProps {
-  store: TotalDailyActivity;
-  navigateToDateActivityPage: (isoDate: string) => void;
-}

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
+import { getTimeWithoutSeconds } from '../../shared/dates-helper';
+
 import { DailyUsageChartProps } from './types';
 
 const DOUGHNUT_CHART_OPTIONS = {
@@ -56,7 +58,9 @@ const buildChartDataFromActivity = ({
     itemsToDisplay.push(['Other pages', restActivityTime]);
   }
 
-  const labels = itemsToDisplay.map(([key]) => key);
+  const labels = itemsToDisplay.map(
+    ([key, value]) => `${key} (${getTimeWithoutSeconds(value)})`
+  );
   const data = itemsToDisplay.map(([_, value]) =>
     Math.floor((value / totalDailyActivity) * 100)
   );

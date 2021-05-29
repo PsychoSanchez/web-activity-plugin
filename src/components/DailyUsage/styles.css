@@ -1,44 +1,20 @@
-div.daily-usage-time {
-  font-size: 32px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #757575;
+.daily-usage-chart-container {
+  min-height: 160px;
+  margin-top: 10px;
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.week-comparison {
-  font-size: 12px;
-}
-
-div.daily-usage-time {
-  font-size: 32px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #757575;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 1px solid #757575;
 }
 
 .daily-usage-chart {
   padding-top: 10px;
 }
 
-.daily-usage-chart-container {
-  min-height: 160px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 div.daily-usage-chart-empty {
   text-align: center;
   color: #484a5d;
 }
-
-.daily-usage-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 .daily-usage-chart > canvas {
   max-height: 150px;
 }

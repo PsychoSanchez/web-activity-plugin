@@ -40,6 +40,10 @@ export const getTimeFromMs = (number: number) => {
 export const getTimeWithoutSeconds = (number: number) => {
   const minutes = Math.floor((number / MINUTE_IN_MS) % 60);
   const hours = Math.floor((number / HOUR_IN_MS) % 24);
+  const days = Math.floor((number / DAY_IN_MS) % 31);
 
-  return `${hours > 0 ? `${hours}h ` : ''}${minutes}m`;
+  const presentedDays = days > 0 ? `${days}d ` : '';
+  const presentedHours = hours > 0 ? `${hours}h ` : '';
+
+  return `${presentedDays}${presentedHours}${minutes}m`;
 };

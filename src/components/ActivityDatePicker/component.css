@@ -1,7 +1,6 @@
 .activity-date {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: 16px;
 }
 
 .custom-date-input {
@@ -11,6 +10,7 @@
   color: #eaeaea;
   font-size: 16px;
   margin: 0 8px;
+  width: 180px;
 }
 
 .custom-date-input::-webkit-calendar-picker-indicator {
@@ -24,7 +24,7 @@
   background: none;
   color: #eaeaea;
   border-radius: 5px;
-  padding: 3px 18px;
+  padding: 8px 18px;
 }
 
 .change-date-button:hover {

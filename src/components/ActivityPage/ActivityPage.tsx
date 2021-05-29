@@ -1,74 +1,96 @@
+import classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { getHoursInMs, getIsoDate } from '../../shared/dates-helper';
+import type { AppStore } from '../../hooks/useTimeStore';
+import { getIsoDate } from '../../shared/dates-helper';
 
 import { ActivityDatePicker } from '../ActivityDatePicker/component';
-import { ActivityTable } from '../ActivityTable/ActivityTable';
-import { DailyUsage } from '../DailyUsage/component';
+import { DailyActivityTab } from '../ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
+import { ActivityPageWeeklyActivityTab } from '../ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
+import { WeekDatePicker } from '../WeekDatePicker/WeekDatePicker';
+
+import styles from './styles.css';
+
+const cx = classNames.bind(styles);
 
 interface ActivityPageProps {
-  store: Record<string, any>;
+  store: AppStore;
   date?: string;
 }
 
-const getWeeklyAverage = (activityStore: Record<string, any>) => {
-  const today = Date.now();
-  const totalFor7Days = new Array(7)
-    .fill(0)
-    .map((_, index) => {
-      return getIsoDate(new Date(today - getHoursInMs(24) * (index + 1)));
-    })
-    .map((date) => {
-      const dateRecord = activityStore[date];
+enum ActivityPageTabs {
+  Daily,
+  Weekly,
+}
 
-      if (!dateRecord) {
-        return 0;
-      }
+const getClosestToTodaySunday = () => {
+  const today = new Date();
 
-      return Object.values(dateRecord as Record<string, number>).reduce(
-        (sum, val) => sum + val,
-        0
-      );
-    })
-    .reduce((sum, dailyTotal) => sum + dailyTotal, 0);
+  today.setDate(today.getDate() + (7 - today.getDay()));
 
-  return totalFor7Days / 7;
+  return today;
 };
 
 export const ActivityPage: React.FC<ActivityPageProps> = ({
   store,
   date: openOnDate,
 }) => {
+  const [activeTab, setActiveTab] = React.useState(ActivityPageTabs.Daily);
+
   const [pickedIsoDate, setPickedIsoDate] = React.useState(
     openOnDate || getIsoDate(new Date())
   );
-  const [dailyActiveWebsites, setDailyActivity] = React.useState<
-    Record<string, number>
-  >({});
 
-  React.useEffect(() => {
-    setDailyActivity(store[pickedIsoDate] || {});
-  }, [store, pickedIsoDate]);
-
-  const totalDailyActivity = React.useMemo(
-    () =>
-      Object.values(dailyActiveWebsites).reduce((acc, val) => acc + val, 0) ||
-      0,
-    [dailyActiveWebsites]
+  const [pickedIsoWeekEndDate, setPickedIsoWeekEndDate] = React.useState(
+    getClosestToTodaySunday()
   );
 
-  const weeklyAverage = getWeeklyAverage(store);
+  const tabs = React.useMemo(() => {
+    return Object.entries(ActivityPageTabs).map(([key, value]) => {
+      if (typeof value === 'string') {
+        return;
+      }
+
+      return (
+        <button
+          className={cx('tab-button', activeTab === value && 'active')}
+          onClick={() => setActiveTab(value)}
+          key={key}
+        >
+          {key}
+        </button>
+      );
+    });
+  }, [activeTab]);
 
   return (
     <>
-      <ActivityDatePicker date={pickedIsoDate} onChange={setPickedIsoDate} />
-      <DailyUsage
-        date={pickedIsoDate}
-        dailyActivity={dailyActiveWebsites}
-        totalDailyActivity={totalDailyActivity}
-        weeklyAverage={weeklyAverage}
-      />
-      <ActivityTable activity={dailyActiveWebsites} />
+      <div className={cx('header')}>
+        <div className={cx('tabs')}>{tabs}</div>
+        {activeTab === ActivityPageTabs.Daily && (
+          <ActivityDatePicker
+            date={pickedIsoDate}
+            onChange={setPickedIsoDate}
+          />
+        )}
+        {activeTab === ActivityPageTabs.Weekly && (
+          <WeekDatePicker
+            initialWeekEndDate={pickedIsoWeekEndDate}
+            onWeekChange={setPickedIsoWeekEndDate}
+          />
+        )}
+      </div>
+
+      {activeTab === ActivityPageTabs.Daily && (
+        <DailyActivityTab store={store} date={pickedIsoDate} />
+      )}
+
+      {activeTab === ActivityPageTabs.Weekly && (
+        <ActivityPageWeeklyActivityTab
+          store={store}
+          weekEndDate={getIsoDate(pickedIsoWeekEndDate)}
+        />
+      )}
     </>
   );
 };
