@@ -3,7 +3,7 @@ import * as React from 'react';
 import { browser } from 'webextension-polyfill-ts';
 
 import { ActivityPage } from '../components/ActivityPage/ActivityPage';
-import { OverallActivityCalendarPanel } from '../components/OverallActivityCalendar/container';
+import { OverallActivityCalendarPanel } from '../components/OverallActivityCalendar/OverallActiivtyCalendar';
 
 import styles from './App.css';
 
