@@ -10,9 +10,10 @@ export type CalendarDisplayedActivity = Record<
   CalendarDisplayedActivityType
 >;
 
-export type ActivityCalendarProps = {
+export type GithubCalendarProps = {
   activity: CalendarDisplayedActivity;
-  navigateToDateActivityPage: (isoDate: string) => void;
+  onDateClick: (isoDate: string) => void;
+  getTooltip?: (isoDate: string) => string;
 };
 
 export type TotalDailyActivity = Record<string, Record<string, number>>;

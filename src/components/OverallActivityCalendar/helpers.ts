@@ -1,5 +1,6 @@
 import { getHoursInMs, getMinutesInMs } from '../../shared/dates-helper';
-import { CalendarDisplayedActivityType } from './types';
+
+import { CalendarDisplayedActivityType } from '../GithubCalendarWrapper/types';
 
 export const getActivityLevel = (
   timeInMs: number

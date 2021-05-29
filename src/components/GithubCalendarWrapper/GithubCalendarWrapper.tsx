@@ -6,9 +6,9 @@ import { debounce } from 'throttle-debounce';
 
 import { getIsoDate } from '../../shared/dates-helper';
 
-import { ActivityCalendarProps } from './types';
+import { GithubCalendarProps } from './types';
 
-import styles from './component.css';
+import styles from './styles.css';
 
 const cx = classNames.bind(styles);
 
@@ -24,54 +24,73 @@ const COLORS = [
 ];
 
 const BUTTON_DATE_ATTRIBUTE = 'data-date';
+const REACT_TOOLTIP_ID = 'activity-calendar';
+const REACT_TOOLTIP_SHOW_DELAY_MS = 100;
 
-const debouncedSetCalendarTooltipDates = debounce(
+const getDefaultTooltip = (date: string) => date;
+
+const debouncedSetCalendarTooltips = debounce(
   200,
-  (calendarContainer: HTMLDivElement) => {
+  (
+    calendarContainer: HTMLDivElement,
+    getTooltip: Required<GithubCalendarProps>['getTooltip']
+  ) => {
     const elements = calendarContainer.querySelectorAll('rect');
 
-    const today = new Date();
+    const elementDate = new Date();
     Array.from(elements)
       .reverse()
       .forEach((el, index) => {
-        today.setDate(today.getDate() - Math.min(1, index));
+        elementDate.setDate(elementDate.getDate() - Math.min(1, index));
 
-        el.setAttribute(BUTTON_DATE_ATTRIBUTE, getIsoDate(today));
-        el.setAttribute('data-tip', getIsoDate(today));
-        el.setAttribute('data-for', 'calendar');
+        const elementIsoDate = getIsoDate(elementDate);
+
+        el.setAttribute(BUTTON_DATE_ATTRIBUTE, elementIsoDate);
+        el.setAttribute('data-tip', getTooltip(elementIsoDate));
+        el.setAttribute('data-for', REACT_TOOLTIP_ID);
       });
 
     ReactTooltip.rebuild();
   }
 );
 
-export const ActivityCalendar: React.FC<ActivityCalendarProps> = ({
+export const GithubCalendarWrapper: React.FC<GithubCalendarProps> = ({
   activity,
-  navigateToDateActivityPage,
+  onDateClick,
+  getTooltip = getDefaultTooltip,
 }) => {
   const calendarRef = React.useRef<HTMLDivElement>(null);
+
   React.useEffect(() => {
     if (!calendarRef.current) {
       return;
     }
 
-    debouncedSetCalendarTooltipDates(calendarRef.current);
-  }, []);
+    debouncedSetCalendarTooltips(calendarRef.current, getTooltip);
+  }, [getTooltip]);
 
-  const handleDateClick = React.useCallback((el) => {
-    const target = el.target as HTMLElement;
-    if (target.nodeName === 'rect') {
-      navigateToDateActivityPage(
+  const handleDateClick = React.useCallback(
+    (el) => {
+      const target = el.target as HTMLElement;
+      if (target.nodeName !== 'rect') {
+        return;
+      }
+
+      onDateClick(
         target.getAttribute(BUTTON_DATE_ATTRIBUTE) || getIsoDate(new Date())
       );
-    }
-  }, []);
+    },
+    [onDateClick]
+  );
 
   return (
     <div className={cx('calendar')} ref={calendarRef} onClick={handleDateClick}>
       {/* @ts-ignore */}
       <Calendar values={activity} panelColors={COLORS} />
-      <ReactTooltip id="calendar" />
+      <ReactTooltip
+        id={REACT_TOOLTIP_ID}
+        delayShow={REACT_TOOLTIP_SHOW_DELAY_MS}
+      />
     </div>
   );
 };

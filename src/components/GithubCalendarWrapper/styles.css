@@ -1,0 +1,9 @@
+.calendar svg rect {
+    cursor: pointer;
+    rx: 3;
+  }
+  
+  .calendar svg rect:hover {
+    stroke: #eaeaea;
+  }
+  
