@@ -5,15 +5,16 @@ import {
   getMinutesInMs,
   getTimeWithoutSeconds,
 } from '../../shared/dates-helper';
+
 import { ActivityDatePicker } from '../ActivityDatePicker/component';
-import { DailyUsageChart } from '../DailyUsageChart/component';
+import { DailyUsageChart } from '../TopFiveActiveSitesChart/TopFiveActiveSitesChart';
+
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
 
 export interface DailyUsageProps {
   date: string;
-  onDateChange: React.ComponentProps<typeof ActivityDatePicker>['onChange'];
   totalDailyActivity: number;
   weeklyAverage: number;
   dailyActivity: Record<string, number>;
@@ -31,12 +32,10 @@ const presentTotalDailyActivity = (totalDailyActivity: number) => {
 
 export const DailyUsage: React.FC<DailyUsageProps> = ({
   date,
-  onDateChange,
   dailyActivity,
   weeklyAverage,
   totalDailyActivity,
 }) => {
-  console.log(totalDailyActivity, weeklyAverage);
   const percent = Math.round((totalDailyActivity / weeklyAverage) * 100 - 100);
 
   const weekComparison = `${Math.abs(percent)} % ${

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
+import { DailyUsageChartProps } from './types';
+
 const DOUGHNUT_CHART_OPTIONS = {
   responsive: true,
   plugins: {
@@ -33,19 +35,13 @@ const ITEMS_COLORS = [
   '#262944',
 ];
 
-interface DailyUsageChartProps {
-  date: string;
-  activity: Record<string, number>;
-  totalDailyActivity: number;
-}
-
 const buildChartDataFromActivity = ({
   date,
   activity,
   totalDailyActivity,
 }: DailyUsageChartProps) => {
   const entriesByDesc = Object.entries(activity).sort(
-    ([_, value1], [_2, value2]) => {
+    ([, value1], [, value2]) => {
       return value2 - value1;
     }
   );
@@ -80,5 +76,5 @@ const buildChartDataFromActivity = ({
 export const DailyUsageChart: React.FC<DailyUsageChartProps> = (props) => {
   const data = buildChartDataFromActivity(props);
 
-  return <Doughnut options={DOUGHNUT_CHART_OPTIONS} data={data}></Doughnut>;
+  return <Doughnut options={DOUGHNUT_CHART_OPTIONS} data={data} />;
 };
