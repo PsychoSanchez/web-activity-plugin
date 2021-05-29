@@ -1,14 +1,14 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { getActivityLevel } from '../../components/Calendar/helpers';
+import { GithubCalendarWrapper } from '../GithubCalendarWrapper/GithubCalendarWrapper';
 import {
-  CalendarDisplayedActivity,
   TotalDailyActivity,
-} from '../../components/Calendar/types';
+  CalendarDisplayedActivity,
+  CalendarContainerProps,
+} from '../GithubCalendarWrapper/types';
 
-import { ActivityCalendar } from './component';
-import { CalendarContainerProps } from './types';
+import { getActivityLevel } from './helpers';
 
 import styles from './container.css';
 
@@ -32,7 +32,7 @@ const convertTotalDailyActiityToCalendarActivity = (
     }, calendarActivity);
 };
 
-export const ActivityCalendarContainer: React.FC<CalendarContainerProps> = ({
+export const OverallActivityCalendarPanel: React.FC<CalendarContainerProps> = ({
   store,
   navigateToDateActivityPage,
 }) => {
@@ -44,9 +44,9 @@ export const ActivityCalendarContainer: React.FC<CalendarContainerProps> = ({
         Overall Calendar Activity
       </div>
       <div className={cx('calendar-panel-body', 'panel-body')}>
-        <ActivityCalendar
+        <GithubCalendarWrapper
           activity={calendarActivity}
-          navigateToDateActivityPage={navigateToDateActivityPage}
+          onDateClick={navigateToDateActivityPage}
         />
       </div>
     </div>
