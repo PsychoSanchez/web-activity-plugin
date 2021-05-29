@@ -47,8 +47,8 @@ body {
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.6);
 }
 
-:global(.panel-body) {
-  padding-top: 16px;
+:global(.panel-header) {
+  padding-bottom: 16px;
 }
 
 :global(.app-font),
@@ -57,8 +57,4 @@ body {
   /* font-family: 'Arial', sans-serif; */
   color: #eaeaea;
   font-size: 18px;
-}
-
-.tabs .tab {
-  text-transform: capitalize;
 }

@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
-import { browser } from 'webextension-polyfill-ts';
 
 import { ActivityPage } from '../components/ActivityPage/ActivityPage';
-import { OverallActivityCalendarPanel } from '../components/OverallActivityCalendar/OverallActiivtyCalendar';
+import { OverallPage } from '../components/OverallPage/OverallPage';
+import { useTimeStore } from '../hooks/useTimeStore';
 
 import styles from './App.css';
 
@@ -23,9 +23,8 @@ export const PopupApp: React.FC<{}> = () => {
     tab: Tabs.Overall,
     params: {} as Record<string, any>,
   });
-  const [activityStore, setDailyActivityStore] = React.useState<
-    Record<string, Record<string, number>>
-  >({});
+
+  const store = useTimeStore();
 
   const handleNavigateToActivityDatePage = React.useCallback((date: string) => {
     setTab({
@@ -36,25 +35,17 @@ export const PopupApp: React.FC<{}> = () => {
     });
   }, []);
 
-  React.useEffect(() => {
-    browser.storage.local.get().then((activity: Record<string, any>) => {
-      setDailyActivityStore(activity);
-    });
-  }, []);
-
   const renderedActiveTab = React.useMemo(() => {
     switch (activeTab.tab) {
       case Tabs.Overall:
         return (
-          <OverallActivityCalendarPanel
-            store={activityStore}
-            navigateToDateActivityPage={handleNavigateToActivityDatePage}
+          <OverallPage
+            store={store}
+            onNavigateToActivityPage={handleNavigateToActivityDatePage}
           />
         );
       case Tabs.Activity:
-        return (
-          <ActivityPage store={activityStore} date={activeTab.params?.date} />
-        );
+        return <ActivityPage store={store} date={activeTab.params?.date} />;
       case Tabs.Goals:
         return <span>Goals</span>;
       case Tabs.Limits:
@@ -63,7 +54,7 @@ export const PopupApp: React.FC<{}> = () => {
       default:
         return null;
     }
-  }, [activeTab, activityStore]);
+  }, [activeTab, store]);
 
   const tabs = React.useMemo(
     () =>
