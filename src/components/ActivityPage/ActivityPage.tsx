@@ -64,7 +64,6 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
       <ActivityDatePicker date={pickedIsoDate} onChange={setPickedIsoDate} />
       <DailyUsage
         date={pickedIsoDate}
-        onDateChange={setPickedIsoDate}
         dailyActivity={dailyActiveWebsites}
         totalDailyActivity={totalDailyActivity}
         weeklyAverage={weeklyAverage}
