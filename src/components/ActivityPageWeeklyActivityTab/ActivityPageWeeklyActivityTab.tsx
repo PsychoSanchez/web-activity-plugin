@@ -76,7 +76,7 @@ export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityT
           presentChartTitle={() => `Activity On ${presentedPickedDomain}`}
         />
         <Panel>
-          <TimeUsage title={`Average`} time={averageWeeklyActivity}></TimeUsage>
+          <TimeUsage title="Average daily time" time={averageWeeklyActivity}></TimeUsage>
         </Panel>
         <ActivityTable
           activity={totalWebsiteWeeklyActivity}

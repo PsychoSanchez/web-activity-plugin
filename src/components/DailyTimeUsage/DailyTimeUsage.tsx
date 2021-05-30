@@ -20,7 +20,7 @@ const presentWeekComparison = (time: number, averageTime: number) => {
 
   const weekComparison = `${Math.abs(percent)} % ${
     percent < 0 ? 'lower ' : 'higher'
-  } than this week average`;
+  } than`;
 
   return weekComparison;
 };
@@ -37,6 +37,7 @@ export const TimeUsage: React.FC<DailyTimeUsageComponentProps> = ({
   time,
   averageTime = 0,
   title = COMPONENT_TITLE,
+  averageTimeComparedTo = 'this week average',
 }) => {
   return (
     <div>
@@ -49,7 +50,9 @@ export const TimeUsage: React.FC<DailyTimeUsageComponentProps> = ({
         </span>
         {averageTime > 0 && (
           <span className={cx('time-usage-week-comparison')}>
-            {presentWeekComparison(time, averageTime)}
+            {presentWeekComparison(time, averageTime) +
+              ' ' +
+              averageTimeComparedTo}
           </span>
         )}
       </div>

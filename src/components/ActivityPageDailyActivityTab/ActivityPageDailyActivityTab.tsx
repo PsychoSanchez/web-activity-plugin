@@ -5,7 +5,7 @@ import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity'
 
 import { ActivityTable } from '../ActivityTable/ActivityTable';
 import { DailyUsage } from '../DailyUsage/component';
-import { DailyWebsitesActivityIntervals } from '../DailyWebsitesActivityIntervals/DailyWebsitesActivityIntervals';
+import { DailyActivityTimelineChart } from '../DailyWebsitesActivityIntervals/DailyWebsitesActivityIntervals';
 import { Panel } from '../Panel/Panel';
 
 import { DailyActivityTabProps } from './types';
@@ -34,8 +34,8 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
         totalDailyActivity={totalDailyActivity}
         weeklyAverage={weeklyUsage / 7}
       />
-      <Panel header={<span>Activity periods</span>}>
-        <DailyWebsitesActivityIntervals />
+      <Panel header={<span>Activity timeline</span>}>
+        <DailyActivityTimelineChart />
       </Panel>
       <ActivityTable activity={dailyActiveWebsites} />
     </>

@@ -1,10 +1,7 @@
 import * as React from 'react';
 
-import { AppStore } from '../../hooks/useTimeStore';
 import { useTotalWebsiteActivity } from '../../hooks/useTotalWebsiteActivity';
-import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
-import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
-import { getIsoDate, getMinutesInMs } from '../../shared/dates-helper';
+import { getMinutesInMs } from '../../shared/dates-helper';
 
 import { TimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
 import { OverallActivityCalendarPanel } from '../OverallActivityCalendar/OverallActiivtyCalendar';
@@ -31,7 +28,8 @@ export const OverallPage: React.FC<OverallPageProps> = ({
           <TimeUsage
             time={todaysUsage}
             averageTime={weeklyUsage / 7}
-            title={'Website Activity Today'}
+            averageTimeComparedTo={'last 7 days average'}
+            title={'Surfed Today'}
           ></TimeUsage>
         </Panel>
       ) : null}
