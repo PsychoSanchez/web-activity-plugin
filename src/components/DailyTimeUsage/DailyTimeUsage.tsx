@@ -27,13 +27,13 @@ const presentWeekComparison = (time: number, averageTime: number) => {
 
 const presentTotalDailyActivity = (totalDailyActivity: number) => {
   if (totalDailyActivity < MINUTE_IN_MS) {
-    return 'No Activity';
+    return '< 1m';
   }
 
   return getTimeWithoutSeconds(totalDailyActivity);
 };
 
-export const DailyTimeUsage: React.FC<DailyTimeUsageComponentProps> = ({
+export const TimeUsage: React.FC<DailyTimeUsageComponentProps> = ({
   time,
   averageTime = 0,
   title = COMPONENT_TITLE,
