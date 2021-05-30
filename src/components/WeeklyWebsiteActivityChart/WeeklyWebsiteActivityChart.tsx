@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 
-import { AppStore } from '../../hooks/useTimeStore';
 import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
 import {
+  get7DaysPriorDate,
   getHoursInMs,
   getIsoDate,
   getTimeFromMs,
 } from '../../shared/dates-helper';
 
 import { Panel } from '../Panel/Panel';
+
+import { WeeklyWebsiteActivityChartProps } from './types';
 
 const BAR_OPTIONS = {
   responsive: true,
@@ -43,43 +45,29 @@ const BAR_OPTIONS = {
   },
 };
 
-export const WeeklyWebsiteActivityChart: React.FC<{
-  store: AppStore;
-  weekEndDate: string;
-}> = ({ store, weekEndDate }) => {
-  const endDate = new Date(weekEndDate);
-  const { data, labels } = new Array(7).fill(0).reduce(
-    (acc, _, index) => {
-      endDate.setDate(endDate.getDate() - Number(index > 0));
+const HOUR_IN_MS = getHoursInMs(1);
 
-      const isoDate = getIsoDate(endDate);
+export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProps> =
+  ({ store, sundayDate }) => {
+    const week = get7DaysPriorDate(sundayDate).reverse();
+    const labels = week.map((date) => getIsoDate(date));
+    const data = week.map(
+      (date) => getTotalDailyActivity(store, date) / HOUR_IN_MS
+    );
 
-      acc.labels.push(isoDate);
-
-      const usageTime = getTotalDailyActivity(store, endDate);
-      acc.data.push(usageTime / getHoursInMs(1));
-
-      return acc;
-    },
-    {
-      data: [],
-      labels: [],
-    }
-  );
-
-  const chartData = {
-    labels: labels.reverse(),
-    datasets: [
-      {
-        label: 'Weekly activity',
-        data: data.reverse(),
-        backgroundColor: '#dfdfff',
-      },
-    ],
+    const chartData = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Weekly activity',
+          data: data,
+          backgroundColor: '#dfdfff',
+        },
+      ],
+    };
+    return (
+      <Panel header={<>{`${labels[0]} - ${labels[labels.length - 1]}`}</>}>
+        <Bar options={BAR_OPTIONS} data={chartData} />
+      </Panel>
+    );
   };
-  return (
-    <Panel header={<>{`${labels[0]} - ${labels[labels.length - 1]}`}</>}>
-      <Bar options={BAR_OPTIONS} data={chartData} />
-    </Panel>
-  );
-};

@@ -1,4 +1,4 @@
 export interface WeekDatePickerProps {
-  initialWeekEndDate: Date;
+  sundayDate: Date;
   onWeekChange: (weekEndDate: Date) => void;
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { getIsoDate } from '../../shared/dates-helper';
+import { get7DaysPriorDate, getIsoDate } from '../../shared/dates-helper';
 
 import { ActivityTable } from '../ActivityTable/ActivityTable';
 import { WeeklyWebsiteActivityChart } from '../WeeklyWebsiteActivityChart/WeeklyWebsiteActivityChart';
@@ -8,12 +8,10 @@ import { WeeklyWebsiteActivityChart } from '../WeeklyWebsiteActivityChart/Weekly
 import { ActivityPageWeeklyActivityTabProps } from './types';
 
 export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityTabProps> =
-  ({ store, weekEndDate }) => {
-    const endDate = new Date(weekEndDate);
-
-    const activity = new Array(7).fill(0).reduce((acc, _, index) => {
-      endDate.setDate(endDate.getDate() - Number(index > 0));
-      const dailyUsage = store[getIsoDate(endDate)] || {};
+  ({ store, sundayDate }) => {
+    const activity = get7DaysPriorDate(sundayDate, (date) => {
+      return store[getIsoDate(date)] || {};
+    }).reduce((acc, dailyUsage) => {
       Object.entries(dailyUsage).forEach(([key, value]) => {
         acc[key] = (acc[key] || 0) + value;
       });
@@ -23,7 +21,7 @@ export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityT
 
     return (
       <div>
-        <WeeklyWebsiteActivityChart store={store} weekEndDate={weekEndDate} />
+        <WeeklyWebsiteActivityChart store={store} sundayDate={sundayDate} />
         <ActivityTable activity={activity} title={'Websites This Week'} />
       </div>
     );

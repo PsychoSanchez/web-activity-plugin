@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import * as React from 'react';
 
 import type { AppStore } from '../../hooks/useTimeStore';
-import { getIsoDate } from '../../shared/dates-helper';
+import { getDatesWeekSundayDate, getIsoDate } from '../../shared/dates-helper';
 
 import { ActivityDatePicker } from '../ActivityDatePicker/component';
 import { DailyActivityTab } from '../ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
@@ -23,14 +23,6 @@ enum ActivityPageTabs {
   Weekly,
 }
 
-const getClosestToTodaySunday = () => {
-  const today = new Date();
-
-  today.setDate(today.getDate() + (7 - today.getDay()));
-
-  return today;
-};
-
 export const ActivityPage: React.FC<ActivityPageProps> = ({
   store,
   date: openOnDate,
@@ -41,8 +33,8 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
     openOnDate || getIsoDate(new Date())
   );
 
-  const [pickedIsoWeekEndDate, setPickedIsoWeekEndDate] = React.useState(
-    getClosestToTodaySunday()
+  const [pickedSunday, setPickedSunday] = React.useState(
+    getDatesWeekSundayDate()
   );
 
   const tabs = React.useMemo(() => {
@@ -75,8 +67,8 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
         )}
         {activeTab === ActivityPageTabs.Weekly && (
           <WeekDatePicker
-            initialWeekEndDate={pickedIsoWeekEndDate}
-            onWeekChange={setPickedIsoWeekEndDate}
+            sundayDate={pickedSunday}
+            onWeekChange={setPickedSunday}
           />
         )}
       </div>
@@ -88,7 +80,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
       {activeTab === ActivityPageTabs.Weekly && (
         <ActivityPageWeeklyActivityTab
           store={store}
-          weekEndDate={getIsoDate(pickedIsoWeekEndDate)}
+          sundayDate={pickedSunday}
         />
       )}
     </>
