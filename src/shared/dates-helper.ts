@@ -47,3 +47,25 @@ export const getTimeWithoutSeconds = (number: number) => {
 
   return `${presentedDays}${presentedHours}${minutes}m`;
 };
+
+export const get7DaysPriorDate = <
+  T extends (date: Date) => any = (date: Date) => Date
+>(
+  date: Date,
+  map?: T
+): ReturnType<T>[] => {
+  const defaultMap = (date: Date) => new Date(date);
+  const weekEndDate = new Date(date);
+
+  return new Array(7).fill(0).map((_, index) => {
+    weekEndDate.setDate(weekEndDate.getDate() - Number(index > 0));
+
+    return map?.(weekEndDate) ?? defaultMap(weekEndDate);
+  });
+};
+
+export const getDatesWeekSundayDate = (date: Date = new Date()) => {
+  date.setDate(date.getDate() + date.getDay());
+
+  return date;
+};

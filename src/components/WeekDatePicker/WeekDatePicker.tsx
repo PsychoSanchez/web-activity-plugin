@@ -11,20 +11,21 @@ const cx = classNames.bind(styles);
 
 export const WeekDatePicker: React.FC<WeekDatePickerProps> = ({
   onWeekChange,
-  initialWeekEndDate: weekEndDate,
+  sundayDate,
 }) => {
   const weekStartDate = new Date();
-  weekStartDate.setDate(weekEndDate.getDate() - 7);
+  weekStartDate.setDate(sundayDate.getDate() - 6);
 
-  const weekDates = `${getIsoDate(weekStartDate)} - ${getIsoDate(weekEndDate)}`;
+  const weekDates = `${getIsoDate(weekStartDate)} - ${getIsoDate(sundayDate)}`;
 
   const handleChangeWeekButtonClick = React.useCallback(
     (direction) => {
-      const newWeekEndDate = new Date();
-      newWeekEndDate.setDate(weekEndDate.getDate() + direction * 8);
+      const newWeekEndDate = new Date(sundayDate);
+      newWeekEndDate.setDate(sundayDate.getDate() + direction * 7);
+
       onWeekChange(newWeekEndDate);
     },
-    [weekEndDate, onWeekChange]
+    [sundayDate, onWeekChange]
   );
 
   return (
