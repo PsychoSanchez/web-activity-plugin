@@ -20,7 +20,7 @@ const startUrlTracker = (
 
     console.log(hostname, activityTime);
 
-    addActivityTimeToHost(storage, hostname, activityTime);
+    addActivityTimeToHost(storage, hostname || url, activityTime);
   };
 };
 
