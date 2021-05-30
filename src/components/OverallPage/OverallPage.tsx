@@ -6,7 +6,7 @@ import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity'
 import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
 import { getIsoDate, getMinutesInMs } from '../../shared/dates-helper';
 
-import { DailyTimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
+import { TimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
 import { OverallActivityCalendarPanel } from '../OverallActivityCalendar/OverallActiivtyCalendar';
 import { Panel } from '../Panel/Panel';
 
@@ -28,11 +28,11 @@ export const OverallPage: React.FC<OverallPageProps> = ({
       />
       {todaysUsage > MINUTE_IN_MS ? (
         <Panel>
-          <DailyTimeUsage
+          <TimeUsage
             time={todaysUsage}
             averageTime={weeklyUsage / 7}
             title={'Website Activity Today'}
-          ></DailyTimeUsage>
+          ></TimeUsage>
         </Panel>
       ) : null}
       Goals Current Limits time

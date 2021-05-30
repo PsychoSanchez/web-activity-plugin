@@ -17,9 +17,15 @@ const DEFAULT_TITLE = 'Websites This Day';
 export const ActivityTable: React.FC<ActivityTableProps> = ({
   activity = {},
   title = DEFAULT_TITLE,
+  onDomainRowClicked,
 }) => {
   const totalActivity =
     Object.values(activity).reduce((acc, val) => acc + val, 0) || 0;
+
+  const handleDomainRowClick = React.useCallback(
+    (domain: string) => onDomainRowClicked?.(domain),
+    [onDomainRowClicked]
+  );
 
   return (
     <div className={cx('activity-table', 'panel')}>
@@ -34,11 +40,17 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({
             <div className={cx('activity-table-row')} key={domain}>
               <a
                 className={cx('domain-link')}
-                href={`https://${domain}`}
-                target="_blank"
+                title={domain}
+                onClick={() => handleDomainRowClick(domain)}
               >
                 {domain}
               </a>
+              <button
+                className={cx('add-to-ignore-button')}
+                title="Hide this website"
+              >
+                -
+              </button>
               <span className={cx('time-column')}>{getTimeFromMs(time)}</span>
             </div>
           );

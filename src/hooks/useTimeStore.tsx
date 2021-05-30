@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { browser } from 'webextension-polyfill-ts';
 
-export type WebsitesDailyUsageTimes = Record<string, number>;
-export type AppStore = Record<string, WebsitesDailyUsageTimes> &
+export type WebsitesDailyUsage = Record<string, number>;
+export type AppStore = Record<string, WebsitesDailyUsage> &
   Record<'test', number>;
 
 export const useTimeStore = () => {

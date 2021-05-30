@@ -7,21 +7,29 @@ import {
   getHoursInMs,
   getIsoDate,
   getTimeFromMs,
+  getTimeWithoutSeconds,
 } from '../../shared/dates-helper';
 
 import { Panel } from '../Panel/Panel';
 
 import { WeeklyWebsiteActivityChartProps } from './types';
 
+const HOUR_IN_MS = getHoursInMs(1);
+
 const BAR_OPTIONS = {
   responsive: true,
   scales: {
     y: {
-      max: 12,
       ticks: {
-        callback: (value: string) => {
-          return parseInt(value) + 'h';
+        color: '#eaeaea',
+        callback: (value: number) => {
+          return getTimeWithoutSeconds(value * HOUR_IN_MS);
         },
+      },
+    },
+    x: {
+      ticks: {
+        color: '#eaeaea',
       },
     },
   },
@@ -32,12 +40,12 @@ const BAR_OPTIONS = {
     tooltip: {
       callbacks: {
         title: ([item]: any) => {
+          console.log(item?.label);
           return `${item?.label}`;
         },
         label: (item: any) => {
           return (
-            ' ' +
-            getTimeFromMs(Number(item.formattedValue || 0) * getHoursInMs(1))
+            ' ' + getTimeFromMs(Number(item.formattedValue || 0) * HOUR_IN_MS)
           );
         },
       },
@@ -45,15 +53,15 @@ const BAR_OPTIONS = {
   },
 };
 
-const HOUR_IN_MS = getHoursInMs(1);
-
 export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProps> =
-  ({ store, sundayDate }) => {
+  ({ store, sundayDate, presentChartTitle }) => {
     const week = get7DaysPriorDate(sundayDate).reverse();
     const labels = week.map((date) => getIsoDate(date));
     const data = week.map(
       (date) => getTotalDailyActivity(store, date) / HOUR_IN_MS
     );
+
+    const weekName = `${labels[0]} - ${labels[labels.length - 1]}`;
 
     const chartData = {
       labels: labels,
@@ -66,7 +74,7 @@ export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProp
       ],
     };
     return (
-      <Panel header={<>{`${labels[0]} - ${labels[labels.length - 1]}`}</>}>
+      <Panel header={<>{presentChartTitle?.(weekName) ?? weekName}</>}>
         <Bar options={BAR_OPTIONS} data={chartData} />
       </Panel>
     );

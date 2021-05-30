@@ -44,8 +44,9 @@ export const getTimeWithoutSeconds = (number: number) => {
 
   const presentedDays = days > 0 ? `${days}d ` : '';
   const presentedHours = hours > 0 ? `${hours}h ` : '';
+  const presentedMinutes = hours > 0 && minutes === 0 ? '' : `${minutes}m`;
 
-  return `${presentedDays}${presentedHours}${minutes}m`;
+  return `${presentedDays}${presentedHours}${presentedMinutes}`;
 };
 
 export const get7DaysPriorDate = <

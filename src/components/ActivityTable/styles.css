@@ -3,7 +3,7 @@
   justify-content: space-between;
   color: #eaeaea;
   font-size: 14px;
-  padding: 4px 0;
+  padding: 6px 0;
   border-bottom: 1px solid #757575;
 }
 
@@ -15,7 +15,35 @@
 }
 
 .domain-link {
+  flex: 1 100%;
   color: #eaeaea;
   text-decoration: none;
-  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0 8px;
+}
+
+.domain-link:hover {
+  text-decoration: underline;
+}
+
+.time-column {
+  min-width: 90px;
+  text-align: right;
+}
+
+.activity-table-row:hover > .add-to-ignore-button {
+  display: block;
+}
+
+.add-to-ignore-button {
+  cursor: pointer;
+  background: none;
+  border: 1px solid #eaeaea;
+  color: #eaeaea;
+  padding: 0 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: 'Trebuchet MS', sans-serif;
 }

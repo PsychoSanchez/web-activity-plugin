@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { getMinutesInMs } from '../../shared/dates-helper';
 
-import { DailyTimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
+import { TimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
 import { DailyUsageChart } from '../TopFiveActiveSitesChart/TopFiveActiveSitesChart';
 
 import styles from './styles.css';
@@ -27,7 +27,7 @@ export const DailyUsage: React.FC<DailyUsageProps> = ({
 }) => {
   return (
     <div className={cx('panel', 'daily-usage')}>
-      <DailyTimeUsage time={totalDailyActivity} averageTime={weeklyAverage} />
+      <TimeUsage time={totalDailyActivity} averageTime={weeklyAverage} />
       <div className={cx('daily-usage-chart-container')}>
         {totalDailyActivity > MINUTE_IN_MS ? (
           <div className={cx('daily-usage-chart')}>
