@@ -3,31 +3,42 @@ import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
 import { addActivityTimeToHost } from '../storage/accumulated-daily-activity';
 
 import { ActiveTabState } from './active-tabs.monitor';
+import { createTimelineTrackerVisitor } from './timeline-tracker-visitor';
 
 type FinishTrackingEvent = () => void;
+
+const timelineTracker = createTimelineTrackerVisitor();
 
 const startUrlTracker = (
   url: string,
   storage: BrowserSyncStorage
 ): FinishTrackingEvent => {
+  const finishTracking = timelineTracker.startActivityTracker(url);
+
   const trackingStartDate = Date.now();
   const { hostname } = new URL(url);
 
-  console.log(hostname, 'Active');
+  const savedHostname = hostname || url;
+  console.log(savedHostname, 'Active');
 
   return () => {
+    finishTracking();
+
     const activityTime = Date.now() - trackingStartDate;
 
-    console.log(hostname, activityTime);
+    console.log(savedHostname, activityTime);
 
-    addActivityTimeToHost(storage, hostname || url, activityTime);
+    addActivityTimeToHost(storage, savedHostname, activityTime);
   };
 };
 
 const startEmptyTracker = (): FinishTrackingEvent => {
+  const finishTracking = timelineTracker.startInactivityTracker();
   console.log('Inactive');
 
-  return () => {};
+  return () => {
+    finishTracking();
+  };
 };
 
 const isInvalidUrl = (url: string | undefined): url is undefined => {
