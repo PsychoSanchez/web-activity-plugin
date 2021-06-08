@@ -2,13 +2,13 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = {
+module.exports = (env, argv) => ({
   entry: {
     content: './src/content.index.tsx',
     background: './src/background.index.ts',
     popup: './src/popup.index.tsx',
   },
-  devtool: 'inline-source-map',
+  devtool: argv.mode === 'development' ? 'inline-source-map' : undefined,
   module: {
     rules: [
       {
@@ -46,4 +46,4 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
-};
+});

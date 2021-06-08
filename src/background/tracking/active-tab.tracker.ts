@@ -1,9 +1,12 @@
 import { BrowserSyncStorage } from '../../shared/browser-sync-storage';
+import { getMinutesInMs } from '../../shared/dates-helper';
 
 import { addActivityTimeToHost } from '../storage/accumulated-daily-activity';
 
 import { ActiveTabState } from './active-tabs.monitor';
 import { createTimelineTrackerVisitor } from './timeline-tracker-visitor';
+
+const FIVE_MINUTES = getMinutesInMs(5);
 
 type FinishTrackingEvent = () => void;
 
@@ -22,9 +25,14 @@ const startUrlTracker = (
   console.log(savedHostname, 'Active');
 
   return () => {
-    finishTracking();
-
     const activityTime = Date.now() - trackingStartDate;
+
+    // Skip impossibly long events
+    if (activityTime > FIVE_MINUTES) {
+      return;
+    }
+
+    finishTracking();
 
     console.log(savedHostname, activityTime);
 
