@@ -40,7 +40,6 @@ const BAR_OPTIONS = {
     tooltip: {
       callbacks: {
         title: ([item]: any) => {
-          console.log(item?.label);
           return `${item?.label}`;
         },
         label: (item: any) => {
@@ -69,7 +68,7 @@ export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProp
         {
           label: 'Weekly activity',
           data: data,
-          backgroundColor: '#dfdfff',
+          backgroundColor: '#298f66',
         },
       ],
     };

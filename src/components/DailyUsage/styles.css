@@ -13,7 +13,7 @@
 
 div.daily-usage-chart-empty {
   text-align: center;
-  color: #484a5d;
+  color: #ababab;
 }
 .daily-usage-chart > canvas {
   max-height: 150px;

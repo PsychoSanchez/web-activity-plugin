@@ -5,8 +5,11 @@ const DB_NAME = 'timeline';
 export interface TimelineRecord {
   url: string;
   hostname: string;
+  docTitle: string;
+  favIconUrl: string | undefined;
   date: string;
-  activityPeriod: [number, number];
+  activityPeriodStart: number;
+  activityPeriodEnd: number;
 }
 
 export interface TimelineDatabase extends DBSchema {
@@ -34,10 +37,12 @@ const dbPromise = openDB<TimelineDatabase>('surfing-timeline-store', 1, {
   },
 });
 
-export async function getAllByIsoDate(isoDate: string) {
+export async function getActivityTimeline(isoDate: string) {
   return (await dbPromise).getAllFromIndex(DB_NAME, 'date', isoDate);
 }
 
-export async function saveTimeline(val: TimelineDatabase['timeline']['value']) {
+export async function saveActivityTimelineRecord(
+  val: TimelineDatabase['timeline']['value']
+) {
   return (await dbPromise).add(DB_NAME, val);
 }

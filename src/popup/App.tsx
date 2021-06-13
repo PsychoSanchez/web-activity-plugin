@@ -12,8 +12,7 @@ const cx = classNames.bind(styles);
 enum Tabs {
   Overall = 'overall',
   Activity = 'activity',
-  Goals = 'goals',
-  Limits = 'limits',
+  // Goals = 'goals',
 }
 
 const TABS_VALUES = Object.values(Tabs);
@@ -46,10 +45,8 @@ export const PopupApp: React.FC<{}> = () => {
         );
       case Tabs.Activity:
         return <ActivityPage store={store} date={activeTab.params?.date} />;
-      case Tabs.Goals:
-        return <span>Goals</span>;
-      case Tabs.Limits:
-        return <span>Limits</span>;
+      // case Tabs.Goals:
+      //   return <span>Goals</span>;
 
       default:
         return null;

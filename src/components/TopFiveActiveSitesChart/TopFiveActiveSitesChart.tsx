@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import { getTimeWithoutSeconds } from '../../shared/dates-helper';
+import {
+  getMinutesInMs,
+  getTimeWithoutSeconds,
+} from '../../shared/dates-helper';
 
 import { DailyUsageChartProps } from './types';
 
@@ -36,6 +39,14 @@ const ITEMS_COLORS = [
   '#5a3764',
   '#262944',
 ];
+const ONE_MINUTE = getMinutesInMs(1);
+
+const presentChartLabel = (key: string, value: number) => {
+  const timeString = value > ONE_MINUTE ? getTimeWithoutSeconds(value) : '<1m';
+  const label = `${key} (${timeString})`;
+
+  return label;
+};
 
 const buildChartDataFromActivity = ({
   date,
@@ -58,8 +69,8 @@ const buildChartDataFromActivity = ({
     itemsToDisplay.push(['Other pages', restActivityTime]);
   }
 
-  const labels = itemsToDisplay.map(
-    ([key, value]) => `${key} (${getTimeWithoutSeconds(value)})`
+  const labels = itemsToDisplay.map(([key, value]) =>
+    presentChartLabel(key, value)
   );
   const data = itemsToDisplay.map(([_, value]) =>
     Math.floor((value / totalDailyActivity) * 100)
