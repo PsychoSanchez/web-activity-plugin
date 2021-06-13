@@ -53,7 +53,26 @@ export class DetailedActivityController implements ActivityController {
       return;
     }
 
-    saveActivityTimelineRecord(this.currentTimelineRecord);
+    const currentDate = new Date();
+    const currentIsoDate = getIsoDate(currentDate);
+
+    if (this.currentTimelineRecord.date === currentIsoDate) {
+      saveActivityTimelineRecord(this.currentTimelineRecord);
+    } else {
+      // Event started before midnight and finished after
+      const midnightToday = new Date(currentIsoDate).getTime();
+      const millisecondBeforeMidnight = new Date(midnightToday - 1).getTime();
+
+      // We need to split dates into 2 events for iso date index to work
+      const yesterdayTimeline = { ...this.currentTimelineRecord };
+      yesterdayTimeline.activityPeriodEnd = millisecondBeforeMidnight;
+      saveActivityTimelineRecord(yesterdayTimeline);
+
+      this.currentTimelineRecord.activityPeriodStart = midnightToday;
+      this.currentTimelineRecord.date = currentIsoDate;
+
+      saveActivityTimelineRecord(this.currentTimelineRecord);
+    }
 
     this.currentTimelineRecord = null;
   }
