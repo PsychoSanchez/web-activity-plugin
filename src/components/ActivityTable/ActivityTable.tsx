@@ -42,12 +42,12 @@ export const ActivityTable: React.FC<ActivityTableProps> = React.memo(
                 >
                   {domain}
                 </a>
-                <button
+                {/* <button
                   className={cx('add-to-ignore-button')}
                   title="Hide this website"
                 >
                   -
-                </button>
+                </button> */}
                 <span className={cx('time-column')}>{getTimeFromMs(time)}</span>
               </div>
             );
