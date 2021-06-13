@@ -64,7 +64,7 @@ export const DailyActivityTimelineChart: React.FC<TimelineChartProps> = ({
 
   const datasets = chartDatasetData.map((d, i) => ({
     label: 'dataset ' + i,
-    data: d.slice(chartStartHour, chartEndHour),
+    data: d.slice(chartStartHour, chartEndHour + 1),
     backgroundColor: '#298f66',
   }));
 

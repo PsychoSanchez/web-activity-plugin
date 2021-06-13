@@ -8,11 +8,13 @@ export function getChartTimeLabels(
   timelineStartHour: number,
   timelineEndHour: number
 ) {
-  return new Array(timelineEndHour - timelineStartHour).fill(0).map((_, i) => {
-    const hour = timelineStartHour + i;
+  return new Array(timelineEndHour - timelineStartHour + 1)
+    .fill(0)
+    .map((_, i) => {
+      const hour = (timelineStartHour + i) % 24;
 
-    return `${presentHour(hour)}-${presentHour(hour + 1)}`;
-  });
+      return `${presentHour(hour)}-${presentHour((hour + 1) % 24)}`;
+    });
 }
 
 const createNewTimelineDataset = () => new Array(24).fill([0, 0]);
