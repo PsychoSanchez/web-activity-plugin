@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 enum Tabs {
   Overall = 'overall',
-  Activity = 'activity',
+  Detailed = 'detailed',
   // Goals = 'goals',
 }
 
@@ -27,7 +27,7 @@ export const PopupApp: React.FC<{}> = () => {
 
   const handleNavigateToActivityDatePage = React.useCallback((date: string) => {
     setTab({
-      tab: Tabs.Activity,
+      tab: Tabs.Detailed,
       params: {
         date,
       },
@@ -43,7 +43,7 @@ export const PopupApp: React.FC<{}> = () => {
             onNavigateToActivityPage={handleNavigateToActivityDatePage}
           />
         );
-      case Tabs.Activity:
+      case Tabs.Detailed:
         return <ActivityPage store={store} date={activeTab.params?.date} />;
       // case Tabs.Goals:
       //   return <span>Goals</span>;
