@@ -11,7 +11,6 @@
   },
   "manifest_version": 2,
   "version": "0.1",
-  "key": "mlanfnfndggpfphmjedckmjfcmafagid",
   "description": "Time Tracking Assistant that helps you to be in charge of your time during web browsing",
   "permissions": ["background", "tabs", "idle", "storage", "alarms"],
   "background": {
