@@ -59,7 +59,7 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
         weeklyAverage={weeklyUsage / 7}
       />
       <GeneralTimeline
-        title="Activity timeline"
+        title="Activity Timeline"
         key="General Timeline"
         activityTimeline={activityTimeline}
         filteredHostname={filteredHostname}
