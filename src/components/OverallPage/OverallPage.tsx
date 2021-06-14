@@ -1,9 +1,11 @@
 import * as React from 'react';
 
+import { useLastSixHoursTimelineEvents } from '../../hooks/useLastSixHoursTimeline';
 import { useTotalWebsiteActivity } from '../../hooks/useTotalWebsiteActivity';
 import { getMinutesInMs } from '../../shared/dates-helper';
 
 import { TimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
+import { GeneralTimeline } from '../GeneralTimeline/GeneralTimeline';
 import { OverallActivityCalendarPanel } from '../OverallActivityCalendar/OverallActiivtyCalendar';
 import { Panel } from '../Panel/Panel';
 
@@ -16,6 +18,7 @@ export const OverallPage: React.FC<OverallPageProps> = ({
   onNavigateToActivityPage,
 }) => {
   const { todaysUsage, weeklyUsage } = useTotalWebsiteActivity(store);
+  const timelineEvents = useLastSixHoursTimelineEvents();
 
   return (
     <div>
@@ -33,7 +36,12 @@ export const OverallPage: React.FC<OverallPageProps> = ({
           ></TimeUsage>
         </Panel>
       ) : null}
-      Goals Current Limits time
+      <GeneralTimeline
+        title="Activity in last 6 hours"
+        activityTimeline={timelineEvents}
+        filteredHostname={null}
+        emptyHoursMarginCount={0}
+      />
     </div>
   );
 };

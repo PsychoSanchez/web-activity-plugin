@@ -1,0 +1,18 @@
+.timeline-chart-hidden {
+  display: none;
+}
+
+span.timeline-chart-empty {
+  color: #ababab;
+}
+
+.timeline-chart-body {
+  min-height: 215px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-chart {
+  flex: 1;
+}

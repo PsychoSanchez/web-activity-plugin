@@ -32,9 +32,13 @@ export const getTimeFromMs = (number: number) => {
   const minutes = Math.floor((number / MINUTE_IN_MS) % 60);
   const hours = Math.floor((number / HOUR_IN_MS) % 24);
 
-  return `${hours > 0 ? `${hours}h ` : ''}${
-    minutes > 0 ? `${minutes}m ` : ''
-  }${seconds}s`;
+  const presentedHours = hours > 0 ? `${hours}h` : '';
+  const presentedMinutes = minutes > 0 ? `${minutes}m` : '';
+  const presentedSeconds = `${seconds}s`;
+
+  return [presentedHours, presentedMinutes, presentedSeconds]
+    .filter(Boolean)
+    .join(' ');
 };
 
 export const getTimeWithoutSeconds = (number: number) => {
@@ -42,11 +46,13 @@ export const getTimeWithoutSeconds = (number: number) => {
   const hours = Math.floor((number / HOUR_IN_MS) % 24);
   const days = Math.floor((number / DAY_IN_MS) % 31);
 
-  const presentedDays = days > 0 ? `${days}d ` : '';
-  const presentedHours = hours > 0 ? `${hours}h ` : '';
+  const presentedDays = days > 0 ? `${days}d` : '';
+  const presentedHours = hours > 0 ? `${hours}h` : '';
   const presentedMinutes = hours > 0 && minutes === 0 ? '' : `${minutes}m`;
 
-  return `${presentedDays}${presentedHours}${presentedMinutes}`;
+  return [presentedDays, presentedHours, presentedMinutes]
+    .filter(Boolean)
+    .join(' ');
 };
 
 export const get7DaysPriorDate = <

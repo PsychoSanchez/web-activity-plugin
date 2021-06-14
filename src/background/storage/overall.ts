@@ -7,8 +7,6 @@ export type DailyWebsiteActivity = Record<string, number>;
 // Split metrics to total active and total background time
 // Add simultaneous usage on several devices into account
 
-export const TOTAL_DAILY_BROWSER_ACTIVITY = 'total-time-spent';
-
 export const addActivityTimeToHost = (
   storage: BrowserSyncStorage,
   host: string,
@@ -28,18 +26,6 @@ export const addActivityTimeToHost = (
   currentDateRecord[host] = (currentDateRecord[host] || 0) + duration;
 
   store[currentDate] = currentDateRecord;
-
-  // Update total browser activity time
-  const totalBrowserActivity = store[TOTAL_DAILY_BROWSER_ACTIVITY] || {};
-
-  if (typeof totalBrowserActivity !== 'object') {
-    return;
-  }
-
-  totalBrowserActivity[currentDate] =
-    (totalBrowserActivity[currentDate] || 0) + duration;
-
-  store[TOTAL_DAILY_BROWSER_ACTIVITY] = totalBrowserActivity;
 
   return storage.set(store);
 };
