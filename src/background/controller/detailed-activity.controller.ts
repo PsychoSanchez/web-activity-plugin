@@ -60,8 +60,8 @@ export class DetailedActivityController implements ActivityController {
       saveActivityTimelineRecord(this.currentTimelineRecord);
     } else {
       // Event started before midnight and finished after
-      const midnightToday = new Date(currentIsoDate).getTime();
-      const millisecondBeforeMidnight = new Date(midnightToday - 1).getTime();
+      const midnightToday = new Date(currentIsoDate).setHours(0);
+      const millisecondBeforeMidnight = midnightToday - 1;
 
       // We need to split dates into 2 events for iso date index to work
       const yesterdayTimeline = { ...this.currentTimelineRecord };
