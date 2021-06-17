@@ -27,17 +27,23 @@ export class ActiveTabTracker {
 
   constructor(private controller: ActivityController) {}
 
-  handleTabsStateChange(tabState: ActiveTabState) {
-    this.invokeActivityFinishEvent(Date.now());
+  handleTabsStateChange(
+    tabState: ActiveTabState,
+    eventTimestamp: number = Date.now()
+  ) {
+    this.invokeActivityFinishEvent(eventTimestamp);
 
-    this.invokeActivityFinishEvent = this.invokeNewActivityStartEvent(tabState);
+    this.invokeActivityFinishEvent = this.invokeNewActivityStartEvent(
+      tabState,
+      eventTimestamp
+    );
   }
 
   private invokeNewActivityStartEvent(
-    activeTabState: ActiveTabState
+    activeTabState: ActiveTabState,
+    timestamp: number
   ): FinishTrackingEventHandler {
     console.log('New State', activeTabState);
-    const timestamp = Date.now();
 
     const activeTabUrl = activeTabState.focusedActiveTab?.url;
 

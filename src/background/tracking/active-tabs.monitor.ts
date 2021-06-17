@@ -3,15 +3,26 @@ import { Alarms, browser, Idle, Tabs, Windows } from 'webextension-polyfill-ts';
 type ActiveTabChangeHandler = Parameters<
   Tabs.Static['onActivated']['addListener']
 >[0];
+type ActiveTabChangeHandlerWithEventTimestamp = (
+  activeInfo: Parameters<ActiveTabChangeHandler>[0],
+  originalEventTimestamp?: number
+) => ReturnType<ActiveTabChangeHandler>;
 type FocusedWindowChangeHandler = Parameters<
   Windows.Static['onFocusChanged']['addListener']
 >[0];
+type FocusedWindowChangeHandlerWithTimestamp = (
+  windowId: Parameters<FocusedWindowChangeHandler>[0],
+  originalEventTimestamp?: number
+) => ReturnType<FocusedWindowChangeHandler>;
 type AlarmHandler = Parameters<Alarms.Static['onAlarm']['addListener']>[0];
 type IdleStateChangeHandler = Parameters<
   Idle.Static['onStateChanged']['addListener']
 >[0];
 type TabUpdateHandler = Parameters<Tabs.onUpdatedEvent['addListener']>[0];
-type ActiveTabStateChangeHandler = (state: ActiveTabState) => void;
+type ActiveTabStateChangeHandler = (
+  state: ActiveTabState,
+  eventTimestamp: number
+) => void;
 
 export type ActiveTabState = {
   activeTabs: Tabs.Tab[];
@@ -99,22 +110,36 @@ export class WindowActiveTabStateMonitor {
     }
   );
 
-  activeTabChangeHandler: ActiveTabChangeHandler = this.wrapInTransactionChain(
-    async (tabInfo) => {
-      const { windowId, tabId } = tabInfo;
+  activeTabChangeHandler: ActiveTabChangeHandlerWithEventTimestamp =
+    this.wrapInTransactionChain(
+      async (tabInfo, originalEventTimestamp = Date.now()) => {
+        const { windowId, tabId } = tabInfo;
 
-      const activeTabs = await getAllActiveTabs();
-      const focusedWindowAndActiveTab = await getActiveTabFromFocusedWindow(
-        windowId,
-        tabId
-      );
+        try {
+          const activeTabs = await getAllActiveTabs();
+          const focusedWindowAndActiveTab = await getActiveTabFromFocusedWindow(
+            windowId,
+            tabId
+          );
 
-      this.setState({
-        activeTabs,
-        ...focusedWindowAndActiveTab,
-      });
-    }
-  );
+          this.setState(
+            {
+              activeTabs,
+              ...focusedWindowAndActiveTab,
+            },
+            originalEventTimestamp
+          );
+        } catch (error) {
+          if (isUserDragError(error)) {
+            setTimeout(
+              () =>
+                this.activeTabChangeHandler(tabInfo, originalEventTimestamp),
+              50
+            );
+          }
+        }
+      }
+    );
 
   tabUpdateHandler: TabUpdateHandler = this.wrapInTransactionChain(
     async (_1, _2, tab) => {
@@ -142,16 +167,32 @@ export class WindowActiveTabStateMonitor {
     }
   );
 
-  private _windowFocusChangeHandler: FocusedWindowChangeHandler = async (
-    focusedWindowId
-  ) => {
-    const focusedActiveTab = await getActiveTabFromWindowId(focusedWindowId);
-
-    this.setState({
-      focusedWindowId,
-      focusedActiveTab,
-    });
-  };
+  private _windowFocusChangeHandler: FocusedWindowChangeHandlerWithTimestamp =
+    async (focusedWindowId, originalEventTimestamp = Date.now()) => {
+      try {
+        const focusedActiveTab = await getActiveTabFromWindowId(
+          focusedWindowId
+        );
+        this.setState(
+          {
+            focusedWindowId,
+            focusedActiveTab,
+          },
+          originalEventTimestamp
+        );
+      } catch (error) {
+        if (isUserDragError(error)) {
+          setTimeout(
+            () =>
+              this._windowFocusChangeHandler(
+                focusedWindowId,
+                originalEventTimestamp
+              ),
+            50
+          );
+        }
+      }
+    };
 
   windowFocusChangeHandler: FocusedWindowChangeHandler =
     this.wrapInTransactionChain(this._windowFocusChangeHandler);
@@ -234,16 +275,19 @@ export class WindowActiveTabStateMonitor {
     browser.idle.onStateChanged.removeListener(this.idleStateChangeHandler);
   }
 
-  private setState(newState: Partial<ActiveTabState>) {
+  private setState(newState: Partial<ActiveTabState>, eventTimestamp?: number) {
     this.state = {
       ...this.state,
       ...newState,
     };
 
-    this.stateChangeListener(this.state);
+    this.stateChangeListener(this.state, eventTimestamp ?? Date.now());
   }
 }
 
+function isUserDragError(error: any) {
+  return error.message.indexOf('user may be dragging a tab') > -1;
+}
 // remember last active tab
 // if idle state changes to idle clear stopwatch and send time
 // while state is idle (user did not interact for a minute) and last active tab audible keep sending heartbeats

@@ -20,8 +20,8 @@ try {
   const activeTabMonitor = new WindowActiveTabStateMonitor();
 
   activeTabMonitor.init().then(() => {
-    activeTabMonitor.onStateChange((newState) =>
-      activeTabTracker.handleTabsStateChange(newState)
+    activeTabMonitor.onStateChange((newState, eventTimestamp) =>
+      activeTabTracker.handleTabsStateChange(newState, eventTimestamp)
     );
   });
 
