@@ -1,5 +1,7 @@
 html,
 body {
+  overflow: auto;
+  height: 600px;
   width: 500px;
   background: #191919;
   font-family: 'Trebuchet MS', sans-serif;
