@@ -10,21 +10,15 @@ import { createGlobalSyncStorageListener } from './shared/browser-sync-storage';
 const PULL_SYNC_STORAGE_ALARM_NAME = 'pull-sync-storage';
 const SYNC_STORAGE_INTERVAL_MINUTES = 30;
 
+const storage = createGlobalSyncStorageListener();
+const activityController = combineActivityControllers(
+  new OverallActivityController(storage),
+  new DetailedActivityController()
+);
+const activeTabTracker = new ActiveTabTracker(activityController);
+const activeTabMonitor = new WindowActiveTabStateMonitor();
+
 try {
-  const storage = createGlobalSyncStorageListener();
-  const activityController = combineActivityControllers(
-    new OverallActivityController(storage),
-    new DetailedActivityController()
-  );
-  const activeTabTracker = new ActiveTabTracker(activityController);
-  const activeTabMonitor = new WindowActiveTabStateMonitor();
-
-  activeTabMonitor.init().then(() => {
-    activeTabMonitor.onStateChange((newState, eventTimestamp) =>
-      activeTabTracker.handleTabsStateChange(newState, eventTimestamp)
-    );
-  });
-
   browser.alarms.create(PULL_SYNC_STORAGE_ALARM_NAME, {
     periodInMinutes: SYNC_STORAGE_INTERVAL_MINUTES,
   });
@@ -33,6 +27,20 @@ try {
     (alarm) =>
       alarm.name === PULL_SYNC_STORAGE_ALARM_NAME && storage.pullSyncStorage()
   );
+
+  initTabTracker(activeTabMonitor, activeTabTracker);
 } catch (error) {
   console.error(error);
+
+  setTimeout(() => initTabTracker(activeTabMonitor, activeTabTracker), 10000);
+}
+function initTabTracker(
+  activeTabMonitor: WindowActiveTabStateMonitor,
+  activeTabTracker: ActiveTabTracker
+) {
+  activeTabMonitor.init().then(() => {
+    activeTabMonitor.onStateChange((newState, eventTimestamp) =>
+      activeTabTracker.handleTabsStateChange(newState, eventTimestamp)
+    );
+  });
 }
