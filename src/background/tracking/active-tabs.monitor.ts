@@ -234,16 +234,20 @@ export class WindowActiveTabStateMonitor {
   }
 
   async init() {
-    const window = await browser.windows.getLastFocused();
-    const [tab = null] = await browser.tabs.query({
-      windowId: window.id,
-      active: true,
-    });
+    try {
+      const window = await browser.windows.getLastFocused();
+      const [tab = null] = await browser.tabs.query({
+        windowId: window.id,
+        active: true,
+      });
 
-    this.setState({
-      focusedWindowId: window.id,
-      focusedActiveTab: tab,
-    });
+      this.setState({
+        focusedWindowId: window.id,
+        focusedActiveTab: tab,
+      });
+    } catch (error) {
+      console.error('Failed to initialize tab monitor: ', error?.message);
+    }
 
     this.addBrowserActivityListeners();
   }

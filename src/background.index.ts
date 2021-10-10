@@ -28,19 +28,11 @@ try {
       alarm.name === PULL_SYNC_STORAGE_ALARM_NAME && storage.pullSyncStorage()
   );
 
-  initTabTracker(activeTabMonitor, activeTabTracker);
-} catch (error) {
-  console.error(error);
-
-  setTimeout(() => initTabTracker(activeTabMonitor, activeTabTracker), 10000);
-}
-function initTabTracker(
-  activeTabMonitor: WindowActiveTabStateMonitor,
-  activeTabTracker: ActiveTabTracker
-) {
   activeTabMonitor.init().then(() => {
     activeTabMonitor.onStateChange((newState, eventTimestamp) =>
       activeTabTracker.handleTabsStateChange(newState, eventTimestamp)
     );
   });
+} catch (error) {
+  console.error(error);
 }
