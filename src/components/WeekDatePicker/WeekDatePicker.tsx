@@ -5,7 +5,7 @@ import { getIsoDate } from '../../shared/dates-helper';
 
 import { WeekDatePickerProps } from './types';
 
-import styles from './styles.css';
+import styles from './styles.modules.css';
 
 const cx = classNames.bind(styles);
 

@@ -9,7 +9,7 @@ import { DailyActivityTab } from '../ActivityPageDailyActivityTab/ActivityPageDa
 import { ActivityPageWeeklyActivityTab } from '../ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
 import { WeekDatePicker } from '../WeekDatePicker/WeekDatePicker';
 
-import styles from './styles.css';
+import styles from './styles.modules.css';
 
 const cx = classNames.bind(styles);
 

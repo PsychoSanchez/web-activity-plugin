@@ -6,7 +6,7 @@ import { getMinutesInMs } from '../../shared/dates-helper';
 import { TimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
 import { DailyUsageChart } from '../TopFiveActiveSitesChart/TopFiveActiveSitesChart';
 
-import styles from './styles.css';
+import styles from './styles.modules.css';
 
 const cx = classNames.bind(styles);
 

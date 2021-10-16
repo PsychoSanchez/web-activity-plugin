@@ -8,7 +8,7 @@ import {
 
 import { DailyTimeUsageComponentProps } from './types';
 
-import styles from './styles.css';
+import styles from './styles.modules.css';
 
 const cx = classNames.bind(styles);
 

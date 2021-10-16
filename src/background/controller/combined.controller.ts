@@ -6,7 +6,7 @@ import {
 import { ActivityController } from './types';
 
 const combineListeners = <T extends (...args: any[]) => any>(
-  ...listeners: T[]
+  listeners: T[]
 ) => {
   return (...args: Parameters<T>) => {
     const finishEvents = listeners.map((listener) => listener(...args));
@@ -22,10 +22,10 @@ export const combineActivityControllers = (
 ) => {
   return new (class ActivityControllerProxy implements ActivityController {
     onActivityStart: ActivityEventListener = combineListeners(
-      ...controllers.map((c) => c.onActivityStart)
+      controllers.map((c) => c.onActivityStart)
     );
     onInactivityStart: InactivityEventListener = combineListeners(
-      ...controllers.map((c) => c.onInactivityStart)
+      controllers.map((c) => c.onInactivityStart)
     );
   })();
 };

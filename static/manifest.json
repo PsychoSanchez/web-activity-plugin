@@ -14,7 +14,7 @@
   "description": "Time Tracking Assistant that helps you to be in charge of your time during web browsing",
   "permissions": ["background", "tabs", "idle", "storage", "alarms"],
   "background": {
-    "scripts": ["background.bundle.js"]
+    "scripts": ["background.index.js"]
   },
   "offline_enabled": true
 }

@@ -5,7 +5,7 @@ import { ActivityPage } from '../components/ActivityPage/ActivityPage';
 import { OverallPage } from '../components/OverallPage/OverallPage';
 import { useTimeStore } from '../hooks/useTimeStore';
 
-import styles from './App.css';
+import styles from './App.modules.css';
 
 const cx = classNames.bind(styles);
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { getDaysInMs, getIsoDate } from '../../shared/dates-helper';
 
-import styles from './component.css';
+import styles from './component.modules.css';
 
 const cx = classNames.bind(styles);
 

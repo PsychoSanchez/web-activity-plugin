@@ -6,7 +6,7 @@ export const Panel: React.FC<{
 }> = ({ header, children, bodyClassName }) => {
   return (
     <div className={'panel'}>
-      {header && <div className={'panel-header'}>{header}</div>}
+      {header && <div className="panel-header">{header}</div>}
       <div className={'panel-body ' + bodyClassName}>{children}</div>
     </div>
   );
