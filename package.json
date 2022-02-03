@@ -7,7 +7,7 @@
     "test": "jest",
     "copy-static": "cp -a ./static/. ./dist",
     "build": "npm run copy-static & cross-env NODE_ENV=production node ./esbuild.config.js",
-    "start": "npm run copy-static & cross-env NODE_ENV=development node ./esbuild.config.js",
+    "start": "cross-env NODE_ENV=development node ./esbuild.config.js",
     "esbuild": "esbuild ./src/background.index.ts --bundle --outdir=dist"
   },
   "repository": {

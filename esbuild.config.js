@@ -1,11 +1,9 @@
 const cssModulesPlugin = require('esbuild-plugin-css-modules');
-const chokidar = require('chokidar');
 const esBuild = require('esbuild');
-const fs = require('fs');
+const createStaticFileWatcher = require('./build-tools/copy-static');
 
-const OUTPUT_DIR = './dist/';
-const STATIC_DIR = './static/';
-
+const OUTPUT_FOLDER = 'dist';
+const OUTPUT_DIR = `./${OUTPUT_FOLDER}/`;
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 const esBuildPromise = esBuild.build({
@@ -32,50 +30,11 @@ const esBuildPromise = esBuild.build({
   ],
 });
 
-const createStaticFileWatcher = () => {
-  if (!isDevelopment) {
-    return Promise.resolve();
-  }
-
-  return new Promise((resolve, reject) => {
-    const watcher = chokidar.watch(STATIC_DIR, {
-      ignored: /^\./,
-      persistent: true,
-    });
-
-    watcher.on('ready', resolve).on('error', reject);
-
-    const getTargetStaticPath = (staticFilePath) => {
-      const pathArray = staticFilePath.split('\\');
-      pathArray[0] = 'dist';
-      const targetFilePath = pathArray.join('\\');
-
-      return targetFilePath;
-    };
-
-    const copyFileToOutputFolder = (staticFilePath) => {
-      const targetFilePath = getTargetStaticPath(staticFilePath);
-
-      fs.copyFile(staticFilePath, targetFilePath, (err) => {
-        if (err) {
-          return console.error(err);
-        }
-
-        console.log(staticFilePath, 'was copied to', targetFilePath);
-      });
-    };
-
-    watcher
-      .on('add', copyFileToOutputFolder)
-      .on('change', copyFileToOutputFolder)
-      .on('unlink', (staticFilePath) => {
-        const targetFilePath = getTargetStaticPath(staticFilePath);
-        fs.unlinkSync(targetFilePath);
-        console.log('File', targetFilePath, 'has been removed');
-      });
-  });
-};
-
-const staticFilesWatcher = createStaticFileWatcher();
+const staticFilesWatcher = isDevelopment
+  ? createStaticFileWatcher({
+      sourceFolder: 'static',
+      destinationFolder: OUTPUT_FOLDER,
+    })
+  : Promise.resolve();
 
 Promise.all([esBuildPromise, staticFilesWatcher]).catch(() => process.exit(1));
