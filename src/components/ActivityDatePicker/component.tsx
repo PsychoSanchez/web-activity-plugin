@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
 
+import { Button, ButtonType } from '../../blocks/Button/Button';
 import { getDaysInMs, getIsoDate } from '../../shared/dates-helper';
 
 import styles from './component.css';
@@ -31,12 +32,13 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
 
   return (
     <div className={cx('activity-date')}>
-      <button
+      <Button
+        buttonType={ButtonType.Secondary}
         className={cx('previous-date', 'change-date-button')}
         onClick={() => onDateChangeButtonClick(-1)}
       >
         {'<'}
-      </button>
+      </Button>
       <input
         type="date"
         className={cx('custom-date-input')}
@@ -45,12 +47,13 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
           onChange(event.currentTarget.value);
         }}
       />
-      <button
+      <Button
+        buttonType={ButtonType.Secondary}
         className={cx('next-date', 'change-date-button')}
         onClick={() => onDateChangeButtonClick(1)}
       >
         {'>'}
-      </button>
+      </Button>
     </div>
   );
 };

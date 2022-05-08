@@ -1,19 +1,17 @@
 .daily-usage-chart-container {
   min-height: 160px;
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-top: 1px solid #757575;
 }
 
 .daily-usage-chart {
-  padding-top: 10px;
+  padding-bottom: 8px;
 }
 
 div.daily-usage-chart-empty {
   text-align: center;
-  color: #ababab;
+  color: #222;
 }
 .daily-usage-chart > canvas {
   max-height: 150px;

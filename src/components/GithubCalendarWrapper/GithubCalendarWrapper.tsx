@@ -12,10 +12,10 @@ import styles from './styles.css';
 
 const cx = classNames.bind(styles);
 
-const INACTIVE_DAY_COLOR = '#262944';
-const LOW_ACTIVITY_DAY_COLOR = '#5f607e';
-const MEDIUM_ACTIVITY_DAY_COLOR = '#9d9dbc';
-const HIGH_ACTIVITY_DAY_COLOR = '#dfdfff';
+const INACTIVE_DAY_COLOR = '#cccccc';
+const LOW_ACTIVITY_DAY_COLOR = '#839dde';
+const MEDIUM_ACTIVITY_DAY_COLOR = '#4b76e3';
+const HIGH_ACTIVITY_DAY_COLOR = '#103ba6';
 const COLORS = [
   INACTIVE_DAY_COLOR,
   LOW_ACTIVITY_DAY_COLOR,

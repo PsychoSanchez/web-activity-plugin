@@ -4,21 +4,10 @@
   align-items: center;
 }
 
-.change-date-button {
-  cursor: pointer;
-  border: 1px solid #757575;
-  background: none;
-  color: #eaeaea;
-  border-radius: 5px;
-  padding: 8px 18px;
-}
-
 .selected-week-dates {
-  color: #eaeaea;
   overflow-wrap: break-word;
   word-break: break-word;
   font-size: 16px;
-  padding: 0 8px;
-  width: 181px;
+  width: 120px;
   text-align: center;
 }

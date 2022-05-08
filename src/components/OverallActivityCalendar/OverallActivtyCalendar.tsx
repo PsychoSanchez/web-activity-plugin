@@ -1,12 +1,13 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
 
+import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel/Panel';
 import { getTimeWithoutSeconds } from '../../shared/dates-helper';
 
 import { GithubCalendarWrapper } from '../GithubCalendarWrapper/GithubCalendarWrapper';
 
 import {
-  convertCombinedDailyActiityToCalendarActivity,
+  convertCombinedDailyActivityToCalendarActivity,
   getCombinedTotalDailyActivity,
 } from './helpers';
 import { OverallActivityCalendarProps } from './types';
@@ -19,7 +20,7 @@ export const OverallActivityCalendarPanel: React.FC<OverallActivityCalendarProps
   ({ store, navigateToDateActivityPage }) => {
     const totalDailyActivity = getCombinedTotalDailyActivity(store);
     const calendarActivity =
-      convertCombinedDailyActiityToCalendarActivity(totalDailyActivity);
+      convertCombinedDailyActivityToCalendarActivity(totalDailyActivity);
 
     const getTooltipForDateButton = React.useCallback(
       (isoDate) => {
@@ -35,17 +36,17 @@ export const OverallActivityCalendarPanel: React.FC<OverallActivityCalendarProps
     );
 
     return (
-      <div className={cx('calendar-panel', 'panel')}>
-        <div className={cx('panel-header', 'calendar-panel-header')}>
+      <Panel className={cx('calendar-panel')}>
+        <PanelHeader className={cx('calendar-panel-header')}>
           Overall Activity Map
-        </div>
-        <div className={cx('calendar-panel-body', 'panel-body')}>
+        </PanelHeader>
+        <PanelBody className={cx('calendar-panel-body')}>
           <GithubCalendarWrapper
             activity={calendarActivity}
             onDateClick={navigateToDateActivityPage}
             getTooltip={getTooltipForDateButton}
           />
-        </div>
-      </div>
+        </PanelBody>
+      </Panel>
     );
   };

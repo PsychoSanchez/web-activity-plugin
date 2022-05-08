@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
 
+import { Button, ButtonType } from '../../blocks/Button/Button';
 import { getIsoDate } from '../../shared/dates-helper';
 
 import { WeekDatePickerProps } from './types';
@@ -16,8 +17,6 @@ export const WeekDatePicker: React.FC<WeekDatePickerProps> = ({
   const weekStartDate = new Date();
   weekStartDate.setDate(sundayDate.getDate() - 6);
 
-  const weekDates = `${getIsoDate(weekStartDate)} - ${getIsoDate(sundayDate)}`;
-
   const handleChangeWeekButtonClick = React.useCallback(
     (direction) => {
       const newWeekEndDate = new Date(sundayDate);
@@ -30,19 +29,25 @@ export const WeekDatePicker: React.FC<WeekDatePickerProps> = ({
 
   return (
     <div className={cx('weekend-date-picker')}>
-      <button
+      <Button
+        buttonType={ButtonType.Secondary}
         className={cx('change-date-button')}
         onClick={() => handleChangeWeekButtonClick(-1)}
       >
         {'<'}
-      </button>
-      <div className={cx('selected-week-dates')}>{weekDates}</div>
-      <button
+      </Button>
+      <div className={cx('selected-week-dates')}>
+        <span>{getIsoDate(weekStartDate)}</span>
+        <br />
+        <span>{getIsoDate(sundayDate)}</span>
+      </div>
+      <Button
+        buttonType={ButtonType.Secondary}
         className={cx('change-date-button')}
         onClick={() => handleChangeWeekButtonClick(1)}
       >
         {'>'}
-      </button>
+      </Button>
     </div>
   );
 };

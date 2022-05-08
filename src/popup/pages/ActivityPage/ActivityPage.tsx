@@ -1,13 +1,16 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
 
-import type { AppStore } from '../../hooks/useTimeStore';
-import { getDatesWeekSundayDate, getIsoDate } from '../../shared/dates-helper';
-
-import { ActivityDatePicker } from '../ActivityDatePicker/component';
-import { DailyActivityTab } from '../ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
-import { ActivityPageWeeklyActivityTab } from '../ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
-import { WeekDatePicker } from '../WeekDatePicker/WeekDatePicker';
+import { Button, ButtonType } from '../../../blocks/Button/Button';
+import { ActivityDatePicker } from '../../../components/ActivityDatePicker/component';
+import { DailyActivityTab } from '../../../components/ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
+import { ActivityPageWeeklyActivityTab } from '../../../components/ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
+import { WeekDatePicker } from '../../../components/WeekDatePicker/WeekDatePicker';
+import type { AppStore } from '../../../hooks/useTimeStore';
+import {
+  getDatesWeekSundayDate,
+  getIsoDate,
+} from '../../../shared/dates-helper';
 
 import styles from './styles.css';
 
@@ -44,13 +47,15 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
       }
 
       return (
-        <button
-          className={cx('tab-button', activeTab === value && 'active')}
+        <Button
+          buttonType={
+            activeTab === value ? ButtonType.Primary : ButtonType.Secondary
+          }
           onClick={() => setActiveTab(value)}
           key={key}
         >
           {key}
-        </button>
+        </Button>
       );
     });
   }, [activeTab]);

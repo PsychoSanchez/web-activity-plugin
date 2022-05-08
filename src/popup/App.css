@@ -3,8 +3,12 @@ body {
   overflow: auto;
   height: 600px;
   width: 500px;
-  background: #191919;
-  font-family: 'Trebuchet MS', sans-serif;
+  background: #4b76e3;
+  background: linear-gradient(
+    180deg,
+    rgba(75, 118, 227, 1) 35%,
+    rgba(131, 157, 222, 1) 100%
+  );
   padding: 0;
   margin: 0;
 }
@@ -12,51 +16,41 @@ body {
 .root {
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 8px;
 }
 
 .tabs {
   display: flex;
-  padding-bottom: 16px;
+  padding: 8px;
 }
 
 .tab {
-  border-bottom: 1px solid #757575;
   cursor: pointer;
-  text-transform: capitalize;
-  color: #757575;
-  padding: 16px;
-  font-size: 16px;
   flex: 1;
+  text-transform: capitalize;
   text-align: center;
-}
 
-.tab:hover {
-  color: #eaeaea;
+  border-radius: 13px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 300;
+  color: #aaa;
 }
 
 .tab.active {
-  color: #eaeaea;
-  border-bottom: 1px solid #eaeaea;
+  background: #e0e0e0;
+  background: linear-gradient(
+    128deg,
+    rgba(75, 118, 227, 1) 50%,
+    rgba(131, 157, 222, 1) 100%
+  );
+  color: #e2e2e2;
 }
 
-:global(.panel) {
-  margin-bottom: 16px;
-  padding: 16px 20px;
-  background-color: #111;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.6);
+.tab:hover {
+  color: #222;
 }
 
-:global(.panel-header) {
-  padding-bottom: 16px;
-}
-
-:global(.app-font),
-:global(.panel-header) {
-  font-family: 'Trebuchet MS', sans-serif;
-  /* font-family: 'Arial', sans-serif; */
-  color: #eaeaea;
-  font-size: 18px;
+.tab.active:hover {
+  color: #e2e2e2;
 }

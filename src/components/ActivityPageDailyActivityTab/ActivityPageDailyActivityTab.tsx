@@ -25,6 +25,7 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
   >([]);
   const [filteredHostname, setFilteredHostname] =
     React.useState<string | null>(null);
+  const scrollToRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     setFilteredHostname(null);
@@ -50,6 +51,11 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
     [store, date]
   );
 
+  const handleDomainRowClick = React.useCallback((domain: string) => {
+    setFilteredHostname(domain);
+    scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
   return (
     <>
       <DailyUsage
@@ -58,16 +64,18 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
         totalDailyActivity={totalDailyActivity}
         weeklyAverage={weeklyUsage / 7}
       />
-      <GeneralTimeline
-        title="Activity Timeline"
-        key="General Timeline"
-        activityTimeline={activityTimeline}
-        filteredHostname={filteredHostname}
-      />
+      <div ref={scrollToRef}>
+        <GeneralTimeline
+          title="Activity Timeline"
+          key="General Timeline"
+          activityTimeline={activityTimeline}
+          filteredHostname={filteredHostname}
+        />
+      </div>
       <ActivityTable
         key="Activity Table"
         activity={dailyActiveWebsites}
-        onDomainRowClicked={setFilteredHostname}
+        onDomainRowClicked={handleDomainRowClick}
       />
     </>
   );

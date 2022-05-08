@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { AppStore } from '../../hooks/useTimeStore';
+import { AppStore } from '../../../hooks/useTimeStore';
 
-import { OverallActivityCalendarPanel } from '../OverallActivityCalendar/OverallActiivtyCalendar';
+import { OverallActivityCalendarPanel } from '../../../components/OverallActivityCalendar/OverallActivtyCalendar';
 
 export interface OverallPageProps {
   store: AppStore;

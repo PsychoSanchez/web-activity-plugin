@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+}
+
+.tabs > button:first-child {
+  margin-right: 8px;
+}

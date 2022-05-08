@@ -14,7 +14,7 @@ const DOUGHNUT_CHART_OPTIONS = {
     legend: {
       position: 'left',
       labels: {
-        color: '#fff',
+        color: '#222',
       },
     },
     tooltip: {

@@ -5,28 +5,14 @@
 
 .custom-date-input {
   cursor: pointer;
+  text-align: center;
   background: transparent;
   border: none;
-  color: #eaeaea;
   font-size: 16px;
-  margin: 0 8px;
-  width: 180px;
+  width: 120px;
 }
 
 .custom-date-input::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  display: none;
   cursor: pointer;
-}
-
-.change-date-button {
-  cursor: pointer;
-  border: 1px solid #757575;
-  background: none;
-  color: #eaeaea;
-  border-radius: 5px;
-  padding: 8px 18px;
-}
-
-.change-date-button:hover {
-  border-color: #eaeaea;
 }

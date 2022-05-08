@@ -1,7 +1,6 @@
 .activity-table-row {
   display: flex;
   justify-content: space-between;
-  color: #eaeaea;
   font-size: 14px;
   padding: 6px 0;
   border-bottom: 1px solid #757575;
@@ -16,7 +15,6 @@
 
 .domain-link {
   flex: 1 100%;
-  color: #eaeaea;
   text-decoration: none;
   text-overflow: ellipsis;
   overflow: hidden;

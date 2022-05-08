@@ -1,9 +1,11 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { ActivityPage } from '../components/ActivityPage/ActivityPage';
-import { OverallPage } from '../components/OverallPage/OverallPage';
+import { Panel } from '../blocks/Panel/Panel';
 import { useTimeStore } from '../hooks/useTimeStore';
+
+import { ActivityPage } from './pages/ActivityPage/ActivityPage';
+import { OverallPage } from './pages/OverallPage/OverallPage';
 
 import styles from './App.css';
 
@@ -76,8 +78,8 @@ export const PopupApp: React.FC<{}> = () => {
   return (
     <div className={cx('root')}>
       <div className={cx('header')}></div>
-      <div className={cx('tabs')}>{tabs}</div>
-      <div className={cx('tabs-body')}>{renderedActiveTab}</div>
+      <Panel className={cx('tabs')}>{tabs}</Panel>
+      <Panel className={cx('tabs-body')}>{renderedActiveTab}</Panel>
     </div>
   );
 };
