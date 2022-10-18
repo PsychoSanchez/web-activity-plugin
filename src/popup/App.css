@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   overflow: auto;
@@ -5,52 +9,18 @@ body {
   width: 500px;
   padding: 0;
   margin: 0;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.root {
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
+.tab-body-shadow {
+  box-shadow: inset 0px 0px 25px 20px #fff;
 }
 
-.tabs {
-  display: flex;
-  padding: 8px;
-  font-weight: 600;
-}
-
-.tabs-body {
-  padding: 8px;
-  border: none;
-  background: #eee;
-  box-shadow: inset 0px 50px 20px 20px #fff;
-}
-
-.tab {
+.calendar svg rect {
   cursor: pointer;
-  flex: 1;
-  text-transform: capitalize;
-  text-align: center;
-
-  border-radius: 13px;
-  padding: 12px;
-  font-size: 18px;
-  font-weight: 300;
-  color: #aaa;
-  transition: all 0.3s;
+  rx: 3;
 }
 
-.tab.active {
-  background: #e0e0e0;
-  color: rgb(33, 33, 33);
-}
-
-.tab:hover:not(.active) {
-  color: #222;
-  background-color: #f5f5f5;
-}
-
-:global(.icon) {
-  margin-right: 4px;
-  font-size: 14px;
+i.fi::before {
+  line-height: inherit;
 }

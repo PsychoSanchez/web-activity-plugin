@@ -1,17 +1,12 @@
-import classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel/Panel';
+import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel';
 import {
   getTimeFromMs,
   getTimeWithoutSeconds,
 } from '../../shared/dates-helper';
 
 import { ActivityTableProps } from './types';
-
-import styles from './styles.css';
-
-const cx = classNames.bind(styles);
 
 const DEFAULT_TITLE = 'Websites This Day';
 
@@ -26,8 +21,8 @@ export const ActivityTable: React.FC<ActivityTableProps> = React.memo(
     );
 
     return (
-      <Panel className={cx("'activity-table'")}>
-        <PanelHeader className={cx('panel-header', 'activity-table-header')}>
+      <Panel>
+        <PanelHeader className="flex justify-between pb-2 text-xl">
           <span>{title}</span>
           <span>{getTimeWithoutSeconds(totalActivity)}</span>
         </PanelHeader>
@@ -36,21 +31,23 @@ export const ActivityTable: React.FC<ActivityTableProps> = React.memo(
             .sort(([, timeA], [, timeB]) => timeB - timeA)
             .map(([domain, time]) => {
               return (
-                <div className={cx('activity-table-row')} key={domain}>
+                <div
+                  className="flex justify-between text-sm px-2 last:pb-0 border-1 border-solid border-neutral-500"
+                  key={domain}
+                >
                   <a
-                    className={cx('domain-link')}
+                    className="flex-1 py-1 no-underline text-ellipsis overflow-hidden cursor-pointer hover:text-neutral-500"
                     title={domain}
                     onClick={() => handleDomainRowClick(domain)}
                   >
                     {domain}
                   </a>
                   {/* <button
-                  className={cx('add-to-ignore-button')}
                   title="Hide this website"
                 >
                   -
                 </button> */}
-                  <span className={cx('time-column')}>
+                  <span className="min-w-[90px] text-right">
                     {getTimeFromMs(time)}
                   </span>
                 </div>

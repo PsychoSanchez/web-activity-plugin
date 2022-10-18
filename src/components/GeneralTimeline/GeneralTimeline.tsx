@@ -1,15 +1,12 @@
-import classNames from 'classnames/bind';
 import * as React from 'react';
+import { twMerge } from 'tailwind-merge';
 
-import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel/Panel';
+import { Icon, IconType } from '../../blocks/Icon';
+import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel';
 
 import { TimelineChart } from '../TimelineChart/TimelineChart';
 
 import { GeneralTimelineProps } from './types';
-
-import styles from './styles.css';
-
-const cx = classNames.bind(styles);
 
 export const GeneralTimeline: React.FC<GeneralTimelineProps> = React.memo(
   ({
@@ -21,15 +18,14 @@ export const GeneralTimeline: React.FC<GeneralTimelineProps> = React.memo(
     return (
       <Panel>
         <PanelHeader>
-          <i className="icon fi fi-rr-time-past"></i>
+          <Icon type={IconType.TimePast} />
           {title}
           {filteredHostname ? ` On ${filteredHostname}` : ''}
         </PanelHeader>
         <PanelBody
-          className={cx(
-            'timeline-chart',
-            'timeline-chart-body',
-            activityTimeline.length === 0 && 'timeline-chart-hidden'
+          className={twMerge(
+            'flex items-center justify-center min-h-[215px]',
+            activityTimeline.length === 0 && 'hidden'
           )}
         >
           <TimelineChart
@@ -38,7 +34,7 @@ export const GeneralTimeline: React.FC<GeneralTimelineProps> = React.memo(
           />
         </PanelBody>
         {activityTimeline.length === 0 && (
-          <span className={cx('timeline-chart-empty')}>
+          <span className="text-neutral-400">
             Doesn't have timeline data for this day
           </span>
         )}

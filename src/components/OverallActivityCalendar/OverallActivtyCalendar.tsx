@@ -1,7 +1,7 @@
-import classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel/Panel';
+import { Icon, IconType } from '../../blocks/Icon';
+import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel';
 import { getTimeWithoutSeconds } from '../../shared/dates-helper';
 
 import { GithubCalendarWrapper } from '../GithubCalendarWrapper/GithubCalendarWrapper';
@@ -11,10 +11,6 @@ import {
   getCombinedTotalDailyActivity,
 } from './helpers';
 import { OverallActivityCalendarProps } from './types';
-
-import styles from './styles.css';
-
-const cx = classNames.bind(styles);
 
 export const OverallActivityCalendarPanel: React.FC<OverallActivityCalendarProps> =
   ({ store, navigateToDateActivityPage }) => {
@@ -36,12 +32,12 @@ export const OverallActivityCalendarPanel: React.FC<OverallActivityCalendarProps
     );
 
     return (
-      <Panel className={cx('calendar-panel')}>
-        <PanelHeader className={cx('calendar-panel-header')}>
-          <i className="icon fi fi-rr-calendar-clock"></i>
+      <Panel>
+        <PanelHeader>
+          <Icon type={IconType.CalendarClock} />
           Overall Activity Map
         </PanelHeader>
-        <PanelBody className={cx('calendar-panel-body')}>
+        <PanelBody className="min-h-[115px]">
           <GithubCalendarWrapper
             activity={calendarActivity}
             onDateClick={navigateToDateActivityPage}

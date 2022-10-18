@@ -1,8 +1,8 @@
-import classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { Button, ButtonType } from '../../../blocks/Button/Button';
-import { ActivityDatePicker } from '../../../components/ActivityDatePicker/component';
+import { Button, ButtonType } from '../../../blocks/Button';
+import { Panel } from '../../../blocks/Panel';
+import { ActivityDatePicker } from '../../../components/ActivityDatePicker';
 import { DailyActivityTab } from '../../../components/ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
 import { ActivityPageWeeklyActivityTab } from '../../../components/ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
 import { WeekDatePicker } from '../../../components/WeekDatePicker/WeekDatePicker';
@@ -11,10 +11,6 @@ import {
   getDatesWeekSundayDate,
   getIsoDate,
 } from '../../../shared/dates-helper';
-
-import styles from './styles.css';
-
-const cx = classNames.bind(styles);
 
 interface ActivityPageProps {
   store: AppStore;
@@ -51,6 +47,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
           buttonType={
             activeTab === value ? ButtonType.Primary : ButtonType.Secondary
           }
+          className="mr-2 last:mr-0"
           onClick={() => setActiveTab(value)}
           key={key}
         >
@@ -62,8 +59,8 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
 
   return (
     <>
-      <div className={cx('header')}>
-        <div className={cx('tabs')}>{tabs}</div>
+      <Panel className="flex items-center justify-between p-2">
+        <div>{tabs}</div>
         {activeTab === ActivityPageTabs.Daily && (
           <ActivityDatePicker
             date={pickedIsoDate}
@@ -76,7 +73,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
             onWeekChange={setPickedSunday}
           />
         )}
-      </div>
+      </Panel>
 
       {activeTab === ActivityPageTabs.Daily && (
         <DailyActivityTab store={store} date={pickedIsoDate} />

@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { Panel } from '../../blocks/Panel/Panel';
 import { AppStore } from '../../hooks/useTimeStore';
 import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
 import { get7DaysPriorDate, getIsoDate } from '../../shared/dates-helper';

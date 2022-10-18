@@ -16,25 +16,29 @@ module.exports = (env, argv) => ({
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      // Configuration for webpack to process CSS with PostCSS and export the result as a single CSS file.
       {
         test: /\.css$/i,
         use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[local]__[hash:base64:5]',
-              },
-              // localIdentName: '[path][name]__[local]--[hash:base64:5]',
-            },
-          },
+          // MiniCssExtractPlugin.loader,
+          'style-loader',
+          'css-loader',
+          // {
+
+          //   loader: 'css-loader',
+          //   options: {
+          //     modules: true,
+          //     importLoaders: 1,
+          //     sourceMap: true
+          //   },
+          // },
+          'postcss-loader',
         ],
-      },
+      }
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    // new MiniCssExtractPlugin(),
     new CopyPlugin({
       patterns: [{ from: './static', to: './' }],
     }),

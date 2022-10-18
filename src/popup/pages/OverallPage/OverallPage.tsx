@@ -22,10 +22,10 @@ export const OverallPage: React.FC<OverallPageProps> = ({
     <div>
       {todaysUsage > MINUTE_IN_MS ? (
         <TimeUsagePanel
-          title={'Surfed Today'}
+          title="Surfed Today"
           time={todaysUsage}
           averageTime={weeklyUsage / 7}
-          averageTimeComparedTo={'last 7 days average'}
+          averageTimeComparedTo="last 7 days average"
         />
       ) : null}
       <OverallActivityCalendarPanel

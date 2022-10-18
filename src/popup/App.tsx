@@ -1,15 +1,13 @@
-import classNames from 'classnames/bind';
+import cx from 'classnames';
 import * as React from 'react';
 
-import { Panel } from '../blocks/Panel/Panel';
+import { Panel } from '../blocks/Panel';
 import { useTimeStore } from '../hooks/useTimeStore';
 
 import { ActivityPage } from './pages/ActivityPage/ActivityPage';
 import { OverallPage } from './pages/OverallPage/OverallPage';
 
-import styles from './App.css';
-
-const cx = classNames.bind(styles);
+import './App.css';
 
 enum Tabs {
   Overall = 'overall',
@@ -61,9 +59,9 @@ export const PopupApp: React.FC<{}> = () => {
         return (
           <div
             className={cx(
-              'tab',
-              `${tab}-tab`,
-              activeTab.tab === tab && 'active'
+              'cursor-pointer flex-1 capitalize text-center rounded-xl p-2 text-lg font-light transition-colors duration-300 text-neutral-800',
+              activeTab.tab === tab && 'bg-neutral-300 text-neutral-800',
+              activeTab.tab !== tab && 'hover:bg-neutral-100 text-neutral-400'
             )}
             key={tab}
             onClick={() => setTab({ tab, params: {} })}
@@ -76,10 +74,12 @@ export const PopupApp: React.FC<{}> = () => {
   );
 
   return (
-    <div className={cx('root')}>
-      <div className={cx('header')}></div>
-      <Panel className={cx('tabs')}>{tabs}</Panel>
-      <Panel className={cx('tabs-body')}>{renderedActiveTab}</Panel>
+    <div className="flex flex-col p-2">
+      {/* <div className={cx('header')}></div> */}
+      <Panel className="flex p-2 font-semibold">{tabs}</Panel>
+      <Panel className="p-2 border-none bg-slate-200 tab-body-shadow">
+        {renderedActiveTab}
+      </Panel>
     </div>
   );
 };

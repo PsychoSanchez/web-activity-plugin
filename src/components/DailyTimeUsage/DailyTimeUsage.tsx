@@ -1,17 +1,13 @@
-import classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel/Panel';
+import { Icon, IconType } from '../../blocks/Icon';
+import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel';
 import {
   getMinutesInMs,
   getTimeWithoutSeconds,
 } from '../../shared/dates-helper';
 
 import { DailyTimeUsageComponentProps } from './types';
-
-import styles from './styles.css';
-
-const cx = classNames.bind(styles);
 
 const COMPONENT_TITLE = 'Daily Usage';
 const MINUTE_IN_MS = getMinutesInMs(1);
@@ -47,15 +43,13 @@ export const TimeUsagePanel: React.FC<DailyTimeUsageComponentProps> = ({
   return (
     <Panel>
       <PanelHeader>
-        <i className="icon fi fi-rr-time-check"></i>
+        <Icon type={IconType.TimeCheck} />
         {title}
       </PanelHeader>
-      <PanelBody className={cx('time-usage-container')}>
-        <span className={cx('time-usage')}>
-          {presentTotalDailyActivity(time)}
-        </span>
+      <PanelBody className="flex justify-between items-baseline text-3xl">
+        <span className="font-light">{presentTotalDailyActivity(time)}</span>
         {averageTime > 0 && (
-          <span className={cx('time-usage-week-comparison')}>
+          <span className="text-xs">
             {presentWeekComparison(time, averageTime, averageTimeComparedTo)}
           </span>
         )}

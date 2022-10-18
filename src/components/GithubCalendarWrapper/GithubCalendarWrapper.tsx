@@ -1,4 +1,3 @@
-import classNames from 'classnames/bind';
 import * as React from 'react';
 import Calendar from 'react-github-contribution-calendar';
 import ReactTooltip from 'react-tooltip';
@@ -7,10 +6,6 @@ import { debounce } from 'throttle-debounce';
 import { getIsoDate } from '../../shared/dates-helper';
 
 import { GithubCalendarProps } from './types';
-
-import styles from './styles.css';
-
-const cx = classNames.bind(styles);
 
 const INACTIVE_DAY_COLOR = '#cccccc';
 const LOW_ACTIVITY_DAY_COLOR = '#839dde';
@@ -84,7 +79,7 @@ export const GithubCalendarWrapper: React.FC<GithubCalendarProps> = ({
   );
 
   return (
-    <div className={cx('calendar')} ref={calendarRef} onClick={handleDateClick}>
+    <div className='calendar' ref={calendarRef} onClick={handleDateClick}>
       {/* @ts-ignore */}
       <Calendar values={activity} panelColors={COLORS} />
       <ReactTooltip

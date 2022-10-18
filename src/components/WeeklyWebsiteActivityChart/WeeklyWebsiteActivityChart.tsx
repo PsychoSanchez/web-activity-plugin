@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 
-import { Panel, PanelHeader } from '../../blocks/Panel/Panel';
+import { Icon, IconType } from '../../blocks/Icon';
+import { Panel, PanelHeader } from '../../blocks/Panel';
 import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
 import {
   get7DaysPriorDate,
@@ -76,7 +77,7 @@ export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProp
     return (
       <Panel>
         <PanelHeader>
-          <i className="icon fi fi-rr-chart-histogram"></i>
+          <Icon type={IconType.ChartHistogram} />
           {presentChartTitle?.(weekName) ?? weekName}
         </PanelHeader>
         <Bar options={BAR_OPTIONS} data={chartData} />
