@@ -86,9 +86,9 @@ const getActiveTabFromWindowId = async (windowId: number) => {
     windowId === browser.windows.WINDOW_ID_NONE
       ? await getActiveAudibleTab()
       : await browser.tabs.query({
-          windowId,
-          active: true,
-        });
+        windowId,
+        active: true,
+      });
 
   return activeTab;
 };
@@ -96,7 +96,7 @@ const getActiveTabFromWindowId = async (windowId: number) => {
 export class WindowActiveTabStateMonitor {
   private state = DEFAULT_ACTIVE_TAB_STATE;
   private transactionChain = Promise.resolve();
-  private stateChangeListener: ActiveTabStateChangeHandler = () => {};
+  private stateChangeListener: ActiveTabStateChangeHandler = () => { };
 
   constructor() {
     browser.alarms.create(ACTIVE_TAB_CHECK_ALARM_NAME, { periodInMinutes: 1 });
@@ -246,7 +246,7 @@ export class WindowActiveTabStateMonitor {
         focusedActiveTab: tab,
       });
     } catch (error) {
-      console.error('Failed to initialize tab monitor: ', error?.message);
+      console.error('Failed to initialize tab monitor: ', error instanceof Error ? error?.message : error);
     }
 
     this.addBrowserActivityListeners();

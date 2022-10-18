@@ -1,14 +1,11 @@
-import classNames from 'classnames/bind';
 import * as React from 'react';
 
+import { Icon, IconType } from '../../blocks/Icon';
+import { Panel, PanelHeader } from '../../blocks/Panel';
 import { getMinutesInMs } from '../../shared/dates-helper';
 
-import { TimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
+import { TimeUsagePanel } from '../DailyTimeUsage/DailyTimeUsage';
 import { DailyUsageChart } from '../TopFiveActiveSitesChart/TopFiveActiveSitesChart';
-
-import styles from './styles.css';
-
-const cx = classNames.bind(styles);
 
 export interface DailyUsageProps {
   date: string;
@@ -22,11 +19,15 @@ const MINUTE_IN_MS = getMinutesInMs(1);
 export const DailyUsage: React.FC<DailyUsageProps> = React.memo(
   ({ date, dailyActivity, weeklyAverage, totalDailyActivity }) => {
     return (
-      <div className={cx('panel', 'daily-usage')}>
-        <TimeUsage time={totalDailyActivity} averageTime={weeklyAverage} />
-        <div className={cx('daily-usage-chart-container')}>
+      <div>
+        <TimeUsagePanel time={totalDailyActivity} averageTime={weeklyAverage} />
+        <Panel className="min-h-[160px] flex flex-col justify-center">
+          <PanelHeader>
+            <Icon type={IconType.ChartPieAlt} />
+            Top 5 Active Sites on {date}
+          </PanelHeader>
           {totalDailyActivity > MINUTE_IN_MS ? (
-            <div className={cx('daily-usage-chart')}>
+            <div className="[&>canvas]:max-h-[150px]">
               <DailyUsageChart
                 date={date}
                 activity={dailyActivity}
@@ -34,11 +35,11 @@ export const DailyUsage: React.FC<DailyUsageProps> = React.memo(
               />
             </div>
           ) : (
-            <div className={cx('daily-usage-chart-empty', 'app-font')}>
+            <div className="text-center text-neutral-800">
               Nothing to see here yet...
             </div>
           )}
-        </div>
+        </Panel>
       </div>
     );
   }

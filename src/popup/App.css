@@ -1,62 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   overflow: auto;
   height: 600px;
   width: 500px;
-  background: #191919;
-  font-family: 'Trebuchet MS', sans-serif;
   padding: 0;
   margin: 0;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.root {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
+.tab-body-shadow {
+  box-shadow: inset 0px 0px 25px 20px #fff;
 }
 
-.tabs {
-  display: flex;
-  padding-bottom: 16px;
-}
-
-.tab {
-  border-bottom: 1px solid #757575;
+.calendar svg rect {
   cursor: pointer;
-  text-transform: capitalize;
-  color: #757575;
-  padding: 16px;
-  font-size: 16px;
-  flex: 1;
-  text-align: center;
+  rx: 3;
 }
 
-.tab:hover {
-  color: #eaeaea;
-}
-
-.tab.active {
-  color: #eaeaea;
-  border-bottom: 1px solid #eaeaea;
-}
-
-:global(.panel) {
-  margin-bottom: 16px;
-  padding: 16px 20px;
-  background-color: #111;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.6);
-}
-
-:global(.panel-header) {
-  padding-bottom: 16px;
-}
-
-:global(.app-font),
-:global(.panel-header) {
-  font-family: 'Trebuchet MS', sans-serif;
-  /* font-family: 'Arial', sans-serif; */
-  color: #eaeaea;
-  font-size: 18px;
+i.fi::before {
+  line-height: inherit;
 }

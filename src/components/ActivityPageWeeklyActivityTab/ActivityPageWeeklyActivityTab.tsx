@@ -5,8 +5,7 @@ import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activit
 import { get7DaysPriorDate, getIsoDate } from '../../shared/dates-helper';
 
 import { ActivityTable } from '../ActivityTable/ActivityTable';
-import { TimeUsage } from '../DailyTimeUsage/DailyTimeUsage';
-import { Panel } from '../Panel/Panel';
+import { TimeUsagePanel } from '../DailyTimeUsage/DailyTimeUsage';
 import { WeeklyWebsiteActivityChart } from '../WeeklyWebsiteActivityChart/WeeklyWebsiteActivityChart';
 
 import { ActivityPageWeeklyActivityTabProps } from './types';
@@ -14,10 +13,11 @@ import { ActivityPageWeeklyActivityTabProps } from './types';
 export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityTabProps> =
   ({ store, sundayDate }) => {
     const [pickedDomain, setPickedDomain] = React.useState<null | string>(null);
+    const scrollToRef = React.useRef<HTMLDivElement | null>(null);
 
     const handleDomainRowClick = React.useCallback((domain: string) => {
       setPickedDomain(domain);
-      window.scrollTo(0, 0);
+      scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, []);
 
     const allWeekActivity = React.useMemo(
@@ -52,7 +52,8 @@ export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityT
       () =>
         Object.values(allWeekActivity).reduce((acc, dailyUsage) => {
           Object.entries(dailyUsage).forEach(([key, value]) => {
-            acc[key] = (acc[key] || 0) + value;
+            acc[key] ??= 0;
+            acc[key] += value;
           });
 
           return acc;
@@ -70,17 +71,19 @@ export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityT
 
     return (
       <div>
-        <WeeklyWebsiteActivityChart
-          store={filteredWebsiteWeekActivity}
-          sundayDate={sundayDate}
-          presentChartTitle={() => `Activity On ${presentedPickedDomain}`}
+        <TimeUsagePanel
+          title="Average Daily Activity"
+          time={averageWeeklyActivity}
         />
-        <Panel>
-          <TimeUsage
-            title="Average Daily Activity"
-            time={averageWeeklyActivity}
-          ></TimeUsage>
-        </Panel>
+        <div ref={scrollToRef}>
+          <WeeklyWebsiteActivityChart
+            store={filteredWebsiteWeekActivity}
+            sundayDate={sundayDate}
+            presentChartTitle={() =>
+              `Activity on ${presentedPickedDomain} per day`
+            }
+          />
+        </div>
         <ActivityTable
           activity={totalWebsiteWeeklyActivity}
           title={'Websites This Week'}

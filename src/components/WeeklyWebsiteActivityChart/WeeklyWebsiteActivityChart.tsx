@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 
+import { Icon, IconType } from '../../blocks/Icon';
+import { Panel, PanelHeader } from '../../blocks/Panel';
 import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
 import {
   get7DaysPriorDate,
@@ -9,8 +11,6 @@ import {
   getTimeFromMs,
   getTimeWithoutSeconds,
 } from '../../shared/dates-helper';
-
-import { Panel } from '../Panel/Panel';
 
 import { WeeklyWebsiteActivityChartProps } from './types';
 
@@ -21,7 +21,7 @@ const BAR_OPTIONS = {
   scales: {
     y: {
       ticks: {
-        color: '#eaeaea',
+        color: '#222',
         callback: (value: number) => {
           return getTimeWithoutSeconds(value * HOUR_IN_MS);
         },
@@ -29,7 +29,7 @@ const BAR_OPTIONS = {
     },
     x: {
       ticks: {
-        color: '#eaeaea',
+        color: '#222',
       },
     },
   },
@@ -68,12 +68,18 @@ export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProp
         {
           label: 'Weekly activity',
           data: data,
-          backgroundColor: '#298f66',
+          backgroundColor: '#4b76e3',
+          borderRadius: 12,
+          borderSkipped: false,
         },
       ],
     };
     return (
-      <Panel header={<>{presentChartTitle?.(weekName) ?? weekName}</>}>
+      <Panel>
+        <PanelHeader>
+          <Icon type={IconType.ChartHistogram} />
+          {presentChartTitle?.(weekName) ?? weekName}
+        </PanelHeader>
         <Bar options={BAR_OPTIONS} data={chartData} />
       </Panel>
     );

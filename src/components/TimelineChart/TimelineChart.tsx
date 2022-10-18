@@ -36,14 +36,14 @@ const OPTIONS = {
     x: {
       stacked: true,
       ticks: {
-        color: '#eaeaea',
+        color: '#222222',
       },
     },
     y: {
       max: 60,
       min: 0,
       ticks: {
-        color: '#eaeaea',
+        color: '#222222',
         callback: (value: number) => {
           return `:${value.toString().padStart(2, '0')}`;
         },
@@ -52,7 +52,7 @@ const OPTIONS = {
   },
 };
 
-export const DailyActivityTimelineChart: React.FC<TimelineChartProps> = ({
+export const TimelineChart: React.FC<TimelineChartProps> = ({
   timelineEvents = [],
   emptyHoursMarginCount = 2,
 }) => {
@@ -65,7 +65,9 @@ export const DailyActivityTimelineChart: React.FC<TimelineChartProps> = ({
   const datasets = chartDatasetData.map((d, i) => ({
     label: 'dataset ' + i,
     data: d.slice(chartStartHour, chartEndHour + 1),
-    backgroundColor: '#298f66',
+    backgroundColor: '#4b76e3',
+    borderRadius: 8,
+    borderSkipped: false,
   }));
 
   const chartData = {

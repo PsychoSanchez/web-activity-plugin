@@ -1,11 +1,8 @@
-import classNames from 'classnames/bind';
 import * as React from 'react';
 
+import { Button, ButtonType } from '../../blocks/Button';
+import { Icon, IconType } from '../../blocks/Icon';
 import { getDaysInMs, getIsoDate } from '../../shared/dates-helper';
-
-import styles from './component.css';
-
-const cx = classNames.bind(styles);
 
 interface ActivityDatePickerProps {
   date: string;
@@ -30,27 +27,27 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
   );
 
   return (
-    <div className={cx('activity-date')}>
-      <button
-        className={cx('previous-date', 'change-date-button')}
+    <div className={'flex justify-end'}>
+      <Button
+        buttonType={ButtonType.Secondary}
         onClick={() => onDateChangeButtonClick(-1)}
       >
-        {'<'}
-      </button>
+        <Icon className="m-0 flex" type={IconType.LeftArrow} />
+      </Button>
       <input
         type="date"
-        className={cx('custom-date-input')}
+        className="cursor-pointer text-center bg-transparent border-none text-base max-w-[120px]"
         value={date}
         onChange={(event) => {
           onChange(event.currentTarget.value);
         }}
       />
-      <button
-        className={cx('next-date', 'change-date-button')}
+      <Button
+        buttonType={ButtonType.Secondary}
         onClick={() => onDateChangeButtonClick(1)}
       >
-        {'>'}
-      </button>
+        <Icon className="m-0 flex" type={IconType.RightArrow} />
+      </Button>
     </div>
   );
 };

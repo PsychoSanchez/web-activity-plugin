@@ -24,7 +24,7 @@ export const getActivityLevel = (
   return CalendarDisplayedActivityType.High;
 };
 
-export const convertCombinedDailyActiityToCalendarActivity = (
+export const convertCombinedDailyActivityToCalendarActivity = (
   totalActivity: Record<string, number> = {}
 ): CalendarDisplayedActivity => {
   const calendarActivity: CalendarDisplayedActivity = {};

@@ -1,13 +1,13 @@
-import classNames from 'classnames/bind';
+import cx from 'classnames';
 import * as React from 'react';
 
-import { ActivityPage } from '../components/ActivityPage/ActivityPage';
-import { OverallPage } from '../components/OverallPage/OverallPage';
+import { Panel } from '../blocks/Panel';
 import { useTimeStore } from '../hooks/useTimeStore';
 
-import styles from './App.css';
+import { ActivityPage } from './pages/ActivityPage/ActivityPage';
+import { OverallPage } from './pages/OverallPage/OverallPage';
 
-const cx = classNames.bind(styles);
+import './App.css';
 
 enum Tabs {
   Overall = 'overall',
@@ -59,9 +59,9 @@ export const PopupApp: React.FC<{}> = () => {
         return (
           <div
             className={cx(
-              'tab',
-              `${tab}-tab`,
-              activeTab.tab === tab && 'active'
+              'cursor-pointer flex-1 capitalize text-center rounded-xl p-2 text-lg font-light transition-colors duration-300 text-neutral-800',
+              activeTab.tab === tab && 'bg-neutral-300 text-neutral-800',
+              activeTab.tab !== tab && 'hover:bg-neutral-100 text-neutral-400'
             )}
             key={tab}
             onClick={() => setTab({ tab, params: {} })}
@@ -74,10 +74,12 @@ export const PopupApp: React.FC<{}> = () => {
   );
 
   return (
-    <div className={cx('root')}>
-      <div className={cx('header')}></div>
-      <div className={cx('tabs')}>{tabs}</div>
-      <div className={cx('tabs-body')}>{renderedActiveTab}</div>
+    <div className="flex flex-col p-2">
+      {/* <div className={cx('header')}></div> */}
+      <Panel className="flex p-2 font-semibold">{tabs}</Panel>
+      <Panel className="p-2 border-none bg-slate-200 tab-body-shadow">
+        {renderedActiveTab}
+      </Panel>
     </div>
   );
 };
