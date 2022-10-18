@@ -21,6 +21,7 @@ export const GeneralTimeline: React.FC<GeneralTimelineProps> = React.memo(
     return (
       <Panel>
         <PanelHeader>
+          <i className="icon fi fi-rr-time-past"></i>
           {title}
           {filteredHostname ? ` On ${filteredHostname}` : ''}
         </PanelHeader>

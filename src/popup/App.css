@@ -3,12 +3,6 @@ body {
   overflow: auto;
   height: 600px;
   width: 500px;
-  background: #4b76e3;
-  background: linear-gradient(
-    180deg,
-    rgba(75, 118, 227, 1) 35%,
-    rgba(131, 157, 222, 1) 100%
-  );
   padding: 0;
   margin: 0;
 }
@@ -22,6 +16,14 @@ body {
 .tabs {
   display: flex;
   padding: 8px;
+  font-weight: 600;
+}
+
+.tabs-body {
+  padding: 8px;
+  border: none;
+  background: #eee;
+  box-shadow: inset 0px 50px 20px 20px #fff;
 }
 
 .tab {
@@ -32,25 +34,23 @@ body {
 
   border-radius: 13px;
   padding: 12px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   color: #aaa;
+  transition: all 0.3s;
 }
 
 .tab.active {
   background: #e0e0e0;
-  background: linear-gradient(
-    128deg,
-    rgba(75, 118, 227, 1) 50%,
-    rgba(131, 157, 222, 1) 100%
-  );
-  color: #e2e2e2;
+  color: rgb(33, 33, 33);
 }
 
-.tab:hover {
+.tab:hover:not(.active) {
   color: #222;
+  background-color: #f5f5f5;
 }
 
-.tab.active:hover {
-  color: #e2e2e2;
+:global(.icon) {
+  margin-right: 4px;
+  font-size: 14px;
 }

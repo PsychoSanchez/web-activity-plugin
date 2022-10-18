@@ -53,7 +53,8 @@ export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityT
       () =>
         Object.values(allWeekActivity).reduce((acc, dailyUsage) => {
           Object.entries(dailyUsage).forEach(([key, value]) => {
-            acc[key] = (acc[key] || 0) + value;
+            acc[key] ??= 0;
+            acc[key] += value;
           });
 
           return acc;

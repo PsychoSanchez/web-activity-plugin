@@ -75,7 +75,10 @@ export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProp
     };
     return (
       <Panel>
-        <PanelHeader>{presentChartTitle?.(weekName) ?? weekName}</PanelHeader>
+        <PanelHeader>
+          <i className="icon fi fi-rr-chart-histogram"></i>
+          {presentChartTitle?.(weekName) ?? weekName}
+        </PanelHeader>
         <Bar options={BAR_OPTIONS} data={chartData} />
       </Panel>
     );

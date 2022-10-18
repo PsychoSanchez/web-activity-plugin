@@ -1,10 +1,9 @@
 .panel {
   margin-bottom: 8px;
-  border: 1px solid #eee;
+  border: 1px solid #f3f3f3;
   border-radius: 16px;
   padding: 16px;
-  background-color: #f2f2f2;
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.6);
+  background: white;
 }
 
 .panel-header {
@@ -17,6 +16,5 @@
 
 .app-font,
 .panel-header {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }

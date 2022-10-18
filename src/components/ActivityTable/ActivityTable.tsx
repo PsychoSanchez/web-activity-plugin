@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import * as React from 'react';
 
+import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel/Panel';
 import {
   getTimeFromMs,
   getTimeWithoutSeconds,
@@ -25,34 +26,38 @@ export const ActivityTable: React.FC<ActivityTableProps> = React.memo(
     );
 
     return (
-      <div className={cx('activity-table', 'panel')}>
-        <div className={cx('panel-header', 'activity-table-header')}>
+      <Panel className={cx("'activity-table'")}>
+        <PanelHeader className={cx('panel-header', 'activity-table-header')}>
           <span>{title}</span>
           <span>{getTimeWithoutSeconds(totalActivity)}</span>
-        </div>
-        {Object.entries(activity)
-          .sort(([, timeA], [, timeB]) => timeB - timeA)
-          .map(([domain, time]) => {
-            return (
-              <div className={cx('activity-table-row')} key={domain}>
-                <a
-                  className={cx('domain-link')}
-                  title={domain}
-                  onClick={() => handleDomainRowClick(domain)}
-                >
-                  {domain}
-                </a>
-                {/* <button
+        </PanelHeader>
+        <PanelBody>
+          {Object.entries(activity)
+            .sort(([, timeA], [, timeB]) => timeB - timeA)
+            .map(([domain, time]) => {
+              return (
+                <div className={cx('activity-table-row')} key={domain}>
+                  <a
+                    className={cx('domain-link')}
+                    title={domain}
+                    onClick={() => handleDomainRowClick(domain)}
+                  >
+                    {domain}
+                  </a>
+                  {/* <button
                   className={cx('add-to-ignore-button')}
                   title="Hide this website"
                 >
                   -
                 </button> */}
-                <span className={cx('time-column')}>{getTimeFromMs(time)}</span>
-              </div>
-            );
-          })}
-      </div>
+                  <span className={cx('time-column')}>
+                    {getTimeFromMs(time)}
+                  </span>
+                </div>
+              );
+            })}
+        </PanelBody>
+      </Panel>
     );
   }
 );

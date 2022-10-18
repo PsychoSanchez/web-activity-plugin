@@ -38,6 +38,7 @@ export const OverallActivityCalendarPanel: React.FC<OverallActivityCalendarProps
     return (
       <Panel className={cx('calendar-panel')}>
         <PanelHeader className={cx('calendar-panel-header')}>
+          <i className="icon fi fi-rr-calendar-clock"></i>
           Overall Activity Map
         </PanelHeader>
         <PanelBody className={cx('calendar-panel-body')}>

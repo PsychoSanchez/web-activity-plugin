@@ -46,7 +46,10 @@ export const TimeUsagePanel: React.FC<DailyTimeUsageComponentProps> = ({
 }) => {
   return (
     <Panel>
-      <PanelHeader>{title}</PanelHeader>
+      <PanelHeader>
+        <i className="icon fi fi-rr-time-check"></i>
+        {title}
+      </PanelHeader>
       <PanelBody className={cx('time-usage-container')}>
         <span className={cx('time-usage')}>
           {presentTotalDailyActivity(time)}
