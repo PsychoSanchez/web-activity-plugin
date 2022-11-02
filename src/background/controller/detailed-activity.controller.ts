@@ -7,11 +7,10 @@ import {
   TimelineRecord,
 } from '../storage/timelines';
 import {
-  ActivityEventListener,
-  InactivityEventListener,
+  ActivityStartEventListener,
+  ActiveTabListenerVisitor,
+  InactivityStartEventListener,
 } from '../tracking/activity.tracker';
-
-import { ActivityController } from './types';
 
 const FIVE_MINUTES = getMinutesInMs(5);
 
@@ -21,9 +20,10 @@ const getHostNameFromUrl = (url: string) => {
   return hostname || url;
 };
 
-export class DetailedActivityController implements ActivityController {
+export class DetailedActivityVisitor implements ActiveTabListenerVisitor {
   private currentTimelineRecord: TimelineRecord | null = null;
-  onActivityStart: ActivityEventListener = (tab, startTimestamp) => {
+
+  onActivityStart: ActivityStartEventListener = (tab, startTimestamp) => {
     if (this.currentTimelineRecord?.url !== tab.url) {
       this.saveCurrentTimelineRecord();
       this.createNewTimelineRecord(tab, startTimestamp);
@@ -42,10 +42,10 @@ export class DetailedActivityController implements ActivityController {
     };
   };
 
-  onInactivityStart: InactivityEventListener = () => {
+  onInactivityStart: InactivityStartEventListener = () => {
     this.saveCurrentTimelineRecord();
 
-    return () => {};
+    return () => { };
   };
 
   private saveCurrentTimelineRecord() {

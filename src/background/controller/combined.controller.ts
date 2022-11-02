@@ -1,9 +1,9 @@
 import {
-  ActivityEventListener,
-  InactivityEventListener,
+  ActiveTabListenerVisitor,
+  ActivityStartEventListener,
+  InactivityStartEventListener,
 } from '../tracking/activity.tracker';
 
-import { ActivityController } from './types';
 
 const combineListeners = <T extends (...args: any[]) => any>(
   ...listeners: T[]
@@ -18,13 +18,13 @@ const combineListeners = <T extends (...args: any[]) => any>(
 };
 
 export const combineActivityControllers = (
-  ...controllers: ActivityController[]
+  ...controllers: ActiveTabListenerVisitor[]
 ) => {
-  return new (class ActivityControllerProxy implements ActivityController {
-    onActivityStart: ActivityEventListener = combineListeners(
+  return new (class ActivityControllerProxy implements ActiveTabListenerVisitor {
+    onActivityStart: ActivityStartEventListener = combineListeners(
       ...controllers.map((c) => c.onActivityStart)
     );
-    onInactivityStart: InactivityEventListener = combineListeners(
+    onInactivityStart: InactivityStartEventListener = combineListeners(
       ...controllers.map((c) => c.onInactivityStart)
     );
   })();

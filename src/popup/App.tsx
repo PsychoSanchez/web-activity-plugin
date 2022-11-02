@@ -4,8 +4,8 @@ import * as React from 'react';
 import { Panel } from '../blocks/Panel';
 import { useTimeStore } from '../hooks/useTimeStore';
 
-import { ActivityPage } from './pages/ActivityPage/ActivityPage';
-import { OverallPage } from './pages/OverallPage/OverallPage';
+import { ActivityPage } from './pages/ActivityPage';
+import { OverallPage } from './pages/OverallPage';
 
 import './App.css';
 

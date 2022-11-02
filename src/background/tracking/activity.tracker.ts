@@ -1,17 +1,24 @@
 import { Tabs } from 'webextension-polyfill-ts';
 
-import { ActivityController } from '../controller/types';
-
 import { ActiveTabState } from './active-tabs.monitor';
 
-type FinishTrackingEventHandler = (timestamp: number) => void;
-export type InactivityEventListener = (
+
+export type FinishTrackingEventHandler = (timestamp: number) => void;
+
+export type InactivityStartEventListener = (
   timestamp: number
 ) => FinishTrackingEventHandler;
-export type ActivityEventListener = (
+
+export type ActivityStartEventListener = (
   tab: Tabs.Tab,
   timestamp: number
 ) => FinishTrackingEventHandler;
+
+export interface ActiveTabListenerVisitor {
+  onActivityStart: ActivityStartEventListener;
+  onInactivityStart: InactivityStartEventListener;
+}
+
 
 const isInvalidUrl = (url: string | undefined): url is undefined => {
   return (
@@ -22,12 +29,12 @@ const isInvalidUrl = (url: string | undefined): url is undefined => {
   );
 };
 
-export class ActiveTabTracker {
-  private invokeActivityFinishEvent: FinishTrackingEventHandler = () => {};
+export class ActiveTabListener {
+  private invokeActivityFinishEvent: FinishTrackingEventHandler = () => { };
 
-  constructor(private controller: ActivityController) {}
+  constructor(private visitor: ActiveTabListenerVisitor) { }
 
-  handleTabsStateChange(
+  handleStateChange(
     tabState: ActiveTabState,
     eventTimestamp: number = Date.now()
   ) {
@@ -52,17 +59,17 @@ export class ActiveTabTracker {
       activeTabState.focusedActiveTab === null ||
       isInvalidUrl(activeTabUrl)
     ) {
-      return this.controller.onInactivityStart(timestamp);
+      return this.visitor.onInactivityStart(timestamp);
     }
 
     const { focusedActiveTab } = activeTabState;
 
     if (activeTabState.idleState === 'idle') {
       return focusedActiveTab.audible
-        ? this.controller.onActivityStart(focusedActiveTab, timestamp)
-        : this.controller.onInactivityStart(timestamp);
+        ? this.visitor.onActivityStart(focusedActiveTab, timestamp)
+        : this.visitor.onInactivityStart(timestamp);
     }
 
-    return this.controller.onActivityStart(focusedActiveTab, timestamp);
+    return this.visitor.onActivityStart(focusedActiveTab, timestamp);
   }
 }

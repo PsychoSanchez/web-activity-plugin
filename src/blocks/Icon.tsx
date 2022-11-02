@@ -5,6 +5,7 @@ export enum IconType {
   TimeCheck = 'fi-rr-time-check',
   TimePast = 'fi-rr-time-past',
   CalendarClock = 'fi-rr-calendar-clock',
+  CalendarLinesPen = 'fi-rr-calendar-lines-pen',
   ChartHistogram = 'fi-rr-chart-histogram',
   ChartPieAlt = 'fi-rr-chart-pie-alt',
   LeftArrow = 'fi-rr-arrow-left',

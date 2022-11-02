@@ -3,19 +3,18 @@ import { getMinutesInMs } from '../../shared/dates-helper';
 
 import { addActivityTimeToHost } from '../storage/overall';
 import {
-  ActivityEventListener,
-  InactivityEventListener,
+  ActivityStartEventListener,
+  ActiveTabListenerVisitor,
+  InactivityStartEventListener,
 } from '../tracking/activity.tracker';
-
-import { ActivityController } from './types';
 
 const FIVE_MINUTES = getMinutesInMs(5);
 
-export class OverallActivityController implements ActivityController {
-  constructor(private storage: BrowserSyncStorage) {}
-  onInactivityStart: InactivityEventListener = () => () => {};
+export class OverallActivityVisitor implements ActiveTabListenerVisitor {
+  constructor(private storage: BrowserSyncStorage) { }
+  onInactivityStart: InactivityStartEventListener = () => () => { };
 
-  onActivityStart: ActivityEventListener = (tab, startTimestamp) => {
+  onActivityStart: ActivityStartEventListener = (tab, startTimestamp) => {
     const { url = '' } = tab;
     const { hostname } = new URL(url);
 

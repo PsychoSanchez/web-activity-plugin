@@ -54,26 +54,37 @@ const BAR_OPTIONS = {
 
 export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProps> =
   ({ store, sundayDate, presentChartTitle }) => {
-    const week = get7DaysPriorDate(sundayDate).reverse();
-    const labels = week.map((date) => getIsoDate(date));
-    const data = week.map(
-      (date) => getTotalDailyActivity(store, date) / HOUR_IN_MS
+    const [labels, data] = React.useMemo(() => {
+      const week = get7DaysPriorDate(sundayDate).reverse();
+      const labels = week.map((date) => getIsoDate(date));
+      const data = week.map(
+        (date) => getTotalDailyActivity(store, date) / HOUR_IN_MS
+      );
+
+      return [labels, data];
+    }, [store, sundayDate]);
+
+    const weekName = React.useMemo(
+      () => `${labels[0]} - ${labels[labels.length - 1]}`,
+      [labels]
     );
 
-    const weekName = `${labels[0]} - ${labels[labels.length - 1]}`;
+    const chartData = React.useMemo(
+      () => ({
+        labels: labels,
+        datasets: [
+          {
+            label: 'Weekly activity',
+            data: data,
+            backgroundColor: '#4b76e3',
+            borderRadius: 12,
+            borderSkipped: false,
+          },
+        ],
+      }),
+      [labels, data]
+    );
 
-    const chartData = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Weekly activity',
-          data: data,
-          backgroundColor: '#4b76e3',
-          borderRadius: 12,
-          borderSkipped: false,
-        },
-      ],
-    };
     return (
       <Panel>
         <PanelHeader>

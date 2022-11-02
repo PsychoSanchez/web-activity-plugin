@@ -26,6 +26,13 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
     [date, onChange]
   );
 
+  const handleChangeToSpecificDate = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      onChange(event.currentTarget.value);
+    },
+    [onChange]
+  );
+
   return (
     <div className={'flex justify-end'}>
       <Button
@@ -38,9 +45,7 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
         type="date"
         className="cursor-pointer text-center bg-transparent border-none text-base max-w-[120px]"
         value={date}
-        onChange={(event) => {
-          onChange(event.currentTarget.value);
-        }}
+        onChange={handleChangeToSpecificDate}
       />
       <Button
         buttonType={ButtonType.Secondary}

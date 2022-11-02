@@ -1,13 +1,19 @@
 import * as React from 'react';
 
-import { TimeUsagePanel } from '../../../components/DailyTimeUsage/DailyTimeUsage';
-import { GeneralTimeline } from '../../../components/GeneralTimeline/GeneralTimeline';
-import { OverallActivityCalendarPanel } from '../../../components/OverallActivityCalendar/OverallActivtyCalendar';
-import { useLastSixHoursTimelineEvents } from '../../../hooks/useLastSixHoursTimeline';
-import { useTotalWebsiteActivity } from '../../../hooks/useTotalWebsiteActivity';
-import { getMinutesInMs } from '../../../shared/dates-helper';
+import { TimeUsagePanel } from '../../components/DailyTimeUsage/DailyTimeUsage';
+import { GeneralTimeline } from '../../components/GeneralTimeline/GeneralTimeline';
+import { OverallActivityCalendarPanel } from '../../components/OverallActivityCalendar/OverallActivtyCalendar';
+import { useLastSixHoursTimelineEvents } from '../../hooks/useLastSixHoursTimeline';
+import { AppStore } from '../../hooks/useTimeStore';
+import { useTotalWebsiteActivity } from '../../hooks/useTotalWebsiteActivity';
+import { getMinutesInMs } from '../../shared/dates-helper';
 
-import { OverallPageProps } from './types';
+export interface OverallPageProps {
+  store: AppStore;
+  onNavigateToActivityPage: React.ComponentProps<
+    typeof OverallActivityCalendarPanel
+  >['navigateToDateActivityPage'];
+}
 
 const MINUTE_IN_MS = getMinutesInMs(1);
 

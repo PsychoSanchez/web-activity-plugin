@@ -88,8 +88,15 @@ const buildChartDataFromActivity = ({
   };
 };
 
-export const DailyUsageChart: React.FC<DailyUsageChartProps> = (props) => {
-  const data = buildChartDataFromActivity(props);
+export const DailyUsageChart: React.FC<DailyUsageChartProps> = ({
+  activity,
+  date,
+  totalDailyActivity,
+}) => {
+  const data = React.useMemo(
+    () => buildChartDataFromActivity({ activity, date, totalDailyActivity }),
+    [activity, date, totalDailyActivity]
+  );
 
   return <Doughnut options={DOUGHNUT_CHART_OPTIONS} data={data} />;
 };

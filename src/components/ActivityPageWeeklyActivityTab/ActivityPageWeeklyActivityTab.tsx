@@ -4,7 +4,7 @@ import { AppStore } from '../../hooks/useTimeStore';
 import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
 import { get7DaysPriorDate, getIsoDate } from '../../shared/dates-helper';
 
-import { ActivityTable } from '../ActivityTable/ActivityTable';
+import { WebsiteActivityTable } from '../WebsiteActivityTable/WebsiteActivityTable';
 import { TimeUsagePanel } from '../DailyTimeUsage/DailyTimeUsage';
 import { WeeklyWebsiteActivityChart } from '../WeeklyWebsiteActivityChart/WeeklyWebsiteActivityChart';
 
@@ -84,8 +84,8 @@ export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityT
             }
           />
         </div>
-        <ActivityTable
-          activity={totalWebsiteWeeklyActivity}
+        <WebsiteActivityTable
+          websiteTimeMap={totalWebsiteWeeklyActivity}
           title={'Websites This Week'}
           onDomainRowClicked={handleDomainRowClick}
         />

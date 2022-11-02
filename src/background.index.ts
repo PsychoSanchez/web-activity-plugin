@@ -1,10 +1,10 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { combineActivityControllers } from './background/controller/combined.controller';
-import { DetailedActivityController } from './background/controller/detailed-activity.controller';
-import { OverallActivityController } from './background/controller/overall-activity.controller';
+import { DetailedActivityVisitor } from './background/controller/detailed-activity.controller';
+import { OverallActivityVisitor } from './background/controller/overall-activity.controller';
 import { WindowActiveTabStateMonitor } from './background/tracking/active-tabs.monitor';
-import { ActiveTabTracker } from './background/tracking/activity.tracker';
+import { ActiveTabListener } from './background/tracking/activity.tracker';
 import { createGlobalSyncStorageListener } from './shared/browser-sync-storage';
 
 const PULL_SYNC_STORAGE_ALARM_NAME = 'pull-sync-storage';
@@ -12,10 +12,10 @@ const SYNC_STORAGE_INTERVAL_MINUTES = 30;
 
 const storage = createGlobalSyncStorageListener();
 const activityController = combineActivityControllers(
-  new OverallActivityController(storage),
-  new DetailedActivityController()
+  new OverallActivityVisitor(storage),
+  new DetailedActivityVisitor()
 );
-const activeTabTracker = new ActiveTabTracker(activityController);
+const activeTabListener = new ActiveTabListener(activityController);
 const activeTabMonitor = new WindowActiveTabStateMonitor();
 
 try {
@@ -30,7 +30,7 @@ try {
 
   activeTabMonitor.init().then(() => {
     activeTabMonitor.onStateChange((newState, eventTimestamp) =>
-      activeTabTracker.handleTabsStateChange(newState, eventTimestamp)
+      activeTabListener.handleStateChange(newState, eventTimestamp)
     );
   });
 } catch (error) {

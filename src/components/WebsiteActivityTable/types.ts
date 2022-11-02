@@ -1,5 +1,7 @@
+type Domain = string;
+type Time = number;
 export interface ActivityTableProps {
-  activity: Record<string, number>;
+  websiteTimeMap: Record<Domain, Time>;
   title?: string;
   onDomainRowClicked?: (domain: string) => void;
   onFilterButtonClicked?: (domain: string) => void;

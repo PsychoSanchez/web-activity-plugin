@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-import { Button, ButtonType } from '../../../blocks/Button';
-import { Panel } from '../../../blocks/Panel';
-import { ActivityDatePicker } from '../../../components/ActivityDatePicker';
-import { DailyActivityTab } from '../../../components/ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
-import { ActivityPageWeeklyActivityTab } from '../../../components/ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
-import { WeekDatePicker } from '../../../components/WeekDatePicker/WeekDatePicker';
-import type { AppStore } from '../../../hooks/useTimeStore';
+import { Button, ButtonType } from '../../blocks/Button';
+import { Panel } from '../../blocks/Panel';
+import { ActivityDatePicker } from '../../components/ActivityDatePicker';
+import { DailyActivityTab } from '../../components/ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
+import { ActivityPageWeeklyActivityTab } from '../../components/ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
+import { WeekDatePicker } from '../../components/WeekDatePicker/WeekDatePicker';
+import type { AppStore } from '../../hooks/useTimeStore';
 import {
   getDatesWeekSundayDate,
   getIsoDate,
-} from '../../../shared/dates-helper';
+} from '../../shared/dates-helper';
 
 interface ActivityPageProps {
   store: AppStore;
