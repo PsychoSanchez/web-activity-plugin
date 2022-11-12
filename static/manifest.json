@@ -12,7 +12,7 @@
   "manifest_version": 2,
   "version": "0.1",
   "description": "Time Tracking Assistant that helps you to be in charge of your time during web browsing",
-  "permissions": ["background", "idle", "storage", "alarms"],
+  "permissions": ["background", "idle", "tabs", "storage", "alarms"],
   "background": {
     "scripts": ["background.bundle.js"]
   },
