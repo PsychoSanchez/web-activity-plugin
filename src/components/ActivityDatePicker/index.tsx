@@ -34,7 +34,7 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
   );
 
   return (
-    <div className={'flex justify-end'}>
+    <div className="flex flex-1 justify-between items-center">
       <Button
         buttonType={ButtonType.Secondary}
         onClick={() => onDateChangeButtonClick(-1)}
@@ -43,7 +43,7 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
       </Button>
       <input
         type="date"
-        className="cursor-pointer text-center bg-transparent border-none text-base max-w-[120px]"
+        className="cursor-pointer text-center bg-transparent border-none text-base max-w-[120px] dark:text-neutral-300"
         value={date}
         onChange={handleChangeToSpecificDate}
       />

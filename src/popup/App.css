@@ -12,8 +12,20 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
+.dark {
+  background: #171717;
+}
+
 .tab-body-shadow {
   box-shadow: inset 0px 0px 25px 20px #fff;
+}
+
+.dark .dark\:dark-tab-body-shadow {
+  box-shadow: inset 0px 0px 25px 20px rgb(23 23 23 / var(--tw-bg-opacity));
+}
+
+.dark ::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 .calendar svg rect {

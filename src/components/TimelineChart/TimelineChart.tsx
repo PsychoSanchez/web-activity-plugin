@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 
+import { useIsDarkMode, useTheme } from '../../hooks/useTheme';
+
 import {
   getChartTimeLabels,
   joinNeighborTimelineEvents,
@@ -52,10 +54,38 @@ const OPTIONS = {
   },
 };
 
+const DARK_OPTIONS = {
+  ...OPTIONS,
+  scales: {
+    ...OPTIONS.scales,
+    x: {
+      ...OPTIONS.scales.x,
+      ticks: {
+        ...OPTIONS.scales.x.ticks,
+        color: '#e5e5e5',
+      },
+      grid: {
+        color: '#444444',
+      },
+    },
+    y: {
+      ...OPTIONS.scales.y,
+      ticks: {
+        ...OPTIONS.scales.y.ticks,
+        color: '#e5e5e5',
+      },
+      grid: {
+        color: '#444444',
+      },
+    },
+  },
+};
+
 export const TimelineChart: React.FC<TimelineChartProps> = ({
   timelineEvents = [],
   emptyHoursMarginCount = 2,
 }) => {
+  const isDarkMode = useIsDarkMode();
   const joinedEvents = joinNeighborTimelineEvents(timelineEvents);
   const { chartDatasetData, timelineStartHour, timelineEndHour } =
     transformTimelineDataset(joinedEvents);
@@ -75,5 +105,5 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
     datasets,
   };
 
-  return <Bar options={OPTIONS} data={chartData} />;
+  return <Bar options={isDarkMode ? DARK_OPTIONS : OPTIONS} data={chartData} />;
 };

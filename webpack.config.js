@@ -3,7 +3,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => ({
   entry: {
-    content: './src/content.index.tsx',
     background: './src/background.index.ts',
     popup: './src/popup.index.tsx',
   },

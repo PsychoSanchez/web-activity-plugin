@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
+import { useIsDarkMode } from '../../hooks/useTheme';
 import {
   getMinutesInMs,
   getTimeWithoutSeconds,
@@ -25,6 +26,20 @@ const DOUGHNUT_CHART_OPTIONS = {
         label: (item: any) => {
           return ` ${item.formattedValue}%`;
         },
+      },
+    },
+  },
+};
+
+const DARK_MODE_DOUGHNUT_CHART_OPTIONS = {
+  ...DOUGHNUT_CHART_OPTIONS,
+  plugins: {
+    ...DOUGHNUT_CHART_OPTIONS.plugins,
+    legend: {
+      ...DOUGHNUT_CHART_OPTIONS.plugins.legend,
+      labels: {
+        ...DOUGHNUT_CHART_OPTIONS.plugins.legend.labels,
+        color: '#e5e5e5',
       },
     },
   },
@@ -93,10 +108,18 @@ export const DailyUsageChart: React.FC<DailyUsageChartProps> = ({
   date,
   totalDailyActivity,
 }) => {
+  const isDarkMode = useIsDarkMode();
   const data = React.useMemo(
     () => buildChartDataFromActivity({ activity, date, totalDailyActivity }),
     [activity, date, totalDailyActivity]
   );
 
-  return <Doughnut options={DOUGHNUT_CHART_OPTIONS} data={data} />;
+  return (
+    <Doughnut
+      options={
+        isDarkMode ? DARK_MODE_DOUGHNUT_CHART_OPTIONS : DOUGHNUT_CHART_OPTIONS
+      }
+      data={data}
+    />
+  );
 };

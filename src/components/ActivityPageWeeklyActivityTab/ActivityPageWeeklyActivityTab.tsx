@@ -4,8 +4,8 @@ import { AppStore } from '../../hooks/useTimeStore';
 import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
 import { get7DaysPriorDate, getIsoDate } from '../../shared/dates-helper';
 
-import { WebsiteActivityTable } from '../WebsiteActivityTable/WebsiteActivityTable';
 import { TimeUsagePanel } from '../DailyTimeUsage/DailyTimeUsage';
+import { WebsiteActivityTable } from '../WebsiteActivityTable/WebsiteActivityTable';
 import { WeeklyWebsiteActivityChart } from '../WeeklyWebsiteActivityChart/WeeklyWebsiteActivityChart';
 
 import { ActivityPageWeeklyActivityTabProps } from './types';

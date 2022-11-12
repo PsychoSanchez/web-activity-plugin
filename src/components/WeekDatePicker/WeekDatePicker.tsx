@@ -24,14 +24,14 @@ export const WeekDatePicker: React.FC<WeekDatePickerProps> = ({
   );
 
   return (
-    <div className="flex justify-end items-center">
+    <div className="flex flex-1 justify-between items-center">
       <Button
         buttonType={ButtonType.Secondary}
         onClick={() => handleChangeWeekButtonClick(-1)}
       >
         <Icon className="m-0 flex" type={IconType.LeftArrow} />
       </Button>
-      <div className="break-words break-all text-sm min-w-[120px] text-center">
+      <div className="break-words break-all text-sm min-w-[120px] text-center dark:text-neutral-300">
         <span>{getIsoDate(weekStartDate)}</span>
         <br />
         <span>{getIsoDate(sundayDate)}</span>

@@ -3,6 +3,7 @@ import { Bar } from 'react-chartjs-2';
 
 import { Icon, IconType } from '../../blocks/Icon';
 import { Panel, PanelHeader } from '../../blocks/Panel';
+import { useIsDarkMode } from '../../hooks/useTheme';
 import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
 import {
   get7DaysPriorDate,
@@ -52,8 +53,37 @@ const BAR_OPTIONS = {
   },
 };
 
+const DARK_MODE_BAR_OPTIONS = {
+  ...BAR_OPTIONS,
+  scales: {
+    ...BAR_OPTIONS.scales,
+    y: {
+      ...BAR_OPTIONS.scales.y,
+      ticks: {
+        ...BAR_OPTIONS.scales.y.ticks,
+        color: '#e5e5e5',
+      },
+      grid: {
+        color: '#444444',
+      },
+    },
+    x: {
+      ...BAR_OPTIONS.scales.x,
+      ticks: {
+        ...BAR_OPTIONS.scales.x.ticks,
+        color: '#e5e5e5',
+      },
+      grid: {
+        color: '#444444',
+      },
+    },
+  },
+};
+
 export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProps> =
   ({ store, sundayDate, presentChartTitle }) => {
+    const isDarkMode = useIsDarkMode();
+
     const [labels, data] = React.useMemo(() => {
       const week = get7DaysPriorDate(sundayDate).reverse();
       const labels = week.map((date) => getIsoDate(date));
@@ -91,7 +121,10 @@ export const WeeklyWebsiteActivityChart: React.FC<WeeklyWebsiteActivityChartProp
           <Icon type={IconType.ChartHistogram} />
           {presentChartTitle?.(weekName) ?? weekName}
         </PanelHeader>
-        <Bar options={BAR_OPTIONS} data={chartData} />
+        <Bar
+          options={isDarkMode ? DARK_MODE_BAR_OPTIONS : BAR_OPTIONS}
+          data={chartData}
+        />
       </Panel>
     );
   };

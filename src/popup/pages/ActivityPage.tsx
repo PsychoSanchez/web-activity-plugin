@@ -7,10 +7,7 @@ import { DailyActivityTab } from '../../components/ActivityPageDailyActivityTab/
 import { ActivityPageWeeklyActivityTab } from '../../components/ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
 import { WeekDatePicker } from '../../components/WeekDatePicker/WeekDatePicker';
 import type { AppStore } from '../../hooks/useTimeStore';
-import {
-  getDatesWeekSundayDate,
-  getIsoDate,
-} from '../../shared/dates-helper';
+import { getDatesWeekSundayDate, getIsoDate } from '../../shared/dates-helper';
 
 interface ActivityPageProps {
   store: AppStore;
@@ -47,7 +44,6 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
           buttonType={
             activeTab === value ? ButtonType.Primary : ButtonType.Secondary
           }
-          className="mr-2 last:mr-0"
           onClick={() => setActiveTab(value)}
           key={key}
         >
@@ -59,8 +55,8 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
 
   return (
     <>
-      <Panel className="flex items-center justify-between p-2">
-        <div>{tabs}</div>
+      <Panel className="flex items-center justify-between p-2 gap-2">
+        <div className='flex gap-2'>{tabs}</div>
         {activeTab === ActivityPageTabs.Daily && (
           <ActivityDatePicker
             date={pickedIsoDate}
