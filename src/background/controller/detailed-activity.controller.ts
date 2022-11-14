@@ -1,10 +1,9 @@
-import { Tabs } from 'webextension-polyfill-ts';
-
 import { getIsoDate, getMinutesInMs } from '../../shared/dates-helper';
 
 import {
+  getActiveTabRecord,
+  setActiveTabRecord,
   saveActivityTimelineRecord,
-  TimelineRecord,
 } from '../storage/timelines';
 import {
   ActivityStartEventListener,
@@ -21,23 +20,27 @@ const getHostNameFromUrl = (url: string) => {
 };
 
 export class DetailedActivityVisitor implements ActiveTabListenerVisitor {
-  private currentTimelineRecord: TimelineRecord | null = null;
-
   onActivityStart: ActivityStartEventListener = (tab, startTimestamp) => {
-    if (this.currentTimelineRecord?.url !== tab.url) {
-      this.saveCurrentTimelineRecord();
-      this.createNewTimelineRecord(tab, startTimestamp);
-    }
+    getActiveTabRecord().then(async (currentTimelineRecord) => {
+      if (currentTimelineRecord?.url !== tab.url) {
+        await this.saveCurrentTimelineRecord();
+        await this.createNewTimelineRecord(tab, startTimestamp);
+      }
+    });
 
-    return (endTimestamp) => {
+    return async (endTimestamp) => {
       // Skip impossibly long events
       if (endTimestamp - startTimestamp > FIVE_MINUTES) {
-        this.saveCurrentTimelineRecord();
+        await this.saveCurrentTimelineRecord();
         return;
       }
 
-      if (this.currentTimelineRecord) {
-        this.currentTimelineRecord.activityPeriodEnd = endTimestamp;
+      const currentTimelineRecord = await getActiveTabRecord();
+      if (currentTimelineRecord) {
+        await setActiveTabRecord({
+          ...currentTimelineRecord,
+          activityPeriodEnd: endTimestamp,
+        });
       }
     };
   };
@@ -45,44 +48,50 @@ export class DetailedActivityVisitor implements ActiveTabListenerVisitor {
   onInactivityStart: InactivityStartEventListener = () => {
     this.saveCurrentTimelineRecord();
 
-    return () => { };
+    return () => {};
   };
 
-  private saveCurrentTimelineRecord() {
-    if (this.currentTimelineRecord === null) {
+  private async saveCurrentTimelineRecord() {
+    const currentTimelineRecord = await getActiveTabRecord();
+    if (!currentTimelineRecord) {
       return;
     }
 
     const currentDate = new Date();
     const currentIsoDate = getIsoDate(currentDate);
 
-    if (this.currentTimelineRecord.date === currentIsoDate) {
-      saveActivityTimelineRecord(this.currentTimelineRecord);
-    } else {
-      // Event started before midnight and finished after
-      const midnightToday = new Date(currentIsoDate).setHours(0);
-      const millisecondBeforeMidnight = midnightToday - 1;
+    if (currentTimelineRecord.date === currentIsoDate) {
+      await saveActivityTimelineRecord(currentTimelineRecord);
+      await setActiveTabRecord(null);
 
-      // We need to split dates into 2 events for iso date index to work
-      const yesterdayTimeline = { ...this.currentTimelineRecord };
-      yesterdayTimeline.activityPeriodEnd = millisecondBeforeMidnight;
-      saveActivityTimelineRecord(yesterdayTimeline);
-
-      this.currentTimelineRecord.activityPeriodStart = midnightToday;
-      this.currentTimelineRecord.date = currentIsoDate;
-
-      saveActivityTimelineRecord(this.currentTimelineRecord);
+      return;
     }
 
-    this.currentTimelineRecord = null;
+    // Event started before midnight and finished after
+    const midnightToday = new Date(currentIsoDate).setHours(0);
+    const millisecondBeforeMidnight = midnightToday - 1;
+
+    // We need to split dates into 2 events for iso date index to work
+    const yesterdayTimeline = { ...currentTimelineRecord };
+    yesterdayTimeline.activityPeriodEnd = millisecondBeforeMidnight;
+    await saveActivityTimelineRecord(yesterdayTimeline);
+
+    currentTimelineRecord.activityPeriodStart = midnightToday;
+    currentTimelineRecord.date = currentIsoDate;
+
+    await saveActivityTimelineRecord(currentTimelineRecord);
+    await setActiveTabRecord(null);
   }
 
-  private createNewTimelineRecord = (tab: Tabs.Tab, eventTs: number) => {
+  private createNewTimelineRecord = async (
+    tab: chrome.tabs.Tab,
+    eventTs: number
+  ) => {
     const date = getIsoDate(new Date(eventTs));
     const { url = '', title = '', favIconUrl } = tab;
     const hostname = getHostNameFromUrl(url);
 
-    this.currentTimelineRecord = {
+    await setActiveTabRecord({
       url,
       hostname,
       docTitle: title,
@@ -90,6 +99,6 @@ export class DetailedActivityVisitor implements ActiveTabListenerVisitor {
       date,
       activityPeriodStart: eventTs,
       activityPeriodEnd: eventTs,
-    };
+    });
   };
 }

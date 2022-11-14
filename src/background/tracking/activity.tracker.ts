@@ -1,7 +1,4 @@
-import { Tabs } from 'webextension-polyfill-ts';
-
-import { ActiveTabState } from './active-tabs.monitor';
-
+import { ActiveTabState } from '../storage/timelines';
 
 export type FinishTrackingEventHandler = (timestamp: number) => void;
 
@@ -10,7 +7,7 @@ export type InactivityStartEventListener = (
 ) => FinishTrackingEventHandler;
 
 export type ActivityStartEventListener = (
-  tab: Tabs.Tab,
+  tab: chrome.tabs.Tab,
   timestamp: number
 ) => FinishTrackingEventHandler;
 
@@ -18,7 +15,6 @@ export interface ActiveTabListenerVisitor {
   onActivityStart: ActivityStartEventListener;
   onInactivityStart: InactivityStartEventListener;
 }
-
 
 const isInvalidUrl = (url: string | undefined): url is undefined => {
   return (
@@ -30,9 +26,9 @@ const isInvalidUrl = (url: string | undefined): url is undefined => {
 };
 
 export class ActiveTabListener {
-  private invokeActivityFinishEvent: FinishTrackingEventHandler = () => { };
+  private invokeActivityFinishEvent: FinishTrackingEventHandler = () => {};
 
-  constructor(private visitor: ActiveTabListenerVisitor) { }
+  constructor(private visitor: ActiveTabListenerVisitor) {}
 
   handleStateChange(
     tabState: ActiveTabState,
@@ -56,7 +52,7 @@ export class ActiveTabListener {
 
     if (
       activeTabState.idleState === 'locked' ||
-      activeTabState.focusedActiveTab === null ||
+      !activeTabState.focusedActiveTab ||
       isInvalidUrl(activeTabUrl)
     ) {
       return this.visitor.onInactivityStart(timestamp);
