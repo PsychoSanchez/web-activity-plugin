@@ -66,18 +66,18 @@ export class ActivityStateController implements StateChangeVisitor {
     const currentDate = new Date();
     const currentIsoDate = getIsoDate(currentDate);
 
+    await addActivityTimeToHost(
+      currentTimelineRecord.hostname,
+      currentTimelineRecord.activityPeriodEnd -
+        currentTimelineRecord.activityPeriodStart
+    );
+
     if (currentTimelineRecord.date === currentIsoDate) {
       await saveActivityTimelineRecord(currentTimelineRecord);
       await setActiveTabRecord(null);
 
       return;
     }
-
-    await addActivityTimeToHost(
-      currentTimelineRecord.hostname,
-      currentTimelineRecord.activityPeriodEnd -
-        currentTimelineRecord.activityPeriodStart
-    );
 
     // Event started before midnight and finished after
     await this.processMidnightEdgeCase(currentIsoDate, currentTimelineRecord);
