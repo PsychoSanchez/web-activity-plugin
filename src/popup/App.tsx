@@ -2,7 +2,7 @@ import cx from 'classnames';
 import * as React from 'react';
 
 import { Panel } from '../blocks/Panel';
-import { useTimeStore } from '../hooks/useTimeStore';
+import { useTimeStore } from './hooks/useTimeStore';
 
 import { ActivityPage } from './pages/ActivityPage';
 import { OverallPage } from './pages/OverallPage';

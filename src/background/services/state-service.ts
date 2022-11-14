@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { ActiveTabState } from '../tables/idb';
+import { ActiveTabState } from '../../shared/db/types';
 import {
   createTabsStateTransaction,
   getTabsState,

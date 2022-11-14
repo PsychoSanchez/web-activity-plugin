@@ -1,4 +1,4 @@
-import { connect } from './idb';
+import { connect, TimeTrackerStoreTables } from '../../shared/db/idb';
 
 export async function logMessage(message: string) {
   if (process.env.NODE_ENV === 'production') {
@@ -7,5 +7,5 @@ export async function logMessage(message: string) {
 
   const db = await connect();
 
-  await db.add('logs', { message, timestamp: Date.now() });
+  await db.add(TimeTrackerStoreTables.Logs, { message, timestamp: Date.now() });
 }

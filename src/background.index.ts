@@ -7,12 +7,21 @@ import {
   handleWindowFocusChange,
 } from './background/services/state-service';
 import { logMessage } from './background/tables/logs';
+import { handleStorageChange, syncStorage } from './shared/db/sync-storage';
 
 const ASYNC_POLL_ALARM_NAME = 'async-poll';
 const ASYNC_POLL_INTERVAL_MINUTES = 1;
 
 chrome.alarms.create(ASYNC_POLL_ALARM_NAME, {
   periodInMinutes: ASYNC_POLL_INTERVAL_MINUTES,
+  when: Date.now() + 1000,
+});
+
+const PUSH_SYNC_STORAGE_ALARM_NAME = 'push-sync-storage';
+const SYNC_STORAGE_INTERVAL_MINUTES = 15;
+
+chrome.alarms.create(PUSH_SYNC_STORAGE_ALARM_NAME, {
+  periodInMinutes: SYNC_STORAGE_INTERVAL_MINUTES,
   when: Date.now() + 1000,
 });
 
@@ -23,7 +32,13 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     const newState = await handleAlarm();
 
     await ctrl().handleStateChange(newState, ts);
+  } else if (alarm.name === PUSH_SYNC_STORAGE_ALARM_NAME) {
+    await syncStorage();
   }
+});
+
+chrome.storage.onChanged.addListener(async (changes) => {
+  handleStorageChange(changes);
 });
 
 chrome.tabs.onActivated.addListener(async (activeInfo) => {

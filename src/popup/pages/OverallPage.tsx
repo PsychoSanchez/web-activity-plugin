@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import { TimeUsagePanel } from '../../components/DailyTimeUsage/DailyTimeUsage';
-import { GeneralTimeline } from '../../components/GeneralTimeline/GeneralTimeline';
-import { OverallActivityCalendarPanel } from '../../components/OverallActivityCalendar/OverallActivtyCalendar';
-import { useLastSixHoursTimelineEvents } from '../../hooks/useLastSixHoursTimeline';
-import { AppStore } from '../../hooks/useTimeStore';
-import { useTotalWebsiteActivity } from '../../hooks/useTotalWebsiteActivity';
+import { TimeUsagePanel } from '../components/DailyTimeUsage/DailyTimeUsage';
+import { GeneralTimeline } from '../components/GeneralTimeline/GeneralTimeline';
+import { OverallActivityCalendarPanel } from '../components/OverallActivityCalendar/OverallActivtyCalendar';
+import { useLastSixHoursTimelineEvents } from '../hooks/useLastSixHoursTimeline';
+import { AppStore } from '../hooks/useTimeStore';
+import { useTotalWebsiteActivity } from '../hooks/useTotalWebsiteActivity';
 import { getMinutesInMs } from '../../shared/dates-helper';
 
 export interface OverallPageProps {

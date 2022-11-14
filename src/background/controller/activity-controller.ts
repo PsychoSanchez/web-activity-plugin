@@ -1,7 +1,8 @@
 import { getIsoDate, getMinutesInMs } from '../../shared/dates-helper';
+import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
+import { addActivityTimeToHost } from '../../shared/db/sync-storage';
 
 import { saveActivityTimelineRecord } from '../tables/activity-timeline';
-import { ActiveTabState, TimelineRecord } from '../tables/idb';
 import { getActiveTabRecord, setActiveTabRecord } from '../tables/state';
 
 const FIVE_MINUTES = getMinutesInMs(5);
@@ -41,6 +42,10 @@ export class ActivityStateController implements StateChangeVisitor {
     }
 
     if (currentTimelineRecord) {
+      addActivityTimeToHost(
+        currentTimelineRecord.hostname,
+        ts - currentTimelineRecord.activityPeriodStart
+      );
       await setActiveTabRecord({
         ...currentTimelineRecord,
         activityPeriodEnd: ts,

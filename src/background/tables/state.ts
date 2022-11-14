@@ -1,40 +1,52 @@
 import {
   connect,
-  ActiveTabState,
   TimelineDatabase,
-  ACTIVE_TAB_STATE_KEY,
-  APP_STATE_KEY,
-  TABS_STATE_TABLE,
-  TimelineRecord,
-} from './idb';
+  TimeTrackerStoreStateTableKeys,
+  TimeTrackerStoreTables,
+} from '../../shared/db/idb';
+import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
 
 export async function setActiveTabRecord(
   val: TimelineDatabase['active-tab']['value']
 ) {
   const db = await connect();
 
-  await db.put(TABS_STATE_TABLE, val, ACTIVE_TAB_STATE_KEY);
+  await db.put(
+    TimeTrackerStoreTables.State,
+    val,
+    TimeTrackerStoreStateTableKeys.ActiveTab
+  );
 }
 
 export async function getActiveTabRecord() {
   const db = await connect();
-  return await db.get(TABS_STATE_TABLE, ACTIVE_TAB_STATE_KEY) as TimelineRecord | null;
+  return (await db.get(
+    TimeTrackerStoreTables.State,
+    TimeTrackerStoreStateTableKeys.ActiveTab
+  )) as TimelineRecord | null;
 }
 
 export async function getTabsState() {
   const db = await connect();
 
-  return await db.get(TABS_STATE_TABLE, APP_STATE_KEY) as ActiveTabState;
+  return (await db.get(
+    TimeTrackerStoreTables.State,
+    TimeTrackerStoreStateTableKeys.AppState
+  )) as ActiveTabState;
 }
 
 export async function setTabsState(val: ActiveTabState) {
   const db = await connect();
 
-  await db.put(TABS_STATE_TABLE, val, APP_STATE_KEY);
+  await db.put(
+    TimeTrackerStoreTables.State,
+    val,
+    TimeTrackerStoreStateTableKeys.AppState
+  );
 }
 
 export async function createTabsStateTransaction() {
   const db = await connect();
 
-  return db.transaction(TABS_STATE_TABLE, 'readwrite');
+  return db.transaction(TimeTrackerStoreTables.State, 'readwrite');
 }

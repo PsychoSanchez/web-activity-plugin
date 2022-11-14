@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { initTheme } from './hooks/useTheme';
+import { initTheme } from './popup/hooks/useTheme';
 import { PopupApp } from './popup/App';
 
 initTheme();
