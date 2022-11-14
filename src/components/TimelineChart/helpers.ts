@@ -1,4 +1,4 @@
-import { TimelineRecord } from '../../background/storage/timelines';
+import { TimelineRecord } from '../../background/tables/idb';
 import { getMinutesInMs } from '../../shared/dates-helper';
 
 const presentHour = (hour: number) => `${hour.toString().padStart(2, '0')}:00`;

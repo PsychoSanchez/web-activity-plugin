@@ -1,11 +1,21 @@
 import { browser } from 'webextension-polyfill-ts';
 
+import { ActiveTabState } from '../tables/idb';
 import {
-  ActiveTabState,
   createTabsStateTransaction,
   getTabsState,
   setTabsState,
-} from '../storage/timelines';
+} from '../tables/state';
+
+// remember last active tab
+// if idle state changes to idle clear stopwatch and send time
+// while state is idle (user did not interact for a minute) and last active tab audible keep sending heartbeats
+// do not track time in locked state
+// once idle state changes back to active, start track last active tab again
+
+type TabActiveInfo = chrome.tabs.TabActiveInfo;
+type Tab = chrome.tabs.Tab;
+type IdleState = chrome.idle.IdleState;
 
 const DEFAULT_ACTIVE_TAB_STATE: ActiveTabState = {
   activeTabs: [],
@@ -13,6 +23,14 @@ const DEFAULT_ACTIVE_TAB_STATE: ActiveTabState = {
   focusedWindowId: browser.windows.WINDOW_ID_NONE,
   idleState: 'active',
 };
+
+async function getTabsStateOrDefault() {
+  return (await getTabsState()) ?? DEFAULT_ACTIVE_TAB_STATE;
+}
+
+function isUserDraggingWindowError(error: any) {
+  return error.message.indexOf('user may be dragging a tab') > -1;
+}
 
 const getFocusedWindowId = async () => {
   const windows = await browser.windows.getAll();
@@ -66,16 +84,6 @@ const getActiveTabFromWindowId = async (windowId: number) => {
 
   return activeTab;
 };
-
-// remember last active tab
-// if idle state changes to idle clear stopwatch and send time
-// while state is idle (user did not interact for a minute) and last active tab audible keep sending heartbeats
-// do not track time in locked state
-// once idle state changes back to active, start track last active tab again
-
-type TabActiveInfo = chrome.tabs.TabActiveInfo;
-type Tab = chrome.tabs.Tab;
-type IdleState = chrome.idle.IdleState;
 
 export const handleActiveTabStateChange = async (
   tabInfo: TabActiveInfo
@@ -203,11 +211,3 @@ export const handleAlarm = async () => {
 
   return state;
 };
-
-async function getTabsStateOrDefault() {
-  return (await getTabsState()) ?? DEFAULT_ACTIVE_TAB_STATE;
-}
-
-function isUserDraggingWindowError(error: any) {
-  return error.message.indexOf('user may be dragging a tab') > -1;
-}

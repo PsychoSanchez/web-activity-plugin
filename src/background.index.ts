@@ -1,29 +1,15 @@
-import { combineActivityControllers } from './background/controller/combined.controller';
-import { DetailedActivityVisitor } from './background/controller/detailed-activity.controller';
-import { OverallActivityVisitor } from './background/controller/overall-activity.controller';
-import { logMessage } from './background/storage/timelines';
+import { ActivityStateController } from './background/controller/activity-controller';
 import {
   handleActiveTabStateChange,
   handleAlarm,
   handleIdleStateChange,
   handleTabUpdate,
   handleWindowFocusChange,
-} from './background/tracking/active-tabs.monitor';
-import { ActiveTabListener } from './background/tracking/activity.tracker';
-import { createGlobalSyncStorageListener } from './shared/browser-sync-storage';
+} from './background/services/state-service';
+import { logMessage } from './background/tables/logs';
 
 const ASYNC_POLL_ALARM_NAME = 'async-poll';
 const ASYNC_POLL_INTERVAL_MINUTES = 1;
-
-function controller() {
-  const storage = createGlobalSyncStorageListener();
-  const activityController = combineActivityControllers(
-    new OverallActivityVisitor(storage),
-    new DetailedActivityVisitor()
-  );
-
-  return new ActiveTabListener(activityController);
-}
 
 chrome.alarms.create(ASYNC_POLL_ALARM_NAME, {
   periodInMinutes: ASYNC_POLL_INTERVAL_MINUTES,
@@ -36,25 +22,27 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     const ts = Date.now();
     const newState = await handleAlarm();
 
-    controller().handleStateChange(newState, ts);
+    await ctrl().handleStateChange(newState, ts);
   }
 });
 
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   const ts = Date.now();
+  logMessage('tab activated: ' + activeInfo.tabId);
 
   const newState = await handleActiveTabStateChange(activeInfo);
   if (newState) {
-    controller().handleStateChange(newState, ts);
+    await ctrl().handleStateChange(newState, ts);
   }
 });
 
 chrome.tabs.onUpdated.addListener(async (_tabId, _changeInfo, tab) => {
   const ts = Date.now();
+  logMessage('tab updated: ' + tab.id);
 
   const newState = await handleTabUpdate(tab);
   if (newState) {
-    controller().handleStateChange(newState, ts);
+    await ctrl().handleStateChange(newState, ts);
   }
 });
 
@@ -65,7 +53,7 @@ chrome.windows.onFocusChanged.addListener(async (windowId) => {
 
   const newState = await handleWindowFocusChange(windowId);
   if (newState) {
-    controller().handleStateChange(newState, ts);
+    await ctrl().handleStateChange(newState, ts);
   }
 });
 
@@ -74,5 +62,9 @@ chrome.idle.onStateChanged.addListener(async (newIdleState) => {
   const ts = Date.now();
 
   const newTabState = await handleIdleStateChange(newIdleState);
-  controller().handleStateChange(newTabState, ts);
+  await ctrl().handleStateChange(newTabState, ts);
 });
+
+function ctrl() {
+  return new ActivityStateController();
+}

@@ -1,4 +1,4 @@
-import { TimelineRecord } from '../../background/storage/timelines';
+import { TimelineRecord } from '../../background/tables/idb';
 
 export interface TimelineChartProps {
   timelineEvents: TimelineRecord[];
