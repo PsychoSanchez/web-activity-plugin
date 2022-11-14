@@ -1,6 +1,6 @@
 import { getIsoDate, getMinutesInMs } from '../../shared/dates-helper';
-import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
 import { addActivityTimeToHost } from '../../shared/db/sync-storage';
+import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
 
 import { saveActivityTimelineRecord } from '../tables/activity-timeline';
 import { getActiveTabRecord, setActiveTabRecord } from '../tables/state';
@@ -42,10 +42,6 @@ export class ActivityStateController implements StateChangeVisitor {
     }
 
     if (currentTimelineRecord) {
-      addActivityTimeToHost(
-        currentTimelineRecord.hostname,
-        ts - currentTimelineRecord.activityPeriodStart
-      );
       await setActiveTabRecord({
         ...currentTimelineRecord,
         activityPeriodEnd: ts,
@@ -76,6 +72,12 @@ export class ActivityStateController implements StateChangeVisitor {
 
       return;
     }
+
+    await addActivityTimeToHost(
+      currentTimelineRecord.hostname,
+      currentTimelineRecord.activityPeriodEnd -
+        currentTimelineRecord.activityPeriodStart
+    );
 
     // Event started before midnight and finished after
     await this.processMidnightEdgeCase(currentIsoDate, currentTimelineRecord);
