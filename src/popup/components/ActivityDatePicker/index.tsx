@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Button, ButtonType } from '../../../blocks/Button';
 import { Icon, IconType } from '../../../blocks/Icon';
-import { getDaysInMs, getIsoDate } from '../../../shared/dates-helper';
+import { getDaysInMs, getIsoDate } from '../../../shared/utils/dates-helper';
 
 interface ActivityDatePickerProps {
   date: string;

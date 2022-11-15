@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { getActivityTimeline } from '../../background/tables/activity-timeline';
 import { TimelineRecord } from '../../shared/db/types';
-import { getHoursInMs, getIsoDate } from '../../shared/dates-helper';
+import { getHoursInMs, getIsoDate } from '../../shared/utils/dates-helper';
 
 export const useLastSixHoursTimelineEvents = () => {
   const [activityEvents, setActivityEvents] = useState<TimelineRecord[]>([]);

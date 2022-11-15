@@ -1,6 +1,6 @@
 import { DBSchema, openDB } from 'idb';
 
-import { ActiveTabState, LogMessage, Store, TimelineRecord } from './types';
+import { ActiveTabState, LogMessage, TimeStore, TimelineRecord } from './types';
 
 export enum Database {
   TimeTrackerStore = 'btt-store',
@@ -34,7 +34,7 @@ export interface TimelineDatabase extends DBSchema {
     key: string;
   };
   [TimeTrackerStoreTables.State]: {
-    value: ActiveTabState | TimelineRecord | Store | null;
+    value: ActiveTabState | TimelineRecord | TimeStore | null;
     key: string;
   };
 }

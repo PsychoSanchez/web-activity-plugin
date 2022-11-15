@@ -1,6 +1,6 @@
-import { Store } from '../db/types';
+import { TimeStore } from '../db/types';
 
-export const mergeStore = (storeA: Store, storeB: Store): Store => {
+export const mergeTimeStore = (storeA: TimeStore, storeB: TimeStore): TimeStore => {
   const storeAKeys = Object.keys(storeA);
   const storeBKeys = Object.keys(storeB);
 
@@ -11,7 +11,7 @@ export const mergeStore = (storeA: Store, storeB: Store): Store => {
     const valB = storeB[key] || 0;
 
     if (typeof valA === 'object' && typeof valB === 'object') {
-      res[key] = mergeStore(valA, valB) as any;
+      res[key] = mergeTimeStore(valA, valB) as any;
       return res;
     }
 
@@ -23,5 +23,5 @@ export const mergeStore = (storeA: Store, storeB: Store): Store => {
     res[key] = storeA[key] || storeB[key];
 
     return res;
-  }, {} as Store);
+  }, {} as TimeStore);
 };

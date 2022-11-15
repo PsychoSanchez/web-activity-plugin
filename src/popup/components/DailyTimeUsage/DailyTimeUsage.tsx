@@ -5,7 +5,7 @@ import { Panel, PanelBody, PanelHeader } from '../../../blocks/Panel';
 import {
   getMinutesInMs,
   getTimeWithoutSeconds,
-} from '../../../shared/dates-helper';
+} from '../../../shared/utils/dates-helper';
 
 import { DailyTimeUsageComponentProps } from './types';
 

@@ -5,7 +5,7 @@ import { useIsDarkMode } from '../../hooks/useTheme';
 import {
   getMinutesInMs,
   getTimeWithoutSeconds,
-} from '../../../shared/dates-helper';
+} from '../../../shared/utils/dates-helper';
 
 import { DailyUsageChartProps } from './types';
 

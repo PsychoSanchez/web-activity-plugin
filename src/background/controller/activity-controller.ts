@@ -1,4 +1,4 @@
-import { getIsoDate, getMinutesInMs } from '../../shared/dates-helper';
+import { getIsoDate, getMinutesInMs } from '../../shared/utils/dates-helper';
 import { addActivityTimeToHost } from '../../shared/db/sync-storage';
 import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
 

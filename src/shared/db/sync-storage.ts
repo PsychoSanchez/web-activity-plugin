@@ -1,25 +1,25 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { getIsoDate } from '../dates-helper';
-import { mergeStore } from '../utils/merge-store';
+import { getIsoDate } from '../utils/dates-helper';
+import { mergeTimeStore } from '../utils/merge-time-store';
 
 import {
   connect,
   TimeTrackerStoreStateTableKeys,
   TimeTrackerStoreTables,
 } from './idb';
-import { Store } from './types';
+import { TimeStore } from './types';
 
-const getDbCache = async (): Promise<Store> => {
+const getDbCache = async (): Promise<TimeStore> => {
   const db = await connect();
   const store = await db.get(
     TimeTrackerStoreTables.State,
     TimeTrackerStoreStateTableKeys.OverallState
   );
 
-  return (store || {}) as Store;
+  return (store || {}) as TimeStore;
 };
-const setDbCache = async (store: Store) => {
+const setDbCache = async (store: TimeStore) => {
   const db = await connect();
   db.put(
     TimeTrackerStoreTables.State,
@@ -28,17 +28,17 @@ const setDbCache = async (store: Store) => {
   );
 };
 
-const setLocalStore = async (store: Store) => {
+const setLocalStore = async (store: TimeStore) => {
   await setDbCache(store);
   await browser.storage.local.set(store);
 };
 
-const getLocalStore = async (): Promise<Store> => {
+const getLocalStore = async (): Promise<TimeStore> => {
   const [localStore, dbStore] = await Promise.all([
     browser.storage.local.get(),
     getDbCache(),
   ]);
-  return mergeStore(dbStore, localStore);
+  return mergeTimeStore(dbStore, localStore);
 };
 
 export const addActivityTimeToHost = async (host: string, duration: number) => {

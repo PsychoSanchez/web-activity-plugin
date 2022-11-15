@@ -5,7 +5,7 @@ import { Panel, PanelBody, PanelHeader } from '../../../blocks/Panel';
 import {
   getTimeFromMs,
   getTimeWithoutSeconds,
-} from '../../../shared/dates-helper';
+} from '../../../shared/utils/dates-helper';
 
 import { ActivityTableProps } from './types';
 

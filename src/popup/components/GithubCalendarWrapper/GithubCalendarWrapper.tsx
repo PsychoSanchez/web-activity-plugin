@@ -3,7 +3,7 @@ import Calendar from 'react-github-contribution-calendar';
 import ReactTooltip from 'react-tooltip';
 import { debounce } from 'throttle-debounce';
 
-import { getIsoDate } from '../../../shared/dates-helper';
+import { getIsoDate } from '../../../shared/utils/dates-helper';
 
 import { GithubCalendarProps } from './types';
 

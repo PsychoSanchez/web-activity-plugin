@@ -1,5 +1,5 @@
-import { AppStore } from '../popup/hooks/useTimeStore';
-import { getIsoDate } from '../shared/dates-helper';
+import { AppStore } from '../hooks/useTimeStore';
+import { getIsoDate } from '../../shared/utils/dates-helper';
 
 export const getTotalDailyActivity = (store: AppStore, date: Date) => {
   const todayIsoDate = getIsoDate(date);

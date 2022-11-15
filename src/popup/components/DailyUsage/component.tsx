@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Icon, IconType } from '../../../blocks/Icon';
 import { Panel, PanelHeader } from '../../../blocks/Panel';
-import { getMinutesInMs } from '../../../shared/dates-helper';
+import { getMinutesInMs } from '../../../shared/utils/dates-helper';
 
 import { TimeUsagePanel } from '../DailyTimeUsage/DailyTimeUsage';
 import { DailyUsageChart } from '../TopFiveActiveSitesChart/TopFiveActiveSitesChart';

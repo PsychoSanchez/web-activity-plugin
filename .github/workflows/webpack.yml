@@ -1,4 +1,4 @@
-name: NodeJS with Webpack
+name: Build CI
 
 on:
   push:
@@ -9,20 +9,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-
+    name: Build production
     steps:
     - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Install Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16
 
     - name: Build
       run: |
         npm install
         npx webpack --mode=production
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: web-activity-plugin
+        path: dist

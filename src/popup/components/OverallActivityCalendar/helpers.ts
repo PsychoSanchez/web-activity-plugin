@@ -1,4 +1,4 @@
-import { getHoursInMs, getMinutesInMs } from '../../../shared/dates-helper';
+import { getHoursInMs, getMinutesInMs } from '../../../shared/utils/dates-helper';
 
 import {
   CalendarDisplayedActivity,

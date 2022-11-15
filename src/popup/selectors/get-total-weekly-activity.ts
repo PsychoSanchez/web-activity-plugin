@@ -1,5 +1,5 @@
-import { AppStore } from '../popup/hooks/useTimeStore';
-import { get7DaysPriorDate } from '../shared/dates-helper';
+import { AppStore } from '../hooks/useTimeStore';
+import { get7DaysPriorDate } from '../../shared/utils/dates-helper';
 
 import { getTotalDailyActivity } from './get-total-daily-activity';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
-import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
+import { getTotalDailyActivity } from '../selectors/get-total-daily-activity';
+import { getTotalWeeklyActivity } from '../selectors/get-total-weekly-activity';
 
 import { AppStore } from './useTimeStore';
 

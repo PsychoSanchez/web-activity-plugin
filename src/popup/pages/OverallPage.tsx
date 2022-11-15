@@ -6,7 +6,7 @@ import { OverallActivityCalendarPanel } from '../components/OverallActivityCalen
 import { useLastSixHoursTimelineEvents } from '../hooks/useLastSixHoursTimeline';
 import { AppStore } from '../hooks/useTimeStore';
 import { useTotalWebsiteActivity } from '../hooks/useTotalWebsiteActivity';
-import { getMinutesInMs } from '../../shared/dates-helper';
+import { getMinutesInMs } from '../../shared/utils/dates-helper';
 
 export interface OverallPageProps {
   store: AppStore;

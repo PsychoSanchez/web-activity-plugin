@@ -4,14 +4,14 @@ import { Bar } from 'react-chartjs-2';
 import { Icon, IconType } from '../../../blocks/Icon';
 import { Panel, PanelHeader } from '../../../blocks/Panel';
 import { useIsDarkMode } from '../../hooks/useTheme';
-import { getTotalDailyActivity } from '../../../selectors/get-total-daily-activity';
+import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
 import {
   get7DaysPriorDate,
   getHoursInMs,
   getIsoDate,
   getTimeFromMs,
   getTimeWithoutSeconds,
-} from '../../../shared/dates-helper';
+} from '../../../shared/utils/dates-helper';
 
 import { WeeklyWebsiteActivityChartProps } from './types';
 

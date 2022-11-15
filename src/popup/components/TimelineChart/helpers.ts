@@ -1,5 +1,5 @@
 import { TimelineRecord } from '../../../shared/db/types';
-import { getMinutesInMs } from '../../../shared/dates-helper';
+import { getMinutesInMs } from '../../../shared/utils/dates-helper';
 
 const presentHour = (hour: number) => `${hour.toString().padStart(2, '0')}:00`;
 export const MINIMUM_DISPLAYED_ACTIVITY = getMinutesInMs(1);

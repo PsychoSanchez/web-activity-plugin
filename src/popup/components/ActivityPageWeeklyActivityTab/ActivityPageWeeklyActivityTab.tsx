@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { AppStore } from '../../hooks/useTimeStore';
-import { getTotalWeeklyActivity } from '../../../selectors/get-total-weekly-activity';
-import { get7DaysPriorDate, getIsoDate } from '../../../shared/dates-helper';
+import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
+import { get7DaysPriorDate, getIsoDate } from '../../../shared/utils/dates-helper';
 
 import { TimeUsagePanel } from '../DailyTimeUsage/DailyTimeUsage';
 import { WebsiteActivityTable } from '../WebsiteActivityTable/WebsiteActivityTable';

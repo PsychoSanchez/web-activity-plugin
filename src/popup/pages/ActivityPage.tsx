@@ -7,7 +7,7 @@ import { DailyActivityTab } from '../components/ActivityPageDailyActivityTab/Act
 import { ActivityPageWeeklyActivityTab } from '../components/ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
 import { WeekDatePicker } from '../components/WeekDatePicker/WeekDatePicker';
 import type { AppStore } from '../hooks/useTimeStore';
-import { getDatesWeekSundayDate, getIsoDate } from '../../shared/dates-helper';
+import { getDatesWeekSundayDate, getIsoDate } from '../../shared/utils/dates-helper';
 
 interface ActivityPageProps {
   store: AppStore;

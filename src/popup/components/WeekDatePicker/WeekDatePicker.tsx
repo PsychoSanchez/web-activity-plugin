@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Button, ButtonType } from '../../../blocks/Button';
 import { Icon, IconType } from '../../../blocks/Icon';
-import { getIsoDate } from '../../../shared/dates-helper';
+import { getIsoDate } from '../../../shared/utils/dates-helper';
 
 import { WeekDatePickerProps } from './types';
 
