@@ -1,9 +1,9 @@
-import cx from 'classnames';
 import * as React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import { Panel } from '../blocks/Panel';
-import { useTimeStore } from './hooks/useTimeStore';
 
+import { useTimeStore } from './hooks/useTimeStore';
 import { ActivityPage } from './pages/ActivityPage';
 import { OverallPage } from './pages/OverallPage';
 
@@ -58,7 +58,7 @@ export const PopupApp: React.FC<{}> = () => {
       TABS_VALUES.map((tab) => {
         return (
           <div
-            className={cx(
+            className={twMerge(
               'cursor-pointer flex-1 capitalize text-center rounded-xl p-2 text-lg font-light transition-colors duration-300',
               activeTab.tab === tab &&
                 'bg-neutral-300 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-200',
