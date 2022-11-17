@@ -1,7 +1,12 @@
-import { getIsoDate, getMinutesInMs } from '../../shared/utils/dates-helper';
-import { addActivityTimeToHost } from '../../shared/db/sync-storage';
+import {
+  addActivityTimeToHost,
+  getCurrentHostTime,
+} from '../../shared/db/sync-storage';
 import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
+import { getIsoDate, getMinutesInMs } from '../../shared/utils/dates-helper';
 
+import { setActionBadge } from '../browser-api/badge';
+import { getAllActiveTabs, getTabInfo, Tab } from '../browser-api/tabs';
 import { saveActivityTimelineRecord } from '../tables/activity-timeline';
 import { getActiveTabRecord, setActiveTabRecord } from '../tables/state';
 
@@ -15,12 +20,12 @@ const getHostNameFromUrl = (url: string) => {
 
 interface StateChangeVisitor {
   onStateChange: (ts: number) => Promise<void>;
-  onActivityStart: (tab: chrome.tabs.Tab, timestamp: number) => Promise<void>;
+  onActivityStart: (tab: Tab, timestamp: number) => Promise<void>;
   onInactivityStart: (timestamp: number) => Promise<void>;
 }
 
 export class ActivityStateController implements StateChangeVisitor {
-  async onActivityStart(tab: chrome.tabs.Tab, startTimestamp: number) {
+  async onActivityStart(tab: Tab, startTimestamp: number) {
     const currentTimelineRecord = await getActiveTabRecord();
 
     if (currentTimelineRecord?.url !== tab.url) {
@@ -33,6 +38,22 @@ export class ActivityStateController implements StateChangeVisitor {
     const currentTimelineRecord = await getActiveTabRecord();
     if (!currentTimelineRecord) {
       return;
+    }
+
+    const [currentHostTime, tab] = await Promise.all([
+      getCurrentHostTime(currentTimelineRecord.hostname),
+      getTabInfo(currentTimelineRecord.tabId),
+    ]);
+
+    const currentHostTimeInMinutes = Math.floor(currentHostTime / 1000 / 60);
+
+    if (currentHostTimeInMinutes > 0 && tab?.id) {
+      const time = `${currentHostTimeInMinutes.toFixed(0)}m`;
+      await setActionBadge({
+        text: time,
+        tabId: currentTimelineRecord.tabId,
+        color: '#4b76e3',
+      });
     }
 
     if (ts - currentTimelineRecord.activityPeriodStart > FIVE_MINUTES) {
@@ -83,15 +104,13 @@ export class ActivityStateController implements StateChangeVisitor {
     await this.processMidnightEdgeCase(currentIsoDate, currentTimelineRecord);
   }
 
-  private createNewTimelineRecord = async (
-    tab: chrome.tabs.Tab,
-    eventTs: number
-  ) => {
+  private createNewTimelineRecord = async (tab: Tab, eventTs: number) => {
     const date = getIsoDate(new Date(eventTs));
     const { url = '', title = '', favIconUrl } = tab;
     const hostname = getHostNameFromUrl(url);
 
     await setActiveTabRecord({
+      tabId: tab.id!,
       url,
       hostname,
       docTitle: title,

@@ -3,6 +3,7 @@
   "manifest_version": 3,
   "action": {
     "default_popup": "popup.html",
+    "default_title": "BroTime",
     "default_icon": {
       "32": "icons/icon-32.png"
     }
@@ -10,17 +11,19 @@
   "icons": {
     "128": "icons/icon-128.png"
   },
+  "minimum_chrome_version": "61",
   "version": "0.1",
   "description": "Time Tracking Assistant that helps you to be in charge of your time during web browsing",
   "permissions": [
-    "background",
     "idle",
     "storage",
     "tabs",
-    "alarms"
+    "alarms",
+    "scripting"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "http://*/*",
+    "https://*/*"
   ],
   "background": {
     "service_worker": "background.bundle.js"

@@ -1,14 +1,11 @@
 import {
   connect,
-  TimelineDatabase,
   TimeTrackerStoreStateTableKeys,
   TimeTrackerStoreTables,
 } from '../../shared/db/idb';
 import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
 
-export async function setActiveTabRecord(
-  val: TimelineDatabase['active-tab']['value']
-) {
+export async function setActiveTabRecord(val: TimelineRecord | null) {
   const db = await connect();
 
   await db.put(

@@ -61,6 +61,6 @@
     "react-tooltip": "^4.2.21",
     "tailwind-merge": "^1.6.2",
     "throttle-debounce": "^3.0.1",
-    "webextension-polyfill-ts": "^0.25.0"
+    "webextension-polyfill-ts": "^0.26.0"
   }
 }

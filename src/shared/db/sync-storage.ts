@@ -33,12 +33,19 @@ const setLocalStore = async (store: TimeStore) => {
   await browser.storage.local.set(store);
 };
 
-const getLocalStore = async (): Promise<TimeStore> => {
+export const getLocalStore = async (): Promise<TimeStore> => {
   const [localStore, dbStore] = await Promise.all([
     browser.storage.local.get(),
     getDbCache(),
   ]);
   return mergeTimeStore(dbStore, localStore);
+};
+
+export const getCurrentHostTime = async (host: string): Promise<number> => {
+  const store = await getLocalStore();
+  const currentDate = getIsoDate(new Date());
+
+  return (store[currentDate] as any)?.[host] ?? 0;
 };
 
 export const addActivityTimeToHost = async (host: string, duration: number) => {
@@ -48,14 +55,8 @@ export const addActivityTimeToHost = async (host: string, duration: number) => {
 
   // Update host time
   store[currentDate] ??= {};
-  const currentDateRecord = store[currentDate];
-
-  if (typeof currentDateRecord !== 'object') {
-    return;
-  }
-
-  currentDateRecord[host] ??= 0;
-  currentDateRecord[host] += duration;
+  store[currentDate][host] ??= 0;
+  store[currentDate][host] += duration;
 
   return setLocalStore(store);
 };

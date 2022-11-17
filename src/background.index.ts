@@ -1,3 +1,8 @@
+import {
+  getTabInfo,
+  greyOutTab,
+  unGreyOutTab,
+} from './background/browser-api/tabs';
 import { ActivityStateController } from './background/controller/activity-controller';
 import {
   handleActiveTabStateChange,
@@ -44,6 +49,12 @@ chrome.storage.onChanged.addListener(async (changes) => {
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   const ts = Date.now();
   logMessage('tab activated: ' + activeInfo.tabId);
+
+  const tab = await getTabInfo(activeInfo.tabId);
+  if (tab.url?.startsWith('http')) {
+    await unGreyOutTab(activeInfo.tabId);
+    // await greyOutTab(activeInfo.tabId);
+  }
 
   const newState = await handleActiveTabStateChange(activeInfo);
   if (newState) {

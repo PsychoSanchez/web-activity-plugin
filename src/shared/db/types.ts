@@ -1,9 +1,10 @@
 type Tab = chrome.tabs.Tab;
 type IdleState = chrome.idle.IdleState;
 
-export type TimeStore = Record<string, Record<string, number> | number>;
+export type TimeStore = Record<string, Record<string, number>>;
 
 export interface TimelineRecord {
+  tabId: number;
   url: string;
   hostname: string;
   docTitle: string;
