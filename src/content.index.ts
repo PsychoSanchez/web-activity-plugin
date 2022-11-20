@@ -1,3 +1,7 @@
+import {
+  ignore,
+  isExtensionContextInvalidatedError,
+} from './background/browser-api/errors';
 import { getMinutesInMs } from './shared/utils/dates-helper';
 
 // const BG_SCRIPT = 'background.bundle.js';
@@ -20,11 +24,15 @@ import { getMinutesInMs } from './shared/utils/dates-helper';
 // });
 
 function tryWakeUpBackground() {
-  chrome.runtime.sendMessage({ type: 'wake-up' }, (response) => {
-    if (!response) {
-      console.error('Background is not awake');
-    }
-  });
+  try {
+    chrome.runtime.sendMessage({ type: 'wake-up' }, (response) => {
+      if (!response) {
+        console.error('Background is not awake');
+      }
+    });
+  } catch (error) {
+    ignore(isExtensionContextInvalidatedError)(error);
+  }
 }
 
 const connectToExtension = () =>

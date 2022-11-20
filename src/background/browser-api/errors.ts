@@ -9,6 +9,15 @@ export function isUserDraggingWindowError(error: unknown): error is Error {
   );
 }
 
+export function isExtensionContextInvalidatedError(
+  error: unknown
+): error is Error {
+  return (
+    error instanceof Error &&
+    error.message.indexOf('Extension context invalidated') > -1
+  );
+}
+
 export function ignore<T extends Array<(error: unknown) => error is Error>>(
   ...handlers: T
 ): (error: unknown) => null {
