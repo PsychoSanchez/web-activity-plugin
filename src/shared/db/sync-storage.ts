@@ -48,22 +48,21 @@ export const getCurrentHostTime = async (host: string): Promise<number> => {
   return (store[currentDate] as any)?.[host] ?? 0;
 };
 
-export const addActivityTimeToHost = async (host: string, duration: number) => {
-  const currentDate = getIsoDate(new Date());
-
+export const setTotalDailyHostTime = async ({
+  date: day,
+  host,
+  duration,
+}: {
+  date: string;
+  host: string;
+  duration: number;
+}) => {
   const store = await getLocalStore();
 
-  // Update host time
-  store[currentDate] ??= {};
-  store[currentDate][host] ??= 0;
-  store[currentDate][host] += duration;
+  store[day] ??= {};
+  store[day][host] = duration;
 
   return setLocalStore(store);
-};
-
-export const handleStorageChange = async (changes: any) => {
-  const cache = await getLocalStore();
-  await setDbCache({ ...cache, ...changes.newValue });
 };
 
 export const syncStorage = async () => {

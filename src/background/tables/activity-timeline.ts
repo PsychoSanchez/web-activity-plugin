@@ -10,7 +10,7 @@ export async function getActivityTimeline(isoDate: string) {
   return db.getAllFromIndex(TimeTrackerStoreTables.Timeline, 'date', isoDate);
 }
 
-export async function saveActivityTimelineRecord(
+export async function putActivityTimelineRecord(
   val: TimelineDatabase['timeline']['value']
 ) {
   const db = await connect();

@@ -1,13 +1,18 @@
 import { browser } from 'webextension-polyfill-ts';
 
+import type {
+  IdleState,
+  Tab,
+  TabActiveInfo,
+} from '../../shared/browser-api.types';
 import { ActiveTabState } from '../../shared/db/types';
 
+import { isUserDraggingWindowError } from '../browser-api/errors';
 import {
   getAllActiveTabs,
-  getActiveTabFromFocusedWindow,
+  getTabFromFocusedWindow,
   getActiveTabFromWindowId,
 } from '../browser-api/tabs';
-import type { IdleState, Tab, TabActiveInfo } from '../browser-api/tabs';
 import { getFocusedWindowId } from '../browser-api/windows';
 import {
   createTabsStateTransaction,
@@ -32,10 +37,6 @@ async function getTabsStateOrDefault() {
   return (await getTabsState()) ?? DEFAULT_ACTIVE_TAB_STATE;
 }
 
-function isUserDraggingWindowError(error: any) {
-  return error.message.indexOf('user may be dragging a tab') > -1;
-}
-
 export const handleActiveTabStateChange = async (
   tabInfo: TabActiveInfo
 ): Promise<ActiveTabState> => {
@@ -44,7 +45,7 @@ export const handleActiveTabStateChange = async (
   try {
     const [activeTabs, focusedWindowAndActiveTab] = await Promise.all([
       getAllActiveTabs(),
-      getActiveTabFromFocusedWindow(windowId, tabId),
+      getTabFromFocusedWindow(windowId, tabId),
     ]);
 
     await createTabsStateTransaction();

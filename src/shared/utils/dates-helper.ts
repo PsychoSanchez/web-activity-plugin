@@ -66,3 +66,18 @@ export const getDatesWeekSundayDate = (date: Date = new Date()) => {
 
   return date;
 };
+
+export const presentHoursOrMinutesFromMinutes = (minutes: number) => {
+  if (minutes < 60) {
+    return `${minutes.toFixed(0)}m`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const hoursRounded = Math.round(minutes / 60);
+
+  if (hoursRounded === hours) {
+    return `${hoursRounded}h`;
+  }
+
+  return `${hoursRounded - 0.5}h`;
+};

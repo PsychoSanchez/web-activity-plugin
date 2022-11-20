@@ -5,6 +5,7 @@ module.exports = (env, argv) => ({
   entry: {
     background: './src/background.index.ts',
     popup: './src/popup.index.tsx',
+    content: './src/content.index.ts',
   },
   devtool: argv.mode === 'development' ? 'inline-source-map' : undefined,
   module: {
@@ -16,12 +17,8 @@ module.exports = (env, argv) => ({
       },
       {
         test: /\.css$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-        ],
-      }
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      },
     ],
   },
   plugins: [

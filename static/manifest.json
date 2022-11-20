@@ -11,6 +11,16 @@
   "icons": {
     "128": "icons/icon-128.png"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.bundle.js"
+      ]
+    }
+  ],
   "minimum_chrome_version": "61",
   "version": "0.1",
   "description": "Time Tracking Assistant that helps you to be in charge of your time during web browsing",
@@ -19,7 +29,8 @@
     "storage",
     "tabs",
     "alarms",
-    "scripting"
+    "scripting",
+    "webNavigation"
   ],
   "host_permissions": [
     "http://*/*",

@@ -2,24 +2,33 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { ActiveTabState } from '../../shared/db/types';
 
-export type TabActiveInfo = chrome.tabs.TabActiveInfo;
-export type Tab = chrome.tabs.Tab;
-export type IdleState = chrome.idle.IdleState;
+import { ignore, isTabNotExistError } from './errors';
+import { getFocusedWindowId } from './windows';
 
 export const getActiveAudibleTab = () =>
-  chrome.tabs.query({
+  browser.tabs.query({
     active: true,
     audible: true,
   });
 
-export const getTabInfo = (tabId: number) => browser.tabs.get(tabId);
+export const getTabInfo = (tabId: number) =>
+  browser.tabs.get(tabId).catch(ignore(isTabNotExistError));
 
 export const getAllActiveTabs = () =>
-  chrome.tabs.query({
+  browser.tabs.query({
     active: true,
   });
 
-export const getActiveTabFromFocusedWindow = async (
+export const getFocusedTab = async () => {
+  const windowId = await getFocusedWindowId();
+  const tabs = await browser.tabs.query({
+    windowId,
+  });
+
+  return tabs.filter((tab) => tab.active || tab.highlighted)[0];
+};
+
+export const getTabFromFocusedWindow = async (
   windowId: number,
   tabId: number
 ): Promise<Partial<ActiveTabState>> => {
@@ -28,11 +37,11 @@ export const getActiveTabFromFocusedWindow = async (
     return {};
   }
 
-  const tabs = await chrome.tabs.query({
+  const tabs = await browser.tabs.query({
     windowId,
   });
 
-  const focusedActiveTab = tabs.find((tab) => tabId === tab.id) || null;
+  const focusedActiveTab = tabs.find((tab) => tabId === tab.id) ?? null;
 
   return {
     focusedWindowId: windowId,
@@ -44,7 +53,7 @@ export const getActiveTabFromWindowId = async (windowId: number) => {
   const [activeTab = null] =
     windowId === browser.windows.WINDOW_ID_NONE
       ? await getActiveAudibleTab()
-      : await chrome.tabs.query({
+      : await browser.tabs.query({
           windowId,
           active: true,
         });
@@ -61,27 +70,25 @@ body {
 }`;
 
 export const greyOutTab = async (tabId: number) => {
-  await browser.tabs.insertCSS?.(tabId, { code: greyOutCss });
-  await browser.scripting.insertCSS?.({
-    target: {
-      tabId,
-    },
-    css: greyOutCss,
-  });
-  //   await browser.tabs.executeScript(tabId, {
-  //     code,
-  //   });
+  await Promise.all([
+    browser.tabs.insertCSS?.(tabId, { code: greyOutCss }),
+    browser.scripting.insertCSS?.({
+      target: {
+        tabId,
+      },
+      css: greyOutCss,
+    }),
+  ]).catch(ignore(isTabNotExistError));
 };
 
 export const unGreyOutTab = async (tabId: number) => {
-  await browser.tabs.removeCSS?.(tabId, { code: greyOutCss });
-  await browser.scripting.removeCSS?.({
-    target: {
-      tabId,
-    },
-    css: greyOutCss,
-  });
-  //   await browser.tabs.executeScript(tabId, {
-  //     code,
-  //   });
+  await Promise.all([
+    browser.tabs.removeCSS?.(tabId, { code: greyOutCss }),
+    browser.scripting.removeCSS?.({
+      target: {
+        tabId,
+      },
+      css: greyOutCss,
+    }),
+  ]).catch(ignore(isTabNotExistError));
 };

@@ -1,5 +1,4 @@
-type Tab = chrome.tabs.Tab;
-type IdleState = chrome.idle.IdleState;
+import { IdleState, Tab } from '../browser-api.types';
 
 export type TimeStore = Record<string, Record<string, number>>;
 

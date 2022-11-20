@@ -5,6 +5,6 @@ export const getFocusedWindowId = async () => {
 
   return (
     windows.find((window) => window.focused)?.id ||
-    chrome.windows.WINDOW_ID_NONE
+    browser.windows.WINDOW_ID_NONE
   );
 };
