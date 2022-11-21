@@ -16,18 +16,10 @@ export class ActiveTimelineRecordDao {
     return this.record;
   }
 
-  public async set(record: TimelineRecord | null) {
+  public async set(record: TimelineRecord) {
     this.record = Promise.resolve(record);
 
     await setActiveTabRecord(record);
-  }
-
-  public async update(update: Partial<TimelineRecord>) {
-    const record = await this.get();
-
-    if (record) {
-      await this.set({ ...record, ...update });
-    }
   }
 
   public async isExist() {

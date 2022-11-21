@@ -40,7 +40,6 @@ export const getCombinedTotalDailyActivity = (
   totalActivity: TotalDailyActivity = {}
 ) => {
   return Object.keys(totalActivity)
-    .filter((key) => key.indexOf('-') === 4)
     .reduce((acc, key) => {
       const totalTimeSpentThatDay = Object.values(totalActivity[key]).reduce(
         (acc, val) => acc + val,

@@ -1,6 +1,8 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { ignore, isTabNotExistError } from './errors';
+import { ignore } from '../../shared/utils/errors';
+
+import { isTabNotExistError } from './errors';
 
 export const setActionBadge = async ({
   tabId,

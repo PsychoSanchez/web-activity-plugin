@@ -8,6 +8,7 @@
     "module": "es6",
     "target": "es5",
     "jsx": "react",
+    "lib": ["ESNext", "DOM"],
     "allowJs": true,
     "moduleResolution": "node",
     "jsxFactory": "React.createElement",

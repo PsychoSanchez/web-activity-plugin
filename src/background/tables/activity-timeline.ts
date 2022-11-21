@@ -3,6 +3,9 @@ import {
   TimelineDatabase,
   TimeTrackerStoreTables,
 } from '../../shared/db/idb';
+import { ignore } from '../../shared/utils/errors';
+
+import { isKeyAlreadyExistsError } from './errors';
 
 export async function getActivityTimeline(isoDate: string) {
   const db = await connect();
@@ -14,5 +17,7 @@ export async function putActivityTimelineRecord(
   val: TimelineDatabase['timeline']['value']
 ) {
   const db = await connect();
-  await db.add(TimeTrackerStoreTables.Timeline, val);
+  await db
+    .add(TimeTrackerStoreTables.Timeline, val)
+    .catch(ignore(isKeyAlreadyExistsError));
 }

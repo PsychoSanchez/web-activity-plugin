@@ -1,8 +1,9 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { ActiveTabState } from '../../shared/db/types';
+import { ignore } from '../../shared/utils/errors';
 
-import { ignore, isTabNotExistError } from './errors';
+import { isTabNotExistError } from './errors';
 import { getFocusedWindowId } from './windows';
 
 export const getActiveAudibleTab = () =>
@@ -25,7 +26,10 @@ export const getFocusedTab = async () => {
     windowId,
   });
 
-  return tabs.filter((tab) => tab.active || tab.highlighted)[0];
+  return (
+    tabs.filter((tab) => tab.active)[0] ??
+    tabs.filter((tab) => tab.highlighted)[0]
+  );
 };
 
 export const getTabFromFocusedWindow = async (

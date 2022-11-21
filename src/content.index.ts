@@ -1,8 +1,6 @@
-import {
-  ignore,
-  isExtensionContextInvalidatedError,
-} from './background/browser-api/errors';
+import { isExtensionContextInvalidatedError } from './background/browser-api/errors';
 import { getMinutesInMs } from './shared/utils/dates-helper';
+import { ignore } from './shared/utils/errors';
 
 // const BG_SCRIPT = 'background.bundle.js';
 // navigator.serviceWorker.getRegistrations().then((res) => {
