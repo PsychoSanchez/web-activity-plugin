@@ -34,7 +34,9 @@ function tryWakeUpBackground() {
 }
 
 const connectToExtension = () =>
-  chrome.runtime.connect().onDisconnect.addListener(connectToExtension);
+  chrome.runtime.connect().onDisconnect.addListener(() => {
+    setTimeout(() => connectToExtension(), getMinutesInMs(1));
+  });
 
 setInterval(() => {
   // if page is on foreground, try to wake up background
