@@ -1,7 +1,7 @@
-import { AppStore } from '../../hooks/useTimeStore';
+import { TimeStore } from '../../hooks/useTimeStore';
 
 export interface WeeklyWebsiteActivityChartProps {
-  store: AppStore;
+  store: TimeStore;
   sundayDate: Date;
   presentChartTitle?: (weekName: string) => string;
 }

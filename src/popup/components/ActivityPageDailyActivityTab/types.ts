@@ -1,6 +1,6 @@
-import { AppStore } from '../../hooks/useTimeStore';
+import { TimeStore } from '../../hooks/useTimeStore';
 
 export interface DailyActivityTabProps {
-  store: AppStore;
+  store: TimeStore;
   date: string;
 }

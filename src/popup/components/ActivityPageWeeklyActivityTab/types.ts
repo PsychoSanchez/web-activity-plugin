@@ -1,6 +1,6 @@
-import { AppStore } from '../../hooks/useTimeStore';
+import { TimeStore } from '../../hooks/useTimeStore';
 
 export interface ActivityPageWeeklyActivityTabProps {
-  store: AppStore;
+  store: TimeStore;
   sundayDate: Date;
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AppStore } from '../../hooks/useTimeStore';
+import { TimeStore } from '../../hooks/useTimeStore';
 import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
 import { get7DaysPriorDate, getIsoDate } from '../../../shared/utils/dates-helper';
 
@@ -27,7 +27,7 @@ export const ActivityPageWeeklyActivityTab: React.FC<ActivityPageWeeklyActivityT
           acc[isoDate] = store[isoDate] || {};
 
           return acc;
-        }, {} as AppStore),
+        }, {} as TimeStore),
       [store, sundayDate]
     );
 

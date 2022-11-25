@@ -2,15 +2,18 @@ import * as React from 'react';
 
 import { Button, ButtonType } from '../../blocks/Button';
 import { Panel } from '../../blocks/Panel';
+import {
+  getDatesWeekSundayDate,
+  getIsoDate,
+} from '../../shared/utils/dates-helper';
+
 import { ActivityDatePicker } from '../components/ActivityDatePicker';
 import { DailyActivityTab } from '../components/ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
 import { ActivityPageWeeklyActivityTab } from '../components/ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
 import { WeekDatePicker } from '../components/WeekDatePicker/WeekDatePicker';
-import type { AppStore } from '../hooks/useTimeStore';
-import { getDatesWeekSundayDate, getIsoDate } from '../../shared/utils/dates-helper';
+import { usePopupContext } from '../hooks/PopupContext';
 
 interface ActivityPageProps {
-  store: AppStore;
   date?: string;
 }
 
@@ -20,18 +23,17 @@ enum ActivityPageTabs {
 }
 
 export const ActivityPage: React.FC<ActivityPageProps> = ({
-  store,
   date: openOnDate,
 }) => {
   const [activeTab, setActiveTab] = React.useState(ActivityPageTabs.Daily);
-
   const [pickedIsoDate, setPickedIsoDate] = React.useState(
     openOnDate || getIsoDate(new Date())
   );
-
   const [pickedSunday, setPickedSunday] = React.useState(
     getDatesWeekSundayDate()
   );
+
+  const { store } = usePopupContext();
 
   const tabs = React.useMemo(() => {
     return Object.entries(ActivityPageTabs).map(([key, value]) => {
@@ -56,7 +58,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
   return (
     <>
       <Panel className="flex items-center justify-between p-2 gap-2">
-        <div className='flex gap-2'>{tabs}</div>
+        <div className="flex gap-2">{tabs}</div>
         {activeTab === ActivityPageTabs.Daily && (
           <ActivityDatePicker
             date={pickedIsoDate}

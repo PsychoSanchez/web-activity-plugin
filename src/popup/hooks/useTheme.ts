@@ -38,6 +38,7 @@ export const initTheme = () => {
 
   setTheme(theme as any);
 };
+
 function isTimeForDarkMode() {
   const date = new Date();
   const hours = date.getHours();

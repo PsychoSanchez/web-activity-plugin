@@ -2,12 +2,12 @@ import * as React from 'react';
 import { browser } from 'webextension-polyfill-ts';
 
 import { getActiveTabRecord } from '../../background/tables/state';
-import { TimeStore } from '../../shared/db/types';
+import type { TimeStore } from '../../shared/db/types';
 
-export type AppStore = TimeStore;
+export { TimeStore };
 
 export const useTimeStore = () => {
-  const [store, setStore] = React.useState<AppStore>({} as AppStore);
+  const [store, setStore] = React.useState<TimeStore>({} as TimeStore);
 
   React.useEffect(() => {
     Promise.all([browser.storage.local.get(), getActiveTabRecord()]).then(

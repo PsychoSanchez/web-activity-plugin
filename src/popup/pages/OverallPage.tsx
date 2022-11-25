@@ -1,18 +1,16 @@
 import * as React from 'react';
 
-import { getFocusedTab } from '../../background/browser-api/tabs';
-import { getIsoDate, getMinutesInMs } from '../../shared/utils/dates-helper';
+import { getMinutesInMs } from '../../shared/utils/dates-helper';
 
 import { TimeUsagePanel } from '../components/DailyTimeUsage/DailyTimeUsage';
 import { GeneralTimeline } from '../components/GeneralTimeline/GeneralTimeline';
 import { OverallActivityCalendarPanel } from '../components/OverallActivityCalendar/OverallActivtyCalendar';
+import { usePopupContext } from '../hooks/PopupContext';
 import { useActiveTabTime } from '../hooks/useActiveTabTime';
 import { useLastSixHoursTimelineEvents } from '../hooks/useLastSixHoursTimeline';
-import { AppStore } from '../hooks/useTimeStore';
 import { useTotalWebsiteActivity } from '../hooks/useTotalWebsiteActivity';
 
 export interface OverallPageProps {
-  store: AppStore;
   onNavigateToActivityPage: React.ComponentProps<
     typeof OverallActivityCalendarPanel
   >['navigateToDateActivityPage'];
@@ -21,12 +19,12 @@ export interface OverallPageProps {
 const MINUTE_IN_MS = getMinutesInMs(1);
 
 export const OverallPage: React.FC<OverallPageProps> = ({
-  store,
   onNavigateToActivityPage,
 }) => {
+  const { store, activeHostname } = usePopupContext();
   const { todaysUsage, weeklyUsage } = useTotalWebsiteActivity(store);
   const timelineEvents = useLastSixHoursTimelineEvents();
-  const { host, time } = useActiveTabTime(store);
+  const time = useActiveTabTime();
 
   return (
     <div>
@@ -40,7 +38,7 @@ export const OverallPage: React.FC<OverallPageProps> = ({
       ) : null}
       {time ? (
         <TimeUsagePanel
-          title={`Surfed on ${host}`}
+          title={`Surfed on ${activeHostname}`}
           time={time}
           averageTime={weeklyUsage / 7}
           averageTimeComparedTo="last 7 days average"
