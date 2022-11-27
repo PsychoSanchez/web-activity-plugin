@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  buttonType: ButtonType;
+  buttonType?: ButtonType;
 }
 
 export enum ButtonType {

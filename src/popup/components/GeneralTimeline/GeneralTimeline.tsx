@@ -24,20 +24,23 @@ export const GeneralTimeline: React.FC<GeneralTimelineProps> = React.memo(
         </PanelHeader>
         <PanelBody
           className={twMerge(
-            'flex items-center justify-center min-h-[215px]',
-            activityTimeline.length === 0 && 'hidden'
+            'relative flex items-center justify-center min-h-[215px] h-[215px] transition-opacity duration-300 opacity-0',
+            activityTimeline.length > 0 && 'opacity-100'
           )}
         >
           <TimelineChart
             emptyHoursMarginCount={emptyHoursMarginCount}
             timelineEvents={activityTimeline}
           />
-        </PanelBody>
-        {activityTimeline.length === 0 && (
-          <span className="text-neutral-400">
-            Doesn't have timeline data for this day
+          <span
+            className={twMerge(
+              'absolute text-neutral-400 top-2 left-2 transition-opacity duration-75 opacity-0',
+              activityTimeline.length === 0 && 'opacity-100'
+            )}
+          >
+            Don't have timeline data for this day
           </span>
-        )}
+        </PanelBody>
       </Panel>
     );
   }

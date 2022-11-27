@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { Icon, IconType } from '../blocks/Icon';
 import { Panel } from '../blocks/Panel';
 
 import { PopupContextProvider } from './hooks/PopupContext';
 import { ActivityPage } from './pages/ActivityPage';
+import { ExtrasPage } from './pages/ExtrasPage';
 import { OverallPage } from './pages/OverallPage';
 
 import './App.css';
@@ -12,7 +14,7 @@ import './App.css';
 enum Pages {
   Overall = 'overall',
   Detailed = 'detailed',
-  // Goals = 'goals',
+  Extras = 'extras',
 }
 
 const PAGES_VALUES = Object.values(Pages);
@@ -42,8 +44,8 @@ export const PopupApp: React.FC<{}> = () => {
         );
       case Pages.Detailed:
         return <ActivityPage date={activePage.params?.date} />;
-      // case Tabs.Goals:
-      //   return <span>Goals</span>;
+      case Pages.Extras:
+        return <ExtrasPage />;
 
       default:
         return null;
@@ -60,12 +62,13 @@ export const PopupApp: React.FC<{}> = () => {
               activePage.tab === tab &&
                 'bg-neutral-300 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-200',
               activePage.tab !== tab &&
-                'hover:bg-neutral-100 text-neutral-400 dark:hover:bg-neutral-900 dark:text-neutral-400'
+                'hover:bg-neutral-100 text-neutral-400 dark:hover:bg-neutral-900 dark:text-neutral-400',
+              tab === Pages.Extras && 'max-w-[75px]'
             )}
             key={tab}
             onClick={() => setPage({ tab, params: {} })}
           >
-            {tab}
+            {tab === Pages.Extras ? <Icon type={IconType.BurgerMenu} /> : tab}
           </div>
         );
       }),

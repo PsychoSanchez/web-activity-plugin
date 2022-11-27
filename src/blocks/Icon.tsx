@@ -10,6 +10,11 @@ export enum IconType {
   ChartPieAlt = 'fi-rr-chart-pie-alt',
   LeftArrow = 'fi-rr-arrow-left',
   RightArrow = 'fi-rr-arrow-right',
+  BurgerMenu = 'fi-rr-menu-burger',
+  CloudDownload = 'fi-rr-cloud-download-alt',
+  Moon = 'fi-rr-moon-stars',
+  Sun = 'fi-rr-sun',
+  Eclipse = 'fi-rr-eclipse',
 }
 
 export interface IconProps {

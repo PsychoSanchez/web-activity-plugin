@@ -26,14 +26,14 @@ export const PanelHeader: React.FC<PanelComponentClassNameProps> = ({
   className,
 }) => {
   return (
-    <div
+    <h2
       className={twMerge(
         'text-base font-medium pb-1 text-neutral-900 dark:text-neutral-200',
         className
       )}
     >
       {children}
-    </div>
+    </h2>
   );
 };
 
