@@ -15,13 +15,21 @@ export enum IconType {
   Moon = 'fi-rr-moon-stars',
   Sun = 'fi-rr-sun',
   Eclipse = 'fi-rr-eclipse',
+  Close = 'fi-rr-cross-circle',
+  Eye = 'fi-rr-eye',
 }
 
 export interface IconProps {
   className?: string;
+  onClick?: () => void;
   type: IconType;
 }
 
-export const Icon: React.FC<IconProps> = ({ className, type }) => {
-  return <i className={twMerge('mr-1 text-sm fi', type, className)} />;
+export const Icon: React.FC<IconProps> = ({ className, type, onClick }) => {
+  return (
+    <i
+      className={twMerge('mr-1 text-sm fi', type, className)}
+      onClick={onClick}
+    />
+  );
 };

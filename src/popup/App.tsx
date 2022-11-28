@@ -68,7 +68,11 @@ export const PopupApp: React.FC<{}> = () => {
             key={tab}
             onClick={() => setPage({ tab, params: {} })}
           >
-            {tab === Pages.Extras ? <Icon type={IconType.BurgerMenu} /> : tab}
+            {tab === Pages.Extras ? (
+              <Icon type={IconType.BurgerMenu} className="m-0" />
+            ) : (
+              tab
+            )}
           </div>
         );
       }),

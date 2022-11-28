@@ -24,3 +24,9 @@ export interface LogMessage {
   message: string;
   timestamp: number;
 }
+
+export interface Preferences {
+  ignoredHosts: string[];
+  limits: Record<string, number>;
+  displayTimeOnBadge: boolean;
+}

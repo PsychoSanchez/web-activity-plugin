@@ -1,4 +1,5 @@
 import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
+import { getSettings } from '../../shared/preferences';
 import { getIsoDate, getMinutesInMs } from '../../shared/utils/dates-helper';
 import { isInvalidUrl } from '../../shared/utils/url';
 
@@ -15,10 +16,11 @@ export const handleStateChange = async (
   activeTabState: ActiveTabState,
   timestamp: number = Date.now()
 ) => {
+  const preferences = await getSettings();
   const activeTimeline = new ActiveTimelineRecordDao();
   const currentTimelineRecord = await activeTimeline.get();
 
-  const focusedActiveTab = activeTabState.focusedActiveTab;
+  const focusedActiveTab = activeTabState.focusedActiveTab ?? null;
   const isLocked = activeTabState.idleState === 'locked';
   const isNotFocused = !focusedActiveTab;
   const isIdleAndNotAudible =
@@ -38,9 +40,11 @@ export const handleStateChange = async (
     await activeTimeline.set(currentTimelineRecord);
   }
 
-  if (focusedActiveTab) {
-    updateTimeOnBadge(focusedActiveTab, currentTimelineRecord);
-  }
+  updateTimeOnBadge(
+    focusedActiveTab,
+    currentTimelineRecord,
+    preferences.displayTimeOnBadge
+  );
 
   if (
     isLocked ||

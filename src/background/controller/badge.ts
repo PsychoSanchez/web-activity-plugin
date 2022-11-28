@@ -7,11 +7,16 @@ import { getHostNameFromUrl } from '../../shared/utils/url';
 import { setActionBadge, hideBadge } from '../browser-api/badge';
 
 export async function updateTimeOnBadge(
-  focusedActiveTab: Tab,
-  currentTimelineRecord: TimelineRecord | null
+  focusedActiveTab: Tab | null,
+  currentTimelineRecord: TimelineRecord | null,
+  isEnabled: boolean
 ) {
   if (!focusedActiveTab?.id) {
     return;
+  }
+
+  if (!isEnabled) {
+    return hideBadge(focusedActiveTab?.id);
   }
 
   const [committedHostTime] = await Promise.all([
