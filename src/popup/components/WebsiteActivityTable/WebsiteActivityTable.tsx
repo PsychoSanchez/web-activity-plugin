@@ -60,7 +60,7 @@ export const WebsiteActivityTable: React.FC<ActivityTableProps> = React.memo(
                 key={domain}
               >
                 <Icon
-                  type={IconType.Eye}
+                  type={IconType.Close}
                   className="hover:text-neutral-400 cursor-pointer"
                   onClick={() => handleHideDomainClick(domain)}
                 />
@@ -78,9 +78,9 @@ export const WebsiteActivityTable: React.FC<ActivityTableProps> = React.memo(
             );
           })}
           <p>Click on the website name to view stats for this website.</p>
-          <p className="flex items-center">
-            Click on the <Icon type={IconType.Eye} /> icon to hide and ignore
-            this website.
+          <p className="flex items-center gap-1">
+            Click on the <Icon className="m-0" type={IconType.Close} /> icon to
+            hide and ignore this website.
           </p>
         </PanelBody>
       </Panel>
