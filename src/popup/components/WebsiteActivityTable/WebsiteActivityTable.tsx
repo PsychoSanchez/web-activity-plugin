@@ -52,7 +52,7 @@ export const WebsiteActivityTable: React.FC<ActivityTableProps> = React.memo(
           </span>
           <span>{getTimeWithoutSeconds(totalActivity)}</span>
         </PanelHeader>
-        <PanelBody className="flex flex-col gap-1">
+        <PanelBody className="flex flex-col gap-2">
           {websiteSortedDesc.map(([domain, time]) => {
             return (
               <div
@@ -77,8 +77,10 @@ export const WebsiteActivityTable: React.FC<ActivityTableProps> = React.memo(
               </div>
             );
           })}
-          <p>Click on the website name to view stats for this website.</p>
-          <p className="flex items-center gap-1">
+          <p className="text-neutral-300">
+            Click on the website name to view stats for this website.
+          </p>
+          <p className="flex items-center gap-1 text-neutral-300">
             Click on the <Icon className="m-0" type={IconType.Close} /> icon to
             hide and ignore this website.
           </p>
