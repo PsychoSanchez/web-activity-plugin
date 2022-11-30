@@ -7,7 +7,7 @@ import { Panel, PanelBody, PanelHeader } from '../../../blocks/Panel';
 import { assertDomainIsValid } from '../../../shared/utils/domains';
 import { usePopupContext } from '../../hooks/PopupContext';
 
-export const LimitsSetting: React.FC = ({}) => {
+export const LimitsSetting: React.FC = () => {
   const { settings, updateSettings } = usePopupContext();
   const [limits, setLimits] = React.useState<Record<string, number>>(
     settings.limits
@@ -33,7 +33,9 @@ export const LimitsSetting: React.FC = ({}) => {
         });
 
         setDomainToLimit('');
-      } catch (_) {}
+      } catch (_) {
+        //
+      }
     },
     [setLimits, updateSettings]
   );

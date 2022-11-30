@@ -19,7 +19,7 @@ enum Pages {
 
 const PAGES_VALUES = Object.values(Pages);
 
-export const PopupApp: React.FC<{}> = () => {
+export const PopupApp: React.FC = () => {
   const [activePage, setPage] = React.useState({
     tab: Pages.Overall,
     params: {} as Record<string, any>,
@@ -50,7 +50,11 @@ export const PopupApp: React.FC<{}> = () => {
       default:
         return null;
     }
-  }, [activePage]);
+  }, [
+    activePage.params?.date,
+    activePage.tab,
+    handleNavigateToActivityDatePage,
+  ]);
 
   const tabs = React.useMemo(
     () =>

@@ -7,6 +7,7 @@ import { setActiveTabRecord } from '../tables/state';
 
 import { ActiveTimelineRecordDao, createNewActiveRecord } from './active';
 import { updateTimeOnBadge } from './badge';
+import { handlePageLimitExceed } from './limits';
 import { updateTotalTime } from './overall';
 import { saveTimelineRecord } from './timeline';
 
@@ -44,6 +45,12 @@ export const handleStateChange = async (
     focusedActiveTab,
     currentTimelineRecord,
     preferences.displayTimeOnBadge
+  );
+
+  handlePageLimitExceed(
+    preferences.limits,
+    focusedActiveTab,
+    currentTimelineRecord
   );
 
   if (

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 
-import { useIsDarkMode, useTheme } from '../../hooks/useTheme';
+import { useIsDarkMode } from '../../hooks/useTheme';
 
 import {
   getChartTimeLabels,
@@ -26,7 +26,7 @@ const OPTIONS = {
           }, 0);
           return `${totalActivityThisHour}m surfed between ${items[0].label}`;
         },
-        label: () => {},
+        label: () => void 0,
       },
     },
     title: {
