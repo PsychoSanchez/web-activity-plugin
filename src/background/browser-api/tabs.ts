@@ -70,7 +70,7 @@ export const getTabFromFocusedWindow = async (
 
 export const getActiveTabFromWindowId = async (windowId: number) => {
   const [activeTab = null] =
-    windowId === browser.windows.WINDOW_ID_NONE
+    windowId === chrome.windows.WINDOW_ID_NONE
       ? await getActiveAudibleTab()
       : await browser.tabs.query({
           windowId,
@@ -81,7 +81,7 @@ export const getActiveTabFromWindowId = async (windowId: number) => {
 };
 
 export const greyOutTab = async (tabId: number) => {
-  await browser.tabs
+  await chrome.tabs
     .sendMessage(tabId, {
       type: LIMIT_EXCEEDED,
     })
@@ -89,7 +89,7 @@ export const greyOutTab = async (tabId: number) => {
 };
 
 export const unGreyOutTab = async (tabId: number) => {
-  await browser.tabs
+  await chrome.tabs
     .sendMessage(tabId, {
       type: LIMIT_OK,
     })
