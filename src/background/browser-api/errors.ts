@@ -5,6 +5,15 @@ export function isTabNotExistError(error: unknown): error is Error {
   );
 }
 
+export function isCouldNotEstablishConnectionError(
+  error: unknown
+): error is Error {
+  return (
+    error instanceof Error &&
+    error.message.toLowerCase().startsWith('could not establish connection')
+  );
+}
+
 export function isUserDraggingWindowError(error: unknown): error is Error {
   return (
     error instanceof Error &&

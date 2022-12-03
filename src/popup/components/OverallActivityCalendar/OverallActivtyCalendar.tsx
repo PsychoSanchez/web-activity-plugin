@@ -20,10 +20,9 @@ export const OverallActivityCalendarPanel: React.FC<OverallActivityCalendarProps
 
     const getTooltipForDateButton = React.useCallback(
       (isoDate) => {
-        if (isoDate in totalDailyActivity) {
-          return `${isoDate} ${getTimeWithoutSeconds(
-            totalDailyActivity[isoDate]
-          )}`;
+        const time = totalDailyActivity[isoDate];
+        if (time !== undefined) {
+          return `${isoDate} ${getTimeWithoutSeconds(time)}`;
         }
 
         return isoDate;

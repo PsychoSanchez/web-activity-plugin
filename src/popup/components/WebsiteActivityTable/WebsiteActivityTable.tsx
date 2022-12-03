@@ -79,13 +79,16 @@ const WebsiteActivityTableFC: React.FC<ActivityTableProps> = ({
             </div>
           );
         })}
-        <p className="text-neutral-300">
-          Click on the website name to view stats for this website.
-        </p>
-        <p className="flex items-center gap-1 text-neutral-300">
-          Click on the <Icon className="m-0" type={IconType.Close} /> icon to
-          hide and ignore this website.
-        </p>
+        <div>
+          <p className="dark:text-neutral-300">
+            Click on the website name to view stats for this website.
+          </p>
+          <p className="dark:text-neutral-300">
+            Click on the <Icon className="m-0" type={IconType.Close} /> icon to
+            hide and ignore this website. You can always unhide it in the
+            Ignored domains section.
+          </p>
+        </div>
       </PanelBody>
     </Panel>
   );

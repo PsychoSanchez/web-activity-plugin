@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { getTabInfo, unGreyOutTab } from './background/browser-api/tabs';
+import { getTabInfo } from './background/browser-api/tabs';
 import { handleStateChange } from './background/controller';
 import {
   handleActiveTabStateChange,
@@ -10,45 +10,29 @@ import {
   handleWindowFocusChange,
 } from './background/services/state-service';
 import { logMessage } from './background/tables/logs';
-import { syncStorage } from './shared/db/sync-storage';
+import { WAKE_UP_BACKGROUND } from './shared/messages';
 
 const ASYNC_POLL_ALARM_NAME = 'async-poll';
 const ASYNC_POLL_INTERVAL_MINUTES = 1;
 
-chrome.alarms.create(ASYNC_POLL_ALARM_NAME, {
+browser.alarms.create(ASYNC_POLL_ALARM_NAME, {
   periodInMinutes: ASYNC_POLL_INTERVAL_MINUTES,
   when: Date.now() + 1000,
 });
 
-const PUSH_SYNC_STORAGE_ALARM_NAME = 'push-sync-storage';
-const SYNC_STORAGE_INTERVAL_MINUTES = 15;
-
-chrome.alarms.create(PUSH_SYNC_STORAGE_ALARM_NAME, {
-  periodInMinutes: SYNC_STORAGE_INTERVAL_MINUTES,
-  when: Date.now() + 1000,
-});
-
-chrome.alarms.onAlarm.addListener(async (alarm) => {
+browser.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === ASYNC_POLL_ALARM_NAME) {
     logMessage('alarm fired');
     const ts = Date.now();
     const newState = await handleAlarm();
 
     await handleStateChange(newState, ts);
-  } else if (alarm.name === PUSH_SYNC_STORAGE_ALARM_NAME) {
-    await syncStorage();
   }
 });
 
-chrome.tabs.onActivated.addListener(async (activeInfo) => {
+browser.tabs.onActivated.addListener(async (activeInfo) => {
   const ts = Date.now();
   logMessage('tab activated: ' + activeInfo.tabId);
-
-  const tab = await getTabInfo(activeInfo.tabId);
-  if (tab?.url?.startsWith('http')) {
-    await unGreyOutTab(activeInfo.tabId);
-    // await greyOutTab(activeInfo.tabId);
-  }
 
   const newState = await handleActiveTabStateChange(activeInfo);
   if (newState) {
@@ -67,7 +51,7 @@ browser.tabs.onUpdated.addListener(async (_tabId, _changeInfo, tab) => {
 });
 
 // onFocusChanged does not work in Windows 7/8/10 when user alt-tabs or clicks away
-chrome.windows.onFocusChanged.addListener(async (windowId) => {
+browser.windows.onFocusChanged.addListener(async (windowId) => {
   const ts = Date.now();
   logMessage('window focus changed: ' + windowId);
 
@@ -77,7 +61,7 @@ chrome.windows.onFocusChanged.addListener(async (windowId) => {
   }
 });
 
-chrome.idle.onStateChanged.addListener(async (newIdleState) => {
+browser.idle.onStateChanged.addListener(async (newIdleState) => {
   logMessage('idle state changed: ' + newIdleState);
   const ts = Date.now();
 
@@ -86,7 +70,7 @@ chrome.idle.onStateChanged.addListener(async (newIdleState) => {
   await handleStateChange(newTabState, ts);
 });
 
-chrome.webNavigation.onCompleted.addListener(async (details) => {
+browser.webNavigation.onCompleted.addListener(async (details) => {
   logMessage('web navigation: ' + details.tabId);
   const ts = Date.now();
 
@@ -103,12 +87,14 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
   await handleStateChange(newState, ts);
 });
 
-chrome.runtime.onMessage.addListener(
-  async (_message, _sender, sendResponse) => {
-    sendResponse({ alive: true });
-
+browser.runtime.onMessage.addListener(async (message, _sender) => {
+  if (message.type === WAKE_UP_BACKGROUND) {
     const ts = Date.now();
-    const newState = await handleAlarm();
-    handleStateChange(newState, ts);
+    handleAlarm().then((newState) => {
+      handleStateChange(newState, ts);
+    });
+    return { alive: true };
   }
-);
+
+  return false;
+});

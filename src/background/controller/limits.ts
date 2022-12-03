@@ -19,6 +19,10 @@ export async function handlePageLimitExceed(
   const hostname = getHostNameFromUrl(url);
   const limit = limits[hostname];
 
+  // TODO:
+  // If the limit was removed we need to un-grey out the tab
+  // Find a way to do it without sending messages every time
+  // For now there is a bug
   if (!limit) {
     return;
   }
@@ -34,7 +38,7 @@ export async function handlePageLimitExceed(
   const currentActivity = activityPeriodEnd - activityPeriodStart;
   const totalDailyActivity = dailyActivity + currentActivity;
 
-  if (now - totalDailyActivity > websiteLimitInMs) {
+  if (totalDailyActivity > websiteLimitInMs) {
     await greyOutTab(tabId);
   } else {
     await unGreyOutTab(tabId);

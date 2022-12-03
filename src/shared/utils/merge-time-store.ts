@@ -21,7 +21,8 @@ export const mergeTimeStore = (
           const storeAValueForKey = storeAValue[key] || storeBValue[key];
           const storeBValueForKey = storeBValue[key] || storeAValue[key];
 
-          acc[key] = Math.max(storeAValueForKey, storeBValueForKey);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know that storeAValueForKey and storeBValueForKey are defined
+          acc[key] = Math.max(storeAValueForKey!, storeBValueForKey!);
 
           return acc;
         }, {} as Record<string, number>),

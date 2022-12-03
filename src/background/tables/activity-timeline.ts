@@ -16,6 +16,12 @@ export async function getActivityTimeline(isoDate: string) {
   return db.getAllFromIndex(TimeTrackerStoreTables.Timeline, 'date', isoDate);
 }
 
+export async function getAllActivityTimeline() {
+  const db = await connect();
+
+  return db.getAll(TimeTrackerStoreTables.Timeline);
+}
+
 export async function putActivityTimelineRecord(
   val: TimelineDatabase['timeline']['value']
 ) {

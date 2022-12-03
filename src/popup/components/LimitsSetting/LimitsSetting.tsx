@@ -58,7 +58,7 @@ export const LimitsSetting: React.FC = () => {
   // to minutes (e.g. 01:00 -> 60)
   const handleLimitTimeChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const [hours, minutes] = e.target.value.split(':');
+      const [hours = '-', minutes = '-'] = e.target.value.split(':');
       setLimit(
         Number(hours.replace(/-/g, '0')) * 60 +
           Number(minutes.replace(/-/g, '0'))

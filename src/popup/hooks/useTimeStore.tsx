@@ -15,8 +15,9 @@ export const useTimeStore = () => {
       ([activity, activeRecord]) => {
         if (activeRecord?.hostname) {
           const date = getIsoDate(new Date());
-          activity[date][activeRecord.hostname] ??= 0;
-          activity[date][activeRecord.hostname] +=
+          const currentDayActivity = (activity[date] ??= {});
+          currentDayActivity[activeRecord.hostname] ??= 0;
+          currentDayActivity[activeRecord.hostname] +=
             activeRecord.activityPeriodEnd - activeRecord.activityPeriodStart;
         }
 
