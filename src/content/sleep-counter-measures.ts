@@ -26,9 +26,13 @@ function tryWakeUpBackground() {
 }
 
 function connectToExtension() {
-  chrome.runtime.connect().onDisconnect.addListener(() => {
-    setTimeout(() => connectToExtension(), getMinutesInMs(1));
-  });
+  try {
+    chrome.runtime.connect().onDisconnect.addListener(() => {
+      setTimeout(() => connectToExtension(), getMinutesInMs(1));
+    });
+  } catch (error) {
+    ignore(isExtensionContextInvalidatedError)(error);
+  }
 }
 
 export const runManifestV3SleepCounterMeasures = () => {

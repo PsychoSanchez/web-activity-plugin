@@ -36,7 +36,9 @@ browser.tabs.onActivated.addListener(async (activeInfo) => {
 
   const newState = await handleActiveTabStateChange(activeInfo);
   if (newState) {
-    await handleStateChange(newState, ts);
+    await handleStateChange(newState, ts).catch((e) => {
+      logMessage('error handling tab activated: ' + e);
+    });
   }
 });
 
@@ -46,7 +48,9 @@ browser.tabs.onUpdated.addListener(async (_tabId, _changeInfo, tab) => {
 
   const newState = await handleTabUpdate(tab);
   if (newState) {
-    await handleStateChange(newState, ts);
+    await handleStateChange(newState, ts).catch((e) => {
+      logMessage('error handling tab activated: ' + e);
+    });
   }
 });
 

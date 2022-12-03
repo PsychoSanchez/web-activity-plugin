@@ -2,7 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { ActiveTabState } from '../../shared/db/types';
 import { LIMIT_EXCEEDED, LIMIT_OK } from '../../shared/messages';
-import { ignore } from '../../shared/utils/errors';
+import { ignore, throwIfNot } from '../../shared/utils/errors';
 
 import {
   isCouldNotEstablishConnectionError,
@@ -16,8 +16,19 @@ export const getActiveAudibleTab = () =>
     audible: true,
   });
 
-export const getTabInfo = (tabId: number) =>
-  browser.tabs.get(tabId).catch(ignore(isTabNotExistError));
+export const getTabInfo = async (tabId: number) => {
+  try {
+    const tab = await browser.tabs.get(tabId);
+    const error = browser.runtime.lastError;
+    if (error?.message?.includes(`${tabId}`)) {
+      // Will throw if the error message contains the tabId and it's not a isTabNotExistError
+      throwIfNot(isTabNotExistError)(error);
+    }
+    return tab;
+  } catch (error) {
+    return ignore(isTabNotExistError)(error);
+  }
+};
 
 export const getAllActiveTabs = () =>
   browser.tabs.query({
