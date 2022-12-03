@@ -35,9 +35,14 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
   ) => {
     updateTimelineStartAndEndHour(hour);
 
-    const emptyDataset = chartDatasetData.find(
-      (dataset) => dataset[hour][0] === 0 && dataset[hour][1] === 0
-    );
+    const emptyDataset = chartDatasetData.find((dataset) => {
+      const ds = dataset[hour];
+      if (ds) {
+        return ds[0] === 0 && ds[1] === 0;
+      }
+
+      return false;
+    });
 
     if (emptyDataset) {
       emptyDataset[hour] = duration;
@@ -90,7 +95,8 @@ export const joinNeighborTimelineEvents = (
       return acc;
     }
 
-    const previousNeighbor = acc[acc.length - 1];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know that the previous record exists
+    const previousNeighbor = acc[acc.length - 1]!;
 
     const timeBetweenEvents =
       record.activityPeriodStart - previousNeighbor.activityPeriodEnd;
@@ -99,7 +105,7 @@ export const joinNeighborTimelineEvents = (
       timeBetweenEvents < MINIMUM_DISPLAYED_ACTIVITY;
 
     if (isLessThenMinimumBetweenEvents) {
-      acc[acc.length - 1].activityPeriodEnd = record.activityPeriodEnd;
+      previousNeighbor.activityPeriodEnd = record.activityPeriodEnd;
 
       return acc;
     }

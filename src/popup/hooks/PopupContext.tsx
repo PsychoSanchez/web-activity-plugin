@@ -18,7 +18,7 @@ const DEFAULT_CONTEXT: PopupContextType = {
   store: {},
   activeHostname: '',
   settings: DEFAULT_PREFERENCES,
-  updateSettings: () => {},
+  updateSettings: () => 0,
 };
 
 export const PopupContext =
@@ -26,7 +26,7 @@ export const PopupContext =
 
 export const usePopupContext = () => React.useContext(PopupContext);
 
-export const PopupContextProvider: React.FC<{}> = ({ children }) => {
+export const PopupContextProvider: React.FC = ({ children }) => {
   const store = useTimeStore();
   const host = useActiveTabHostname();
   const [settings, updateSettings] = useSettings();
@@ -40,7 +40,7 @@ export const PopupContextProvider: React.FC<{}> = ({ children }) => {
       );
       return filteredStore;
     },
-    [store, settings.ignoredHosts]
+    [settings.ignoredHosts]
   );
 
   const filteredStore = React.useMemo(

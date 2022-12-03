@@ -8,7 +8,7 @@ import { Panel, PanelBody, PanelHeader } from '../../../blocks/Panel';
 import { assertDomainIsValid } from '../../../shared/utils/domains';
 import { usePopupContext } from '../../hooks/PopupContext';
 
-export const IgnoredDomainSetting: React.FC<{}> = () => {
+export const IgnoredDomainSetting: React.FC = () => {
   const { settings, updateSettings } = usePopupContext();
   const [ignoredDomains, setIgnoredDomains] = React.useState<string[]>(
     settings.ignoredHosts
@@ -33,7 +33,9 @@ export const IgnoredDomainSetting: React.FC<{}> = () => {
       });
 
       setDomainToIgnore('');
-    } catch (_) {}
+    } catch (_) {
+      //
+    }
   }, [domainToIgnore, updateSettings]);
 
   const handleRemoveIgnoredDomain = React.useCallback(

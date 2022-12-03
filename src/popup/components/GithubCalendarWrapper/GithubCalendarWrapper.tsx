@@ -79,8 +79,8 @@ export const GithubCalendarWrapper: React.FC<GithubCalendarProps> = ({
   );
 
   return (
-    <div className='calendar' ref={calendarRef} onClick={handleDateClick}>
-      {/* @ts-ignore */}
+    <div className="calendar" ref={calendarRef} onClick={handleDateClick}>
+      {/* @ts-expect-error -- expected, this element does have props */}
       <Calendar values={activity} panelColors={COLORS} />
       <ReactTooltip
         id={REACT_TOOLTIP_ID}

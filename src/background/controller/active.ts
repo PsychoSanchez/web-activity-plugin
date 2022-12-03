@@ -32,12 +32,15 @@ export async function createNewActiveRecord(
   timestamp: number,
   focusedActiveTab: Tab
 ) {
+  if (!focusedActiveTab.id) {
+    return;
+  }
   const date = getIsoDate(new Date(timestamp));
   const { url = '', title = '', favIconUrl } = focusedActiveTab;
   const hostname = getHostNameFromUrl(url);
 
   await setActiveTabRecord({
-    tabId: focusedActiveTab.id!,
+    tabId: focusedActiveTab.id,
     url,
     hostname,
     docTitle: title,

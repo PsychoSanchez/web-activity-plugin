@@ -61,13 +61,8 @@ export const setTotalDailyHostTime = async ({
 }) => {
   const store = await getTotalActivity();
 
-  store[day] ??= {};
-  store[day][host] = duration;
+  const dayActivity = (store[day] ??= {});
+  dayActivity[host] = duration;
 
   return setTotalActivity(store);
-};
-
-export const syncStorage = async () => {
-  const cache = await getTotalActivity();
-  await browser.storage.sync.set(cache);
 };

@@ -26,8 +26,8 @@ export async function updateTimeOnBadge(
   ]);
 
   const notCommittedHostTime =
-    (currentTimelineRecord?.activityPeriodEnd ?? 0) -
-    (currentTimelineRecord?.activityPeriodStart ?? 0);
+    (currentTimelineRecord?.activityPeriodEnd ?? Date.now()) -
+    (currentTimelineRecord?.activityPeriodStart ?? Date.now());
 
   const currentHostTimeInMinutes = Math.floor(
     (committedHostTime + notCommittedHostTime) / 1000 / 60

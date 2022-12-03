@@ -1,9 +1,13 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { ActiveTabState } from '../../shared/db/types';
+import { LIMIT_EXCEEDED, LIMIT_OK } from '../../shared/messages';
 import { ignore } from '../../shared/utils/errors';
 
-import { isTabNotExistError } from './errors';
+import {
+  isCouldNotEstablishConnectionError,
+  isTabNotExistError,
+} from './errors';
 import { getFocusedWindowId } from './windows';
 
 export const getActiveAudibleTab = () =>
@@ -65,34 +69,18 @@ export const getActiveTabFromWindowId = async (windowId: number) => {
   return activeTab;
 };
 
-const greyOutCss = `
-body {
-  transition: all 0.5s ease;
-  filter: grayscale(100%) !important;
-  background: black !important;
-  opacity: 0.6 !important;
-}`;
-
 export const greyOutTab = async (tabId: number) => {
-  await Promise.all([
-    browser.tabs.insertCSS?.(tabId, { code: greyOutCss }),
-    browser.scripting.insertCSS?.({
-      target: {
-        tabId,
-      },
-      css: greyOutCss,
-    }),
-  ]).catch(ignore(isTabNotExistError));
+  await browser.tabs
+    .sendMessage(tabId, {
+      type: LIMIT_EXCEEDED,
+    })
+    .catch(ignore(isTabNotExistError, isCouldNotEstablishConnectionError));
 };
 
 export const unGreyOutTab = async (tabId: number) => {
-  await Promise.all([
-    browser.tabs.removeCSS?.(tabId, { code: greyOutCss }),
-    browser.scripting.removeCSS?.({
-      target: {
-        tabId,
-      },
-      css: greyOutCss,
-    }),
-  ]).catch(ignore(isTabNotExistError));
+  await browser.tabs
+    .sendMessage(tabId, {
+      type: LIMIT_OK,
+    })
+    .catch(ignore(isTabNotExistError, isCouldNotEstablishConnectionError));
 };

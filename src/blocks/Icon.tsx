@@ -12,6 +12,7 @@ export enum IconType {
   RightArrow = 'fi-rr-arrow-right',
   BurgerMenu = 'fi-rr-menu-burger',
   CloudDownload = 'fi-rr-cloud-download-alt',
+  CloudUpload = 'fi-rr-cloud-upload-alt',
   Moon = 'fi-rr-moon-stars',
   Sun = 'fi-rr-sun',
   Eclipse = 'fi-rr-eclipse',

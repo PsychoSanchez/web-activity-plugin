@@ -6,20 +6,20 @@ import { Panel } from '../blocks/Panel';
 
 import { PopupContextProvider } from './hooks/PopupContext';
 import { ActivityPage } from './pages/ActivityPage';
-import { ExtrasPage } from './pages/ExtrasPage';
 import { OverallPage } from './pages/OverallPage';
+import { PreferencesPage } from './pages/PreferencesPage';
 
 import './App.css';
 
 enum Pages {
   Overall = 'overall',
   Detailed = 'detailed',
-  Extras = 'extras',
+  Preferences = 'preferences',
 }
 
 const PAGES_VALUES = Object.values(Pages);
 
-export const PopupApp: React.FC<{}> = () => {
+export const PopupApp: React.FC = () => {
   const [activePage, setPage] = React.useState({
     tab: Pages.Overall,
     params: {} as Record<string, any>,
@@ -44,13 +44,17 @@ export const PopupApp: React.FC<{}> = () => {
         );
       case Pages.Detailed:
         return <ActivityPage date={activePage.params?.date} />;
-      case Pages.Extras:
-        return <ExtrasPage />;
+      case Pages.Preferences:
+        return <PreferencesPage />;
 
       default:
         return null;
     }
-  }, [activePage]);
+  }, [
+    activePage.params?.date,
+    activePage.tab,
+    handleNavigateToActivityDatePage,
+  ]);
 
   const tabs = React.useMemo(
     () =>
@@ -63,12 +67,12 @@ export const PopupApp: React.FC<{}> = () => {
                 'bg-neutral-300 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-200',
               activePage.tab !== tab &&
                 'hover:bg-neutral-100 text-neutral-400 dark:hover:bg-neutral-900 dark:text-neutral-400',
-              tab === Pages.Extras && 'max-w-[75px]'
+              tab === Pages.Preferences && 'max-w-[75px]'
             )}
             key={tab}
             onClick={() => setPage({ tab, params: {} })}
           >
-            {tab === Pages.Extras ? (
+            {tab === Pages.Preferences ? (
               <Icon type={IconType.BurgerMenu} className="m-0" />
             ) : (
               tab
