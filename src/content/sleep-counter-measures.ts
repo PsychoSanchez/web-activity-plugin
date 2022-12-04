@@ -1,7 +1,10 @@
-import { isExtensionContextInvalidatedError } from '../background/browser-api/errors';
+import {
+  isCouldNotEstablishConnectionError,
+  isExtensionContextInvalidatedError,
+} from '../background/browser-api/errors';
 import { WAKE_UP_BACKGROUND } from '../shared/messages';
 import { getMinutesInMs } from '../shared/utils/dates-helper';
-import { ignore } from '../shared/utils/errors';
+import { ignore, throwIfNot } from '../shared/utils/errors';
 
 let messagePollingId = 0;
 
@@ -10,6 +13,11 @@ function tryWakeUpBackground() {
     chrome.runtime.sendMessage({ type: WAKE_UP_BACKGROUND }, (response) => {
       if (!response) {
         console.error('Background is not awake');
+      }
+
+      const error = chrome.runtime.lastError;
+      if (error?.message) {
+        throwIfNot(isCouldNotEstablishConnectionError)(error);
       }
     });
 
@@ -21,7 +29,10 @@ function tryWakeUpBackground() {
       );
     }
   } catch (error) {
-    ignore(isExtensionContextInvalidatedError)(error);
+    ignore(
+      isExtensionContextInvalidatedError,
+      isCouldNotEstablishConnectionError
+    )(error);
   }
 }
 
@@ -31,7 +42,10 @@ function connectToExtension() {
       setTimeout(() => connectToExtension(), getMinutesInMs(1));
     });
   } catch (error) {
-    ignore(isExtensionContextInvalidatedError)(error);
+    ignore(
+      isExtensionContextInvalidatedError,
+      isCouldNotEstablishConnectionError
+    )(error);
   }
 }
 
