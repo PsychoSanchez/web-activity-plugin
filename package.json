@@ -1,6 +1,6 @@
 {
-  "name": "bro-time-tracker",
-  "version": "0.1.0",
+  "name": "web-activity-plugin",
+  "version": "0.7.0",
   "description": "Browser time tracking extension",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PsychoSanchez/bro-time-tracker.git"
+    "url": "git+https://github.com/PsychoSanchez/web-activity-plugin.git"
   },
   "keywords": [
     "extension",
@@ -22,9 +22,9 @@
   "author": "Aronov Aleksandr",
   "license": "GPL3",
   "bugs": {
-    "url": "https://github.com/PsychoSanchez/bro-time-tracker/issues"
+    "url": "https://github.com/PsychoSanchez/web-activity-plugin/issues"
   },
-  "homepage": "https://github.com/PsychoSanchez/bro-time-tracker#readme",
+  "homepage": "https://github.com/PsychoSanchez/web-activity-plugin#readme",
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^2.0.2",
     "@types/chrome": "^0.0.203",
