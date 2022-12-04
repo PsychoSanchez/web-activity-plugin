@@ -1,5 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
-
 import type {
   IdleState,
   Tab,
@@ -29,7 +27,7 @@ import {
 const DEFAULT_ACTIVE_TAB_STATE: ActiveTabState = {
   activeTabs: [],
   focusedActiveTab: null,
-  focusedWindowId: browser.windows.WINDOW_ID_NONE,
+  focusedWindowId: chrome.windows.WINDOW_ID_NONE,
   idleState: 'active',
 };
 
@@ -78,11 +76,11 @@ export const handleTabUpdate = async (tab: Tab) => {
   await createTabsStateTransaction();
   const state = await getTabsStateOrDefault();
   const isAudibleAndWindowNotFocused =
-    tab.audible && state.focusedWindowId === browser.windows.WINDOW_ID_NONE;
+    tab.audible && state.focusedWindowId === chrome.windows.WINDOW_ID_NONE;
 
   const isFollowed =
     state.focusedActiveTab?.id === tab.id &&
-    state.focusedWindowId !== browser.windows.WINDOW_ID_NONE;
+    state.focusedWindowId !== chrome.windows.WINDOW_ID_NONE;
 
   const focusedActiveTab =
     isFollowed || isAudibleAndWindowNotFocused ? tab : null;

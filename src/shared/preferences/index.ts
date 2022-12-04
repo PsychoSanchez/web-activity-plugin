@@ -1,5 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
-
 import { Preferences } from '../db/types';
 
 export const DEFAULT_PREFERENCES: Preferences = {
@@ -11,13 +9,13 @@ export const DEFAULT_PREFERENCES: Preferences = {
 export const setSettings = async (settings: Partial<Preferences>) => {
   const currentSettings = await getSettings();
 
-  await browser.storage.local.set({
+  await chrome.storage.local.set({
     settings: { ...currentSettings, ...settings },
   });
 };
 
 export const getSettings = async () => {
-  const { settings = {} } = await browser.storage.local.get('settings');
+  const { settings = {} } = await chrome.storage.local.get('settings');
   return {
     ...DEFAULT_PREFERENCES,
     ...settings,

@@ -1,5 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
-
 import { ignore } from '../../shared/utils/errors';
 
 import { isTabNotExistError } from './errors';
@@ -16,22 +14,13 @@ export const setActionBadge = async ({
   await Promise.all([
     chromeActionSetBadgeColor(tabId, color),
     chromeActionSetBadgeText(tabId, text),
-    browser.browserAction?.setBadgeBackgroundColor?.({ color: '#4b76e3' }),
-    browser.browserAction?.setBadgeText?.({
-      tabId,
-      text,
-    }),
   ]).catch(ignore(isTabNotExistError));
 };
 
 export const hideBadge = async (tabId: number) => {
-  await Promise.all([
-    browser.browserAction?.setBadgeText({
-      tabId,
-      text: '',
-    }),
-    chromeActionSetBadgeText(tabId, ''),
-  ]).catch(ignore(isTabNotExistError));
+  await Promise.all([chromeActionSetBadgeText(tabId, '')]).catch(
+    ignore(isTabNotExistError)
+  );
 };
 
 function chromeActionSetBadgeColor(tabId: number, color: string) {

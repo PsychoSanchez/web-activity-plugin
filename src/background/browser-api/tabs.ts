@@ -1,5 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
-
 import { ActiveTabState } from '../../shared/db/types';
 import { LIMIT_EXCEEDED, LIMIT_OK } from '../../shared/messages';
 import { ignore, throwIfNot } from '../../shared/utils/errors';
@@ -11,15 +9,15 @@ import {
 import { getFocusedWindowId } from './windows';
 
 export const getActiveAudibleTab = () =>
-  browser.tabs.query({
+  chrome.tabs.query({
     active: true,
     audible: true,
   });
 
 export const getTabInfo = async (tabId: number) => {
   try {
-    const tab = await browser.tabs.get(tabId);
-    const error = browser.runtime.lastError;
+    const tab = await chrome.tabs.get(tabId);
+    const error = chrome.runtime.lastError;
     if (error?.message?.includes(`${tabId}`)) {
       // Will throw if the error message contains the tabId and it's not a isTabNotExistError
       throwIfNot(isTabNotExistError)(error);
@@ -31,13 +29,13 @@ export const getTabInfo = async (tabId: number) => {
 };
 
 export const getAllActiveTabs = () =>
-  browser.tabs.query({
+  chrome.tabs.query({
     active: true,
   });
 
 export const getFocusedTab = async () => {
   const windowId = await getFocusedWindowId();
-  const tabs = await browser.tabs.query({
+  const tabs = await chrome.tabs.query({
     windowId,
   });
 
@@ -51,12 +49,12 @@ export const getTabFromFocusedWindow = async (
   windowId: number,
   tabId: number
 ): Promise<Partial<ActiveTabState>> => {
-  const activeTabWindow = await browser.windows.get(windowId);
+  const activeTabWindow = await chrome.windows.get(windowId);
   if (!activeTabWindow.focused) {
     return {};
   }
 
-  const tabs = await browser.tabs.query({
+  const tabs = await chrome.tabs.query({
     windowId,
   });
 
@@ -72,7 +70,7 @@ export const getActiveTabFromWindowId = async (windowId: number) => {
   const [activeTab = null] =
     windowId === chrome.windows.WINDOW_ID_NONE
       ? await getActiveAudibleTab()
-      : await browser.tabs.query({
+      : await chrome.tabs.query({
           windowId,
           active: true,
         });

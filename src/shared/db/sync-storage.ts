@@ -1,5 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
-
 import { getIsoDate } from '../utils/dates-helper';
 import { mergeTimeStore } from '../utils/merge-time-store';
 
@@ -30,14 +28,14 @@ const setDbCache = async (store: TimeStore) => {
 
 const setTotalActivity = async (store: TimeStore) => {
   await setDbCache(store);
-  await browser.storage.local.set({
+  await chrome.storage.local.set({
     activity: store,
   });
 };
 
 export const getTotalActivity = async (): Promise<TimeStore> => {
   const [localStore, dbStore] = await Promise.all([
-    browser.storage.local.get('activity').then((store) => store.activity),
+    chrome.storage.local.get('activity').then((store) => store.activity),
     getDbCache(),
   ]);
   return mergeTimeStore(dbStore, localStore);
