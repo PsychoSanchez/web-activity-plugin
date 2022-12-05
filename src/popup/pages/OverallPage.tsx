@@ -24,7 +24,8 @@ export const OverallPage: React.FC<OverallPageProps> = ({
   const { store, activeHostname } = usePopupContext();
   const { todaysUsage, weeklyUsage } = useTotalWebsiteActivity(store);
   const timelineEvents = useLastSixHoursTimelineEvents();
-  const time = useActiveTabTime();
+  const { time: activeWebsiteTime, weekTime: activeWebsiteWeekTime } =
+    useActiveTabTime();
 
   return (
     <div>
@@ -33,15 +34,15 @@ export const OverallPage: React.FC<OverallPageProps> = ({
           title="Surfed Today"
           time={todaysUsage}
           averageTime={weeklyUsage / 7}
-          averageTimeComparedTo="last 7 days average"
+          averageTimeComparedTo="average"
         />
       ) : null}
-      {time ? (
+      {activeWebsiteTime ? (
         <TimeUsagePanel
           title={`Surfed on ${activeHostname}`}
-          time={time}
-          averageTime={weeklyUsage / 7}
-          averageTimeComparedTo="last 7 days average"
+          time={activeWebsiteTime}
+          averageTime={activeWebsiteWeekTime / 7}
+          averageTimeComparedTo="average"
         />
       ) : null}
       <OverallActivityCalendarPanel
