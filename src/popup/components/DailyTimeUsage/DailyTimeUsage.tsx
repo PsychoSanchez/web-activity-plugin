@@ -12,6 +12,8 @@ import { DailyTimeUsageComponentProps } from './types';
 const COMPONENT_TITLE = 'Daily Usage';
 const MINUTE_IN_MS = getMinutesInMs(1);
 
+const LOWER_SPAN = <span className="text-green-600">lower</span>;
+const HIGHER_SPAN = <span className="text-red-600">higher</span>;
 const presentWeekComparison = (
   time: number,
   averageTime: number,
@@ -19,11 +21,13 @@ const presentWeekComparison = (
 ) => {
   const percent = Math.round((time / averageTime) * 100 - 100);
 
-  const weekComparison = `${Math.abs(percent)} % ${
-    percent < 0 ? 'lower ' : 'higher'
-  } than ${averageTimeComparedTo}`;
-
-  return weekComparison;
+  return (
+    <span>
+      <span>{Math.abs(percent)} % </span>
+      {percent < 0 ? LOWER_SPAN : HIGHER_SPAN}
+      <span> than {averageTimeComparedTo}</span>
+    </span>
+  );
 };
 
 const presentTotalDailyActivity = (totalDailyActivity: number) => {
@@ -36,7 +40,7 @@ const presentTotalDailyActivity = (totalDailyActivity: number) => {
 
 export const TimeUsagePanel: React.FC<DailyTimeUsageComponentProps> = ({
   title = COMPONENT_TITLE,
-  averageTimeComparedTo = 'this week average',
+  averageTimeComparedTo = 'average',
   time,
   averageTime = 0,
 }) => {
@@ -46,10 +50,13 @@ export const TimeUsagePanel: React.FC<DailyTimeUsageComponentProps> = ({
         <Icon type={IconType.TimeCheck} />
         {title}
       </PanelHeader>
-      <PanelBody className="flex justify-between items-baseline text-3xl">
+      <PanelBody className="flex justify-between items-center text-3xl">
         <span className="font-light">{presentTotalDailyActivity(time)}</span>
         {averageTime > 0 && (
-          <span className="text-xs">
+          <span className="flex flex-col text-xs items-end">
+            <span className="font-light text-xs">
+              7 days average: {presentTotalDailyActivity(averageTime)}
+            </span>
             {presentWeekComparison(time, averageTime, averageTimeComparedTo)}
           </span>
         )}
