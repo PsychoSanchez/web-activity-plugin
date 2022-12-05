@@ -31,4 +31,5 @@ module.exports = {
     ],
     'react-hooks/exhaustive-deps': 'error',
   },
+  ignorePatterns: ['dist', 'tools', 'node_modules', 'static'],
 };

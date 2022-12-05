@@ -1,6 +1,6 @@
 {
   "name": "web-activity-plugin",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Browser time tracking extension",
   "private": true,
   "scripts": {
@@ -8,7 +8,14 @@
     "lint": "eslint src --ext ts,tsx",
     "build": "npm run lint && webpack --mode=production",
     "start": "webpack --mode=development --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "node ./tools/release.js",
+    "release:patch": "npm version patch",
+    "release:minor": "npm version minor",
+    "release:major": "npm version major",
+    "preversion": "npm test",
+    "version": "npm run release && git add .",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
