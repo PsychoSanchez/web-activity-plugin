@@ -35,7 +35,7 @@ const setTotalActivity = async (store: TimeStore) => {
 
 export const getTotalActivity = async (): Promise<TimeStore> => {
   const [localStore, dbStore] = await Promise.all([
-    chrome.storage.local.get('activity').then((store) => store.activity),
+    chrome.storage.local.get('activity').then((store) => store?.activity ?? {}),
     getDbCache(),
   ]);
   return mergeTimeStore(dbStore, localStore);
