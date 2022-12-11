@@ -12,7 +12,6 @@ import { updateTotalTime } from './overall';
 import { saveTimelineRecord } from './timeline';
 
 const FIVE_MINUTES = getMinutesInMs(5);
-
 export const handleStateChange = async (
   activeTabState: ActiveTabState,
   timestamp: number = Date.now()
@@ -41,17 +40,23 @@ export const handleStateChange = async (
     await activeTimeline.set(currentTimelineRecord);
   }
 
+  const isDomainIgnored = preferences.ignoredHosts.includes(
+    currentTimelineRecord?.hostname ?? ''
+  );
+
   updateTimeOnBadge(
     focusedActiveTab,
     currentTimelineRecord,
-    preferences.displayTimeOnBadge
+    preferences.displayTimeOnBadge && !isDomainIgnored
   );
 
-  handlePageLimitExceed(
-    preferences.limits,
-    focusedActiveTab,
-    currentTimelineRecord
-  );
+  if (!isDomainIgnored) {
+    handlePageLimitExceed(
+      preferences.limits,
+      focusedActiveTab,
+      currentTimelineRecord
+    );
+  }
 
   if (
     isLocked ||
