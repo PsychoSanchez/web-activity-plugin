@@ -1,35 +1,30 @@
 import { TimeStore } from '../db/types';
 
 export const mergeTimeStore = (
-  storeA?: TimeStore,
-  storeB?: TimeStore
+  storeA: TimeStore = {},
+  storeB: TimeStore = {}
 ): TimeStore => {
   const storeAKeys = Object.keys(storeA ?? {});
   const storeBKeys = Object.keys(storeB ?? {});
 
-  const keys = Array.from(new Set([...storeAKeys, ...storeBKeys]));
+  const allKeys = Array.from(new Set([...storeAKeys, ...storeBKeys]));
 
-  return keys.reduce((acc, key) => {
-    const storeAValue = storeA![key];
-    const storeBValue = storeB![key];
+  return allKeys.reduce((acc, key) => {
+    const storeAValue = storeA[key];
+    const storeBValue = storeB[key];
 
-    if (storeAValue && storeBValue) {
-      acc[key] = {
-        ...storeAValue,
-        ...storeBValue,
-        ...Object.keys(storeAValue).reduce((acc, key) => {
-          const storeAValueForKey = storeAValue[key] || storeBValue[key];
-          const storeBValueForKey = storeBValue[key] || storeAValue[key];
+    acc[key] = {
+      ...storeAValue,
+      ...storeBValue,
+      ...Object.keys({ ...storeAValue, ...storeBValue }).reduce((acc, key) => {
+        const storeAValueForKey = storeAValue?.[key] || storeBValue?.[key] || 0;
+        const storeBValueForKey = storeBValue?.[key] || storeAValue?.[key] || 0;
 
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know that storeAValueForKey and storeBValueForKey are defined
-          acc[key] = Math.max(storeAValueForKey!, storeBValueForKey!);
+        acc[key] = Math.max(storeAValueForKey, storeBValueForKey);
 
-          return acc;
-        }, {} as Record<string, number>),
-      };
-    } else {
-      acc[key] = storeAValue || storeBValue || {};
-    }
+        return acc;
+      }, {} as Record<string, number>),
+    };
 
     return acc;
   }, {} as TimeStore);
