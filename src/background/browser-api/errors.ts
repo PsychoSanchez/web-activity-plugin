@@ -1,3 +1,10 @@
+export function throwRuntimeLastError() {
+  const error = chrome.runtime.lastError;
+  if (error) {
+    throw error;
+  }
+}
+
 export function isTabNotExistError(error: unknown): error is Error {
   return (
     error instanceof Error &&

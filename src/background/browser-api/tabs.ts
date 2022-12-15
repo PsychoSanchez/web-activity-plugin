@@ -1,10 +1,11 @@
 import { ActiveTabState } from '../../shared/db/types';
 import { LIMIT_EXCEEDED, LIMIT_OK } from '../../shared/messages';
-import { ignore, throwIfNot } from '../../shared/utils/errors';
+import { ignore } from '../../shared/utils/errors';
 
 import {
   isCouldNotEstablishConnectionError,
   isTabNotExistError,
+  throwRuntimeLastError,
 } from './errors';
 import { getFocusedWindowId } from './windows';
 
@@ -17,11 +18,7 @@ export const getActiveAudibleTab = () =>
 export const getTabInfo = async (tabId: number) => {
   try {
     const tab = await chrome.tabs.get(tabId);
-    const error = chrome.runtime.lastError;
-    if (error?.message?.includes(`${tabId}`)) {
-      // Will throw if the error message contains the tabId and it's not a isTabNotExistError
-      throwIfNot(isTabNotExistError)(error);
-    }
+    throwRuntimeLastError();
     return tab;
   } catch (error) {
     return ignore(isTabNotExistError)(error);
@@ -38,6 +35,7 @@ export const getFocusedTab = async () => {
   const tabs = await chrome.tabs.query({
     windowId,
   });
+  throwRuntimeLastError();
 
   return (
     tabs.filter((tab) => tab.active)[0] ??
@@ -57,6 +55,7 @@ export const getTabFromFocusedWindow = async (
   const tabs = await chrome.tabs.query({
     windowId,
   });
+  throwRuntimeLastError();
 
   const focusedActiveTab = tabs.find((tab) => tabId === tab.id) ?? null;
 
@@ -75,21 +74,29 @@ export const getActiveTabFromWindowId = async (windowId: number) => {
           active: true,
         });
 
+  throwRuntimeLastError();
+
   return activeTab;
 };
 
 export const greyOutTab = async (tabId: number) => {
-  await chrome.tabs
-    .sendMessage(tabId, {
+  try {
+    await chrome.tabs.sendMessage(tabId, {
       type: LIMIT_EXCEEDED,
-    })
-    .catch(ignore(isTabNotExistError, isCouldNotEstablishConnectionError));
+    });
+    throwRuntimeLastError();
+  } catch (error) {
+    ignore(isTabNotExistError, isCouldNotEstablishConnectionError)(error);
+  }
 };
 
 export const unGreyOutTab = async (tabId: number) => {
-  await chrome.tabs
-    .sendMessage(tabId, {
+  try {
+    await chrome.tabs.sendMessage(tabId, {
       type: LIMIT_OK,
-    })
-    .catch(ignore(isTabNotExistError, isCouldNotEstablishConnectionError));
+    });
+    throwRuntimeLastError();
+  } catch (error) {
+    ignore(isTabNotExistError, isCouldNotEstablishConnectionError)(error);
+  }
 };
