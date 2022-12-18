@@ -1,7 +1,7 @@
 export function throwRuntimeLastError() {
   const error = chrome.runtime.lastError;
-  if (error) {
-    throw error;
+  if (error?.message) {
+    throw new Error(error.message);
   }
 }
 
