@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { getActivityTimeline } from '../../../background/tables/activity-timeline';
+import { getActivityTimeline } from '../../../shared/tables/activity-timeline';
 import { TimelineRecord } from '../../../shared/db/types';
 import { useTotalWebsiteActivity } from '../../hooks/useTotalWebsiteActivity';
 import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';

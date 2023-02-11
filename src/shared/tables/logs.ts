@@ -1,4 +1,4 @@
-import { connect, TimeTrackerStoreTables } from '../../shared/db/idb';
+import { connect, TimeTrackerStoreTables } from '../db/idb';
 
 export async function logMessage(message: string) {
   if (process.env.NODE_ENV === 'production') {

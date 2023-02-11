@@ -1,6 +1,6 @@
 import { setTotalDailyHostTime } from '../../shared/db/sync-storage';
 
-import { getActivityTimeline } from '../tables/activity-timeline';
+import { getActivityTimeline } from '../../shared/tables/activity-timeline';
 
 export async function updateTotalTime(
   currentIsoDate: string,

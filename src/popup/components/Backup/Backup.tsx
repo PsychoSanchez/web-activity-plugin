@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { getAllActivityTimeline } from '../../../background/tables/activity-timeline';
+import { getAllActivityTimeline } from '../../../shared/tables/activity-timeline';
 import { Button, ButtonType } from '../../../blocks/Button';
 import { Icon, IconType } from '../../../blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '../../../blocks/Panel';

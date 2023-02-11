@@ -1,6 +1,6 @@
 import { TimelineRecord } from '../../shared/db/types';
 
-import { putActivityTimelineRecord } from '../tables/activity-timeline';
+import { putActivityTimelineRecord } from '../../shared/tables/activity-timeline';
 
 export async function saveTimelineRecord(
   currentTimelineRecord: TimelineRecord,

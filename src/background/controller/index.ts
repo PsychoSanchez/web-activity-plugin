@@ -1,12 +1,12 @@
 import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
 import { getSettings } from '../../shared/preferences';
+import { setActiveTabRecord } from '../../shared/tables/state';
 import { getIsoDate, getMinutesInMs } from '../../shared/utils/dates-helper';
 import { isInvalidUrl } from '../../shared/utils/url';
 
-import { setActiveTabRecord } from '../tables/state';
-
 import { ActiveTimelineRecordDao, createNewActiveRecord } from './active';
 import { updateTimeOnBadge } from './badge';
+import { updateDomainInfo } from './domain-info';
 import { handlePageLimitExceed } from './limits';
 import { updateTotalTime } from './overall';
 import { saveTimelineRecord } from './timeline';
@@ -44,19 +44,26 @@ export const handleStateChange = async (
     currentTimelineRecord?.hostname ?? ''
   );
 
-  updateTimeOnBadge(
-    focusedActiveTab,
-    currentTimelineRecord,
-    preferences.displayTimeOnBadge && !isDomainIgnored
-  );
+  const updatePageLimits = () => {
+    if (!isDomainIgnored) {
+      handlePageLimitExceed(
+        preferences.limits,
+        focusedActiveTab,
+        currentTimelineRecord
+      );
+    }
+  };
 
-  if (!isDomainIgnored) {
-    handlePageLimitExceed(
-      preferences.limits,
+  // Don't wait for these to finish
+  Promise.all([
+    updateTimeOnBadge(
       focusedActiveTab,
-      currentTimelineRecord
-    );
-  }
+      currentTimelineRecord,
+      preferences.displayTimeOnBadge && !isDomainIgnored
+    ),
+    updateDomainInfo(focusedActiveTab),
+    updatePageLimits(),
+  ]);
 
   if (
     isLocked ||

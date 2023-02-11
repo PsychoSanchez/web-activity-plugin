@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { getActivityTimeline } from '../../background/tables/activity-timeline';
+import { getActivityTimeline } from '../../shared/tables/activity-timeline';
 import { TimelineRecord } from '../../shared/db/types';
 import { getHoursInMs, getIsoDate } from '../../shared/utils/dates-helper';
 

@@ -2,8 +2,8 @@ import {
   connect,
   TimelineDatabase,
   TimeTrackerStoreTables,
-} from '../../shared/db/idb';
-import { ignore } from '../../shared/utils/errors';
+} from '../db/idb';
+import { ignore } from '../utils/errors';
 
 import {
   isKeyAlreadyExistsError,

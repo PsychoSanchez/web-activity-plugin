@@ -7,7 +7,7 @@ import {
   handleTabUpdate,
   handleWindowFocusChange,
 } from './background/services/state-service';
-import { logMessage } from './background/tables/logs';
+import { logMessage } from './shared/tables/logs';
 import { Tab } from './shared/browser-api.types';
 import { WAKE_UP_BACKGROUND } from './shared/messages';
 

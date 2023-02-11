@@ -16,7 +16,7 @@ import {
   createTabsStateTransaction,
   getTabsState,
   setTabsState,
-} from '../tables/state';
+} from '../../shared/tables/state';
 
 // remember last active tab
 // if idle state changes to idle clear stopwatch and send time

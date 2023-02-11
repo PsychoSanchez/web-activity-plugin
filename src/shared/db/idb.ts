@@ -1,6 +1,12 @@
 import { DBSchema, openDB } from 'idb';
 
-import { ActiveTabState, LogMessage, TimeStore, TimelineRecord } from './types';
+import {
+  ActiveTabState,
+  LogMessage,
+  TimeStore,
+  TimelineRecord,
+  DomainInfo,
+} from './types';
 
 export enum Database {
   TimeTrackerStore = 'btt-store',
@@ -10,6 +16,7 @@ export enum TimeTrackerStoreTables {
   Timeline = 'timeline',
   State = 'state',
   Logs = 'logs',
+  DomainInfo = 'domain-info',
 }
 
 export enum TimeTrackerStoreStateTableKeys {
@@ -18,7 +25,7 @@ export enum TimeTrackerStoreStateTableKeys {
   OverallState = 'overall-state',
 }
 
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 
 export interface TimelineDatabase extends DBSchema {
   [TimeTrackerStoreTables.Timeline]: {
@@ -37,6 +44,13 @@ export interface TimelineDatabase extends DBSchema {
   [TimeTrackerStoreTables.State]: {
     value: ActiveTabState | TimelineRecord | TimeStore | null;
     key: string;
+  };
+  [TimeTrackerStoreTables.DomainInfo]: {
+    value: DomainInfo;
+    key: string;
+    indexes: {
+      hostname: string;
+    };
   };
 }
 
@@ -86,6 +100,17 @@ export const connect = () =>
         timeline.createIndex('recordId', 'activityPeriodStart', {
           unique: true,
         });
+      }
+
+      if (oldVersion < 3) {
+        const domainInfoStore = db.createObjectStore(
+          TimeTrackerStoreTables.DomainInfo,
+          {
+            keyPath: 'hostname',
+          }
+        );
+
+        domainInfoStore.createIndex('hostname', 'hostname', { unique: true });
       }
     },
   });

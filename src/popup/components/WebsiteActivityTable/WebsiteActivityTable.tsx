@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Icon, IconType } from '../../../blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '../../../blocks/Panel';
+import { selectHostnames } from '../../../shared/tables/domain-info';
 import {
   getTimeFromMs,
   getTimeWithoutSeconds,
@@ -31,6 +32,23 @@ const WebsiteActivityTableFC: React.FC<ActivityTableProps> = ({
     [activity]
   );
 
+  const [domainFavIconMap, setDomainFavIconMap] = React.useState<
+    Record<string, string>
+  >({});
+
+  React.useEffect(() => {
+    selectHostnames(websiteSortedDesc.map(([domain]) => domain)).then(
+      (domainInfo) => {
+        setDomainFavIconMap(
+          domainInfo.reduce((acc, { hostname, iconUrl }) => {
+            acc[hostname] = iconUrl;
+            return acc;
+          }, {} as Record<string, string>)
+        );
+      }
+    );
+  }, [websiteSortedDesc]);
+
   const handleDomainRowClick = React.useCallback(
     (domain: string) => onDomainRowClicked?.(domain),
     [onDomainRowClicked]
@@ -47,7 +65,7 @@ const WebsiteActivityTableFC: React.FC<ActivityTableProps> = ({
 
   return (
     <Panel>
-      <PanelHeader className="flex justify-between pb-2">
+      <PanelHeader className="flex justify-between pb-4">
         <span>
           <Icon type={IconType.CalendarLinesPen} />
           {title}
@@ -61,25 +79,37 @@ const WebsiteActivityTableFC: React.FC<ActivityTableProps> = ({
               className="flex gap-2 justify-between items-center text-sm px-1 last:pb-0 border-1 border-solid border-neutral-500"
               key={domain}
             >
-              <Icon
-                type={IconType.Close}
-                className="hover:text-neutral-400 cursor-pointer"
-                onClick={() => handleHideDomainClick(domain)}
-              />
               <a
-                className="flex-1 no-underline text-ellipsis overflow-hidden cursor-pointer hover:text-neutral-500"
+                className="flex flex-row items-center gap-2 flex-1 no-underline text-ellipsis overflow-hidden cursor-pointer hover:text-neutral-500"
                 title={domain}
                 onClick={() => handleDomainRowClick(domain)}
               >
+                {domainFavIconMap[domain] ? (
+                  <img
+                    className="w-4 h-4"
+                    src={domainFavIconMap[domain]}
+                    alt={domain + ' icon'}
+                  />
+                ) : (
+                  <Icon
+                    className="w-4 m-0 scale-105 translate-x-[1px]"
+                    type={IconType.Globe}
+                  />
+                )}
                 {domain}
               </a>
               <span className="min-w-[90px] text-right">
                 {getTimeFromMs(time)}
               </span>
+              <Icon
+                type={IconType.Close}
+                className="hover:text-red-500 cursor-pointer"
+                onClick={() => handleHideDomainClick(domain)}
+              />
             </div>
           );
         })}
-        <div>
+        <div className="pt-2">
           <p className="dark:text-neutral-300">
             Click on the website name to view stats for this website.
           </p>

@@ -1,9 +1,11 @@
 import { Tab } from '../../shared/browser-api.types';
 import { TimelineRecord } from '../../shared/db/types';
+import {
+  getActiveTabRecord,
+  setActiveTabRecord,
+} from '../../shared/tables/state';
 import { getIsoDate } from '../../shared/utils/dates-helper';
 import { getHostNameFromUrl } from '../../shared/utils/url';
-
-import { getActiveTabRecord, setActiveTabRecord } from '../tables/state';
 
 export class ActiveTimelineRecordDao {
   private record: null | Promise<TimelineRecord | null> = null;
@@ -36,7 +38,7 @@ export async function createNewActiveRecord(
     return;
   }
   const date = getIsoDate(new Date(timestamp));
-  const { url = '', title = '', favIconUrl } = focusedActiveTab;
+  const { url = '', title = '' } = focusedActiveTab;
   const hostname = getHostNameFromUrl(url);
 
   await setActiveTabRecord({
@@ -44,7 +46,6 @@ export async function createNewActiveRecord(
     url,
     hostname,
     docTitle: title,
-    favIconUrl,
     date,
     activityPeriodStart: timestamp,
     activityPeriodEnd: timestamp,

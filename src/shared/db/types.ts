@@ -7,7 +7,6 @@ export interface TimelineRecord {
   url: string;
   hostname: string;
   docTitle: string;
-  favIconUrl: string | undefined;
   date: string;
   activityPeriodStart: number;
   activityPeriodEnd: number;
@@ -29,4 +28,9 @@ export interface Preferences {
   ignoredHosts: string[];
   limits: Record<string, number>;
   displayTimeOnBadge: boolean;
+}
+
+export interface DomainInfo {
+  hostname: string;
+  iconUrl: string;
 }
