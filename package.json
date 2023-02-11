@@ -1,6 +1,6 @@
 {
   "name": "web-activity-plugin",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Browser time tracking extension",
   "private": true,
   "scripts": {
