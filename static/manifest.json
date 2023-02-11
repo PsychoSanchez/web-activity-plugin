@@ -22,7 +22,7 @@
     }
   ],
   "minimum_chrome_version": "90",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Time Tracking Assistant that helps you to be in charge of your time during web browsing",
   "permissions": [
     "idle",
