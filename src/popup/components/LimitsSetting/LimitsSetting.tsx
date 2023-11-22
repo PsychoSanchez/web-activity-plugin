@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { Button, ButtonType } from '../../../blocks/Button';
-import { Icon, IconType } from '../../../blocks/Icon';
-import { Input, Time } from '../../../blocks/Input';
-import { Panel, PanelBody, PanelHeader } from '../../../blocks/Panel';
+import { Button, ButtonType } from '../../../shared/blocks/Button';
+import { Icon, IconType } from '../../../shared/blocks/Icon';
+import { Input, Time } from '../../../shared/blocks/Input';
+import { Panel, PanelBody, PanelHeader } from '../../../shared/blocks/Panel';
 import { assertDomainIsValid } from '../../../shared/utils/domains';
 import { usePopupContext } from '../../hooks/PopupContext';
 

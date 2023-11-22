@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 
-import { Icon, IconType } from '../../../blocks/Icon';
-import { Panel, PanelHeader } from '../../../blocks/Panel';
+import { Icon, IconType } from '../../../shared/blocks/Icon';
+import { Panel, PanelHeader } from '../../../shared/blocks/Panel';
 import { useIsDarkMode } from '../../hooks/useTheme';
 import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
 import {

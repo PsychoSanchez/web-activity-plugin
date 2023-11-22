@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel';
+import { Panel, PanelBody, PanelHeader } from '../../shared/blocks/Panel';
 
 import { BackupSetting } from '../components/Backup/Backup';
 import { DisplayTimeOnBadge } from '../components/DisplayTimeOnBadgeSetting/DisplayTimeOnBadgeSetting';

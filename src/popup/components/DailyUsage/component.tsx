@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Icon, IconType } from '../../../blocks/Icon';
-import { Panel, PanelHeader } from '../../../blocks/Panel';
+import { Icon, IconType } from '../../../shared/blocks/Icon';
+import { Panel, PanelHeader } from '../../../shared/blocks/Panel';
 import { getMinutesInMs } from '../../../shared/utils/dates-helper';
 
 import { TimeUsagePanel } from '../DailyTimeUsage/DailyTimeUsage';

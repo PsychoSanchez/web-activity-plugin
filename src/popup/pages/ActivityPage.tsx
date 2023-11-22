@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Button, ButtonType } from '../../blocks/Button';
-import { Panel } from '../../blocks/Panel';
+import { Button, ButtonType } from '../../shared/blocks/Button';
+import { Panel } from '../../shared/blocks/Panel';
 import {
   getDatesWeekSundayDate,
   getIsoDate,
