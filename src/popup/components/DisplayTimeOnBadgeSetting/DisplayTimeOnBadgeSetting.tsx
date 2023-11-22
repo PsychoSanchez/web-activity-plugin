@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Checkbox } from '../../../blocks/Input';
+import { Checkbox } from '../../../shared/blocks/Input';
 import { usePopupContext } from '../../hooks/PopupContext';
 
 export const DisplayTimeOnBadge: React.FC = () => {

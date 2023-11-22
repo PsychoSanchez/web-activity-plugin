@@ -76,6 +76,7 @@
     "react-github-contribution-calendar": "^2.0.0",
     "react-tooltip": "^4.2.21",
     "tailwind-merge": "^1.6.2",
-    "throttle-debounce": "^3.0.1"
+    "throttle-debounce": "^3.0.1",
+    "ts-pattern": "^4.2.1"
   }
 }

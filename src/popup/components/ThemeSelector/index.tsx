@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { Button } from '../../../blocks/Button';
-import { Icon, IconType } from '../../../blocks/Icon';
+import { Button } from '../../../shared/blocks/Button';
+import { Icon, IconType } from '../../../shared/blocks/Icon';
 import { getAppTheme, setAppTheme } from '../../hooks/useTheme';
 
 export const ThemeSelector: React.FC = () => {

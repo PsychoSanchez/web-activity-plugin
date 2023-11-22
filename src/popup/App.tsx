@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { Icon, IconType } from '../blocks/Icon';
-import { Panel } from '../blocks/Panel';
+import { Icon, IconType } from '../shared/blocks/Icon';
+import { Panel } from '../shared/blocks/Panel';
 
 import { PopupContextProvider } from './hooks/PopupContext';
 import { ActivityPage } from './pages/ActivityPage';

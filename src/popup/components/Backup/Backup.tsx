@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import { getAllActivityTimeline } from '../../../shared/tables/activity-timeline';
-import { Button, ButtonType } from '../../../blocks/Button';
-import { Icon, IconType } from '../../../blocks/Icon';
-import { Panel, PanelBody, PanelHeader } from '../../../blocks/Panel';
+import { Button, ButtonType } from '../../../shared/blocks/Button';
+import { Icon, IconType } from '../../../shared/blocks/Icon';
+import { Panel, PanelBody, PanelHeader } from '../../../shared/blocks/Panel';
 import { TimelineRecord } from '../../../shared/db/types';
 import { usePopupContext } from '../../hooks/PopupContext';
 
