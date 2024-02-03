@@ -1,8 +1,8 @@
-import { ActiveTabState, TimelineRecord } from '../../shared/db/types';
-import { getSettings } from '../../shared/preferences';
-import { setActiveTabRecord } from '../../shared/tables/state';
-import { getIsoDate, getMinutesInMs } from '../../shared/utils/dates-helper';
-import { isInvalidUrl } from '../../shared/utils/url';
+import { ActiveTabState, TimelineRecord } from '@shared/db/types';
+import { getSettings } from '@shared/preferences';
+import { setActiveTabRecord } from '@shared/tables/state';
+import { getIsoDate, getMinutesInMs } from '@shared/utils/dates-helper';
+import { isInvalidUrl } from '@shared/utils/url';
 
 import { ActiveTimelineRecordDao, createNewActiveRecord } from './active';
 import { updateTimeOnBadge } from './badge';
@@ -14,7 +14,7 @@ import { saveTimelineRecord } from './timeline';
 const FIVE_MINUTES = getMinutesInMs(5);
 export const handleStateChange = async (
   activeTabState: ActiveTabState,
-  timestamp: number = Date.now()
+  timestamp: number = Date.now(),
 ) => {
   const preferences = await getSettings();
   const activeTimeline = new ActiveTimelineRecordDao();
@@ -41,7 +41,7 @@ export const handleStateChange = async (
   }
 
   const isDomainIgnored = preferences.ignoredHosts.includes(
-    currentTimelineRecord?.hostname ?? ''
+    currentTimelineRecord?.hostname ?? '',
   );
 
   const updatePageLimits = () => {
@@ -49,7 +49,7 @@ export const handleStateChange = async (
       handlePageLimitExceed(
         preferences.limits,
         focusedActiveTab,
-        currentTimelineRecord
+        currentTimelineRecord,
       );
     }
   };
@@ -59,27 +59,27 @@ export const handleStateChange = async (
     updateTimeOnBadge(
       focusedActiveTab,
       currentTimelineRecord,
-      preferences.displayTimeOnBadge && !isDomainIgnored
+      preferences.displayTimeOnBadge && !isDomainIgnored,
     ),
     updateDomainInfo(focusedActiveTab),
     updatePageLimits(),
   ]);
+
+  const isValidUrl = !isInvalidUrl(focusedActiveTab?.url);
+  const isUrlChanged = currentTimelineRecord?.url !== focusedActiveTab?.url;
 
   if (
     isLocked ||
     isNotFocused ||
     isIdleAndNotAudible ||
     isImpossiblyLongEvent ||
-    isInvalidUrl(focusedActiveTab?.url)
+    isUrlChanged
   ) {
-    await commitTabActivity(await activeTimeline.get());
+    await commitTabActivity(currentTimelineRecord);
 
-    return;
-  }
-
-  if (currentTimelineRecord?.url !== focusedActiveTab.url) {
-    await commitTabActivity(await activeTimeline.get());
-    await createNewActiveRecord(timestamp, focusedActiveTab);
+    if (focusedActiveTab && isValidUrl && isUrlChanged) {
+      await createNewActiveRecord(timestamp, focusedActiveTab);
+    }
   }
 };
 
@@ -96,11 +96,11 @@ async function commitTabActivity(currentTimelineRecord: TimelineRecord | null) {
   // previous day's total time as well.
   // Dates in the array should be different in this case.
   const dates = Array.from(
-    new Set([currentIsoDate, currentTimelineRecord.date])
+    new Set([currentIsoDate, currentTimelineRecord.date]),
   );
 
   await Promise.all(
-    dates.map((date) => updateTotalTime(date, currentTimelineRecord.hostname))
+    dates.map((date) => updateTotalTime(date, currentTimelineRecord.hostname)),
   );
 
   await setActiveTabRecord(null);
