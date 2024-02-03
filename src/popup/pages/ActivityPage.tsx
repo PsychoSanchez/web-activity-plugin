@@ -1,17 +1,14 @@
 import * as React from 'react';
 
-import { Button, ButtonType } from '../../shared/blocks/Button';
-import { Panel } from '../../shared/blocks/Panel';
-import {
-  getDatesWeekSundayDate,
-  getIsoDate,
-} from '../../shared/utils/dates-helper';
+import { Button, ButtonType } from '@shared/blocks/Button';
+import { Panel } from '@shared/blocks/Panel';
+import { getDatesWeekSundayDate, getIsoDate } from '@shared/utils/dates-helper';
 
-import { ActivityDatePicker } from '../components/ActivityDatePicker';
-import { DailyActivityTab } from '../components/ActivityPageDailyActivityTab/ActivityPageDailyActivityTab';
-import { ActivityPageWeeklyActivityTab } from '../components/ActivityPageWeeklyActivityTab/ActivityPageWeeklyActivityTab';
-import { WeekDatePicker } from '../components/WeekDatePicker/WeekDatePicker';
 import { usePopupContext } from '../hooks/PopupContext';
+import { ActivityDatePicker } from './activity/ActivityDatePicker';
+import { DailyActivityTab } from './activity/ActivityPageDailyActivityTab';
+import { ActivityPageWeeklyActivityTab } from './activity/ActivityPageWeeklyActivityTab';
+import { WeekDatePicker } from './activity/WeekDatePicker';
 
 interface ActivityPageProps {
   date?: string;
@@ -27,10 +24,10 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
 }) => {
   const [activeTab, setActiveTab] = React.useState(ActivityPageTabs.Daily);
   const [pickedIsoDate, setPickedIsoDate] = React.useState(
-    openOnDate || getIsoDate(new Date())
+    openOnDate || getIsoDate(new Date()),
   );
   const [pickedSunday, setPickedSunday] = React.useState(
-    getDatesWeekSundayDate()
+    getDatesWeekSundayDate(),
   );
 
   const { store } = usePopupContext();

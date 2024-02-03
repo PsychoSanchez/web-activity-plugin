@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { getTotalDailyActivity } from '../selectors/get-total-daily-activity';
 import { getTotalWeeklyActivity } from '../selectors/get-total-weekly-activity';
-
 import { TimeStore } from './useTimeStore';
 
 export const useTotalWebsiteActivity = (store: TimeStore) => {

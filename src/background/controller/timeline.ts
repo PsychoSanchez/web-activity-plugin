@@ -1,10 +1,9 @@
-import { TimelineRecord } from '../../shared/db/types';
-
-import { putActivityTimelineRecord } from '../../shared/tables/activity-timeline';
+import { TimelineRecord } from '@shared/db/types';
+import { putActivityTimelineRecord } from '@shared/tables/activity-timeline';
 
 export async function saveTimelineRecord(
   currentTimelineRecord: TimelineRecord,
-  currentIsoDate: string
+  currentIsoDate: string,
 ) {
   if (currentTimelineRecord.date === currentIsoDate) {
     await putActivityTimelineRecord(currentTimelineRecord);

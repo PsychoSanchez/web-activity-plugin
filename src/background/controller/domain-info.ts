@@ -1,6 +1,6 @@
-import { Tab } from '../../shared/browser-api.types';
-import { upsertDomainInfo } from '../../shared/tables/domain-info';
-import { getHostNameFromUrl } from '../../shared/utils/url';
+import { Tab } from '@shared/browser-api.types';
+import { upsertDomainInfo } from '@shared/tables/domain-info';
+import { getHostNameFromUrl } from '@shared/utils/url';
 
 export const updateDomainInfo = async (focusedActiveTab: Tab | null) => {
   if (

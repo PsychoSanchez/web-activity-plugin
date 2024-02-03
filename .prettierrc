@@ -4,12 +4,13 @@
   "arrowParens": "always",
   "bracketSpacing": true,
   "printWidth": 80,
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports"
+  ],
   "importOrder": [
-    "^[a-z]",
-    "^../../",
-    "^../[a-z]*",
-    "^\\./.*(?<!css)$",
-    "css$"
+    "<THIRD_PARTY_MODULES>",
+    "^@shared/(.*)$",
+    "^[./]"
   ],
   "importOrderSeparation": true
 }

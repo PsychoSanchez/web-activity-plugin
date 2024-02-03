@@ -1,9 +1,10 @@
-import type {
-  IdleState,
-  Tab,
-  TabActiveInfo,
-} from '../../shared/browser-api.types';
-import { ActiveTabState } from '../../shared/db/types';
+import type { IdleState, Tab, TabActiveInfo } from '@shared/browser-api.types';
+import { ActiveTabState } from '@shared/db/types';
+import {
+  createTabsStateTransaction,
+  getTabsState,
+  setTabsState,
+} from '@shared/tables/state';
 
 import { isUserDraggingWindowError } from '../browser-api/errors';
 import {
@@ -12,11 +13,6 @@ import {
   getActiveTabFromWindowId,
 } from '../browser-api/tabs';
 import { getFocusedWindowId } from '../browser-api/windows';
-import {
-  createTabsStateTransaction,
-  getTabsState,
-  setTabsState,
-} from '../../shared/tables/state';
 
 // remember last active tab
 // if idle state changes to idle clear stopwatch and send time
@@ -36,7 +32,7 @@ async function getTabsStateOrDefault() {
 }
 
 export const handleActiveTabStateChange = async (
-  tabInfo: TabActiveInfo
+  tabInfo: TabActiveInfo,
 ): Promise<ActiveTabState> => {
   const { windowId, tabId } = tabInfo;
 
@@ -96,7 +92,7 @@ export const handleTabUpdate = async (tab: Tab) => {
 };
 
 export const handleWindowFocusChange = async (
-  windowId: number
+  windowId: number,
 ): Promise<ActiveTabState> => {
   try {
     const focusedActiveTab = await getActiveTabFromWindowId(windowId);

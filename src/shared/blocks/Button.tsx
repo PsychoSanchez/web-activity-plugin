@@ -24,7 +24,7 @@ export const Button: React.FC<ButtonProps> = ({
         'text-neutral-100 bg-neutral-800 hover:bg-neutral-900 dark:text-neutral-800 dark:bg-neutral-200 dark:hover:bg-neutral-300',
       buttonType === ButtonType.Secondary &&
         'text-neutral-800 bg-neutral-300 hover:bg-neutral-400 dark:text-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600',
-      className
+      className,
     )}
     {...props}
   >

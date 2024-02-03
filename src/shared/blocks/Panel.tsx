@@ -13,7 +13,7 @@ export const Panel: React.FC<PanelComponentClassNameProps> = ({
     <div
       className={twMerge(
         'mb-2 border border-solid border-neutral-100 rounded-2xl p-4 bg-white dark:bg-neutral-800 dark:border-neutral-700',
-        className
+        className,
       )}
     >
       {children}
@@ -29,7 +29,7 @@ export const PanelHeader: React.FC<PanelComponentClassNameProps> = ({
     <h2
       className={twMerge(
         'text-base font-medium pb-1 text-neutral-900 dark:text-neutral-200',
-        className
+        className,
       )}
     >
       {children}
@@ -41,5 +41,9 @@ export const PanelBody: React.FC<PanelComponentClassNameProps> = ({
   children,
   className,
 }) => {
-  return <div className={twMerge('dark:text-neutral-200', className)}>{children}</div>;
+  return (
+    <div className={twMerge('dark:text-neutral-200', className)}>
+      {children}
+    </div>
+  );
 };

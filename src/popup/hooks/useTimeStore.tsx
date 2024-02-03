@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { getActiveTabRecord } from '../../shared/tables/state';
-import { getTotalActivity } from '../../shared/db/sync-storage';
-import type { TimeStore } from '../../shared/db/types';
-import { getIsoDate } from '../../shared/utils/dates-helper';
+import { getTotalActivity } from '@shared/db/sync-storage';
+import type { TimeStore } from '@shared/db/types';
+import { getActiveTabRecord } from '@shared/tables/state';
+import { getIsoDate } from '@shared/utils/dates-helper';
 
 export { TimeStore };
 
@@ -22,7 +22,7 @@ export const useTimeStore = () => {
         }
 
         setStore(activity);
-      }
+      },
     );
   }, []);
 

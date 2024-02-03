@@ -11,7 +11,7 @@ export async function setActiveTabRecord(val: TimelineRecord | null) {
   await db.put(
     TimeTrackerStoreTables.State,
     val,
-    TimeTrackerStoreStateTableKeys.ActiveTab
+    TimeTrackerStoreStateTableKeys.ActiveTab,
   );
 }
 
@@ -19,7 +19,7 @@ export async function getActiveTabRecord() {
   const db = await connect();
   return (await db.get(
     TimeTrackerStoreTables.State,
-    TimeTrackerStoreStateTableKeys.ActiveTab
+    TimeTrackerStoreStateTableKeys.ActiveTab,
   )) as TimelineRecord | null;
 }
 
@@ -28,7 +28,7 @@ export async function getTabsState() {
 
   return (await db.get(
     TimeTrackerStoreTables.State,
-    TimeTrackerStoreStateTableKeys.AppState
+    TimeTrackerStoreStateTableKeys.AppState,
   )) as ActiveTabState;
 }
 
@@ -38,7 +38,7 @@ export async function setTabsState(val: ActiveTabState) {
   await db.put(
     TimeTrackerStoreTables.State,
     val,
-    TimeTrackerStoreStateTableKeys.AppState
+    TimeTrackerStoreStateTableKeys.AppState,
   );
 }
 

@@ -3,7 +3,7 @@ import { DomainInfo } from '../db/types';
 
 export async function upsertDomainInfo(
   domain: string,
-  info: DomainInfo
+  info: DomainInfo,
 ): Promise<void> {
   const db = await connect();
 
@@ -11,7 +11,7 @@ export async function upsertDomainInfo(
 }
 
 export async function getDomainInfo(
-  domain: string
+  domain: string,
 ): Promise<DomainInfo | undefined> {
   const db = await connect();
 
@@ -25,18 +25,18 @@ export async function countDomains(): Promise<number> {
 }
 
 export async function selectHostnames(
-  hostnames: string[]
+  hostnames: string[],
 ): Promise<DomainInfo[]> {
   const db = await connect();
 
   return Promise.all(
     hostnames.map((hostname) =>
-      db.get(TimeTrackerStoreTables.DomainInfo, hostname)
-    )
+      db.get(TimeTrackerStoreTables.DomainInfo, hostname),
+    ),
   ).then((results) =>
     results.filter(
       (result): result is Exclude<typeof result, undefined> =>
-        result !== undefined
-    )
+        result !== undefined,
+    ),
   );
 }

@@ -1,10 +1,9 @@
-import { setTotalDailyHostTime } from '../../shared/db/sync-storage';
-
-import { getActivityTimeline } from '../../shared/tables/activity-timeline';
+import { setTotalDailyHostTime } from '@shared/db/sync-storage';
+import { getActivityTimeline } from '@shared/tables/activity-timeline';
 
 export async function updateTotalTime(
   currentIsoDate: string,
-  hostname: string
+  hostname: string,
 ) {
   const timeline = await getActivityTimeline(currentIsoDate);
   const timeOnRecord = timeline

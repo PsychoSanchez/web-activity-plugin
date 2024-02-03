@@ -1,11 +1,12 @@
+import { WAKE_UP_BACKGROUND } from '@shared/messages';
+import { getMinutesInMs } from '@shared/utils/dates-helper';
+import { ignore } from '@shared/utils/errors';
+
 import {
   isCouldNotEstablishConnectionError,
   isExtensionContextInvalidatedError,
   throwRuntimeLastError,
 } from '../background/browser-api/errors';
-import { WAKE_UP_BACKGROUND } from '../shared/messages';
-import { getMinutesInMs } from '../shared/utils/dates-helper';
-import { ignore } from '../shared/utils/errors';
 
 let messagePollingId = 0;
 
@@ -20,7 +21,7 @@ function tryWakeUpBackground() {
     } catch (error) {
       ignore(
         isExtensionContextInvalidatedError,
-        isCouldNotEstablishConnectionError
+        isCouldNotEstablishConnectionError,
       )(error);
     }
 
@@ -28,7 +29,7 @@ function tryWakeUpBackground() {
     if (document.visibilityState === 'visible') {
       messagePollingId = window.setTimeout(
         () => tryWakeUpBackground(),
-        getMinutesInMs(1)
+        getMinutesInMs(1),
       );
     }
   });
@@ -41,7 +42,7 @@ function connectToExtension() {
     } catch (error) {
       ignore(
         isExtensionContextInvalidatedError,
-        isCouldNotEstablishConnectionError
+        isCouldNotEstablishConnectionError,
       )(error);
     }
     setTimeout(() => connectToExtension(), getMinutesInMs(1));
