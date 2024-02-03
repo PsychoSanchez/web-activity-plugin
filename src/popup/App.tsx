@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { Icon, IconType } from '../blocks/Icon';
-import { Panel } from '../blocks/Panel';
+import { Icon, IconType } from '@shared/blocks/Icon';
+import { Panel } from '@shared/blocks/Panel';
 
+import './App.css';
 import { PopupContextProvider } from './hooks/PopupContext';
 import { ActivityPage } from './pages/ActivityPage';
 import { OverallPage } from './pages/OverallPage';
 import { PreferencesPage } from './pages/PreferencesPage';
-
-import './App.css';
 
 enum Pages {
   Overall = 'overall',
@@ -67,7 +66,7 @@ export const PopupApp: React.FC = () => {
                 'bg-neutral-300 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-200',
               activePage.tab !== tab &&
                 'hover:bg-neutral-100 text-neutral-400 dark:hover:bg-neutral-900 dark:text-neutral-400',
-              tab === Pages.Preferences && 'max-w-[75px]'
+              tab === Pages.Preferences && 'max-w-[75px]',
             )}
             key={tab}
             onClick={() => setPage({ tab, params: {} })}
@@ -80,7 +79,7 @@ export const PopupApp: React.FC = () => {
           </div>
         );
       }),
-    [activePage.tab]
+    [activePage.tab],
   );
 
   return (

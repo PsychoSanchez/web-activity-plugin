@@ -1,14 +1,14 @@
 import * as React from 'react';
 
-import { getMinutesInMs } from '../../shared/utils/dates-helper';
+import { getMinutesInMs } from '@shared/utils/dates-helper';
 
-import { TimeUsagePanel } from '../components/DailyTimeUsage/DailyTimeUsage';
-import { GeneralTimeline } from '../components/GeneralTimeline/GeneralTimeline';
-import { OverallActivityCalendarPanel } from '../components/OverallActivityCalendar/OverallActivtyCalendar';
+import { GeneralTimeline } from '../components/GeneralTimeline';
+import { TimeUsagePanel } from '../components/TimeUsagePanel';
 import { usePopupContext } from '../hooks/PopupContext';
 import { useActiveTabTime } from '../hooks/useActiveTabTime';
 import { useLastSixHoursTimelineEvents } from '../hooks/useLastSixHoursTimeline';
 import { useTotalWebsiteActivity } from '../hooks/useTotalWebsiteActivity';
+import { OverallActivityCalendarPanel } from './overall/OverallActivityCalendar';
 
 export interface OverallPageProps {
   onNavigateToActivityPage: React.ComponentProps<

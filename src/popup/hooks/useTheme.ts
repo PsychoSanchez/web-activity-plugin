@@ -42,7 +42,7 @@ export const initTheme = () => {
 
 function updateAutoTheme() {
   document.body.classList.add(
-    theme === 'auto' ? (isTimeForDarkMode() ? 'dark' : 'light') : theme
+    theme === 'auto' ? (isTimeForDarkMode() ? 'dark' : 'light') : theme,
   );
 }
 

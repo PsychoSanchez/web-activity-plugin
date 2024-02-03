@@ -2,7 +2,7 @@ import { TimeStore } from '../db/types';
 
 export const mergeTimeStore = (
   storeA: TimeStore = {},
-  storeB: TimeStore = {}
+  storeB: TimeStore = {},
 ): TimeStore => {
   const storeAKeys = Object.keys(storeA ?? {});
   const storeBKeys = Object.keys(storeB ?? {});
@@ -16,14 +16,19 @@ export const mergeTimeStore = (
     acc[key] = {
       ...storeAValue,
       ...storeBValue,
-      ...Object.keys({ ...storeAValue, ...storeBValue }).reduce((acc, key) => {
-        const storeAValueForKey = storeAValue?.[key] || storeBValue?.[key] || 0;
-        const storeBValueForKey = storeBValue?.[key] || storeAValue?.[key] || 0;
+      ...Object.keys({ ...storeAValue, ...storeBValue }).reduce(
+        (acc, key) => {
+          const storeAValueForKey =
+            storeAValue?.[key] || storeBValue?.[key] || 0;
+          const storeBValueForKey =
+            storeBValue?.[key] || storeAValue?.[key] || 0;
 
-        acc[key] = Math.max(storeAValueForKey, storeBValueForKey);
+          acc[key] = Math.max(storeAValueForKey, storeBValueForKey);
 
-        return acc;
-      }, {} as Record<string, number>),
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
     };
 
     return acc;

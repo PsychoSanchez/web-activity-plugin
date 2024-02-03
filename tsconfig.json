@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "baseUrl": "./src",
+    "paths": {
+      "@shared/*": ["./src/shared/*"]
+    },
     "sourceMap": true,
     "noImplicitAny": true,
     "strict": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
-    "module": "es6",
+    "module": "CommonJS",
     "target": "es5",
     "jsx": "react",
     "lib": ["ESNext", "DOM"],

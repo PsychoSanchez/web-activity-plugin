@@ -1,10 +1,5 @@
-import {
-  connect,
-  TimelineDatabase,
-  TimeTrackerStoreTables,
-} from '../db/idb';
+import { connect, TimelineDatabase, TimeTrackerStoreTables } from '../db/idb';
 import { ignore } from '../utils/errors';
-
 import {
   isKeyAlreadyExistsError,
   isUnableToAddKeyToIndexError,
@@ -23,7 +18,7 @@ export async function getAllActivityTimeline() {
 }
 
 export async function putActivityTimelineRecord(
-  val: TimelineDatabase['timeline']['value']
+  val: TimelineDatabase['timeline']['value'],
 ) {
   const db = await connect();
   return db

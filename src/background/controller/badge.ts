@@ -1,15 +1,15 @@
-import { Tab } from '../../shared/browser-api.types';
-import { getCurrentHostTime } from '../../shared/db/sync-storage';
-import { TimelineRecord } from '../../shared/db/types';
-import { presentHoursOrMinutesFromMinutes } from '../../shared/utils/dates-helper';
-import { getHostNameFromUrl } from '../../shared/utils/url';
+import { Tab } from '@shared/browser-api.types';
+import { getCurrentHostTime } from '@shared/db/sync-storage';
+import { TimelineRecord } from '@shared/db/types';
+import { presentHoursOrMinutesFromMinutes } from '@shared/utils/dates-helper';
+import { getHostNameFromUrl } from '@shared/utils/url';
 
 import { setActionBadge, hideBadge } from '../browser-api/badge';
 
 export async function updateTimeOnBadge(
   focusedActiveTab: Tab | null,
   currentTimelineRecord: TimelineRecord | null,
-  isEnabled: boolean
+  isEnabled: boolean,
 ) {
   if (!focusedActiveTab?.id) {
     return;
@@ -30,7 +30,7 @@ export async function updateTimeOnBadge(
     (currentTimelineRecord?.activityPeriodStart ?? Date.now());
 
   const currentHostTimeInMinutes = Math.floor(
-    (committedHostTime + notCommittedHostTime) / 1000 / 60
+    (committedHostTime + notCommittedHostTime) / 1000 / 60,
   );
 
   if (currentHostTimeInMinutes > 0) {

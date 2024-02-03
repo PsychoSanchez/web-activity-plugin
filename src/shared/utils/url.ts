@@ -8,7 +8,7 @@ export const isInvalidUrl = (url: string | undefined): url is undefined => {
   return (
     !url ||
     ['chrome', 'about', 'opera', 'edge', 'coccoc', 'yabro'].some((broName) =>
-      url.startsWith(broName)
+      url.startsWith(broName),
     )
   );
 };

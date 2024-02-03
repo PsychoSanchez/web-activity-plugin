@@ -1,6 +1,6 @@
-import { ActiveTabState } from '../../shared/db/types';
-import { LIMIT_EXCEEDED, LIMIT_OK } from '../../shared/messages';
-import { ignore } from '../../shared/utils/errors';
+import { ActiveTabState } from '@shared/db/types';
+import { LIMIT_EXCEEDED, LIMIT_OK } from '@shared/messages';
+import { ignore } from '@shared/utils/errors';
 
 import {
   isCouldNotEstablishConnectionError,
@@ -45,7 +45,7 @@ export const getFocusedTab = async () => {
 
 export const getTabFromFocusedWindow = async (
   windowId: number,
-  tabId: number
+  tabId: number,
 ): Promise<Partial<ActiveTabState>> => {
   const activeTabWindow = await chrome.windows.get(windowId);
   if (!activeTabWindow.focused) {

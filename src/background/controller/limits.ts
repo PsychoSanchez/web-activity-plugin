@@ -1,15 +1,15 @@
-import { Tab } from '../../shared/browser-api.types';
-import { getTotalActivity } from '../../shared/db/sync-storage';
-import { TimelineRecord } from '../../shared/db/types';
-import { getIsoDate } from '../../shared/utils/dates-helper';
-import { getHostNameFromUrl } from '../../shared/utils/url';
+import { Tab } from '@shared/browser-api.types';
+import { getTotalActivity } from '@shared/db/sync-storage';
+import { TimelineRecord } from '@shared/db/types';
+import { getIsoDate } from '@shared/utils/dates-helper';
+import { getHostNameFromUrl } from '@shared/utils/url';
 
 import { greyOutTab, unGreyOutTab } from '../browser-api/tabs';
 
 export async function handlePageLimitExceed(
   limits: Record<string, number>,
   focusedTab: Tab | null,
-  activeTimeline: TimelineRecord | null
+  activeTimeline: TimelineRecord | null,
 ) {
   if (!focusedTab?.url || !focusedTab?.id || !activeTimeline) {
     return;

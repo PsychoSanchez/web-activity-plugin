@@ -59,7 +59,7 @@ export const connect = () =>
     async upgrade(db, oldVersion, newVersion, transaction) {
       if (oldVersion < 1) {
         const tabsStateStore = db.createObjectStore(
-          TimeTrackerStoreTables.State
+          TimeTrackerStoreTables.State,
         );
         tabsStateStore.put(null, TimeTrackerStoreStateTableKeys.ActiveTab);
         tabsStateStore.put(
@@ -69,7 +69,7 @@ export const connect = () =>
             focusedWindowId: undefined,
             idleState: undefined,
           },
-          TimeTrackerStoreStateTableKeys.AppState
+          TimeTrackerStoreStateTableKeys.AppState,
         );
 
         const timelineStore = db.createObjectStore(
@@ -79,7 +79,7 @@ export const connect = () =>
             keyPath: 'id',
             // If it isn't explicitly set, create a value by auto incrementing.
             autoIncrement: true,
-          }
+          },
         );
 
         timelineStore.createIndex('date', 'date', { unique: false });
@@ -94,7 +94,7 @@ export const connect = () =>
       // Activity period start is a unique id for each record if there is a race condition
       if (oldVersion < 2) {
         const timeline = transaction.objectStore(
-          TimeTrackerStoreTables.Timeline
+          TimeTrackerStoreTables.Timeline,
         );
 
         timeline.createIndex('recordId', 'activityPeriodStart', {
@@ -107,7 +107,7 @@ export const connect = () =>
           TimeTrackerStoreTables.DomainInfo,
           {
             keyPath: 'hostname',
-          }
+          },
         );
 
         domainInfoStore.createIndex('hostname', 'hostname', { unique: true });

@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import { Preferences } from '../../shared/db/types';
+import { Preferences } from '@shared/db/types';
 import {
   DEFAULT_PREFERENCES,
   getSettings,
   setSettings,
-} from '../../shared/preferences';
+} from '@shared/preferences';
 
 export const useSettings = () => {
   const [settings, setCachedSettings] =
@@ -23,7 +23,7 @@ export const useSettings = () => {
       await setSettings(updates);
       setCachedSettings((set) => ({ ...set, ...updates }));
     },
-    []
+    [],
   );
 
   return [settings, updateSettings] as const;

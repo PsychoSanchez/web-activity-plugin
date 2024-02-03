@@ -1,4 +1,4 @@
-import { get7DaysPriorDate, getIsoDate } from '../../shared/utils/dates-helper';
+import { get7DaysPriorDate, getIsoDate } from '@shared/utils/dates-helper';
 
 import { usePopupContext } from './PopupContext';
 

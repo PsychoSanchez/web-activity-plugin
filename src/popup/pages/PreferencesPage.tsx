@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { Panel, PanelBody, PanelHeader } from '../../blocks/Panel';
+import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 
-import { BackupSetting } from '../components/Backup/Backup';
-import { DisplayTimeOnBadge } from '../components/DisplayTimeOnBadgeSetting/DisplayTimeOnBadgeSetting';
-import { IgnoredDomainSetting } from '../components/IgnoredDomainsSetting/IgnoredDomainSetting';
-import { LimitsSetting } from '../components/LimitsSetting/LimitsSetting';
-import { ThemeSelector } from '../components/ThemeSelector';
+import { BackupSetting } from './preferences/Backup';
+import { DisplayTimeOnBadge } from './preferences/DisplayTimeOnBadgeSetting';
+import { IgnoredDomainSetting } from './preferences/IgnoredDomainSetting';
+import { LimitsSetting } from './preferences/LimitsSetting';
+import { ThemeSelector } from './preferences/ThemeSelector';
 
 export const PreferencesPage: FC = () => {
   return (

@@ -1,3 +1,7 @@
+import { Tab } from '@shared/browser-api.types';
+import { WAKE_UP_BACKGROUND } from '@shared/messages';
+import { logMessage } from '@shared/tables/logs';
+
 import { getTabInfo } from './background/browser-api/tabs';
 import { handleStateChange } from './background/controller';
 import {
@@ -7,9 +11,6 @@ import {
   handleTabUpdate,
   handleWindowFocusChange,
 } from './background/services/state-service';
-import { logMessage } from './shared/tables/logs';
-import { Tab } from './shared/browser-api.types';
-import { WAKE_UP_BACKGROUND } from './shared/messages';
 
 const ASYNC_POLL_ALARM_NAME = 'async-poll';
 const ASYNC_POLL_INTERVAL_MINUTES = 1;

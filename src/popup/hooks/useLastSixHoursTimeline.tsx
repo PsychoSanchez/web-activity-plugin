@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { getActivityTimeline } from '../../shared/tables/activity-timeline';
-import { TimelineRecord } from '../../shared/db/types';
-import { getHoursInMs, getIsoDate } from '../../shared/utils/dates-helper';
+import { TimelineRecord } from '@shared/db/types';
+import { getActivityTimeline } from '@shared/tables/activity-timeline';
+import { getHoursInMs, getIsoDate } from '@shared/utils/dates-helper';
 
 export const useLastSixHoursTimelineEvents = () => {
   const [activityEvents, setActivityEvents] = useState<TimelineRecord[]>([]);
@@ -13,7 +13,7 @@ export const useLastSixHoursTimelineEvents = () => {
       const sixHoursAgo = Date.now() - getHoursInMs(6);
 
       const events = timeline.filter(
-        (event) => event.activityPeriodStart > sixHoursAgo
+        (event) => event.activityPeriodStart > sixHoursAgo,
       );
 
       setActivityEvents(events);
