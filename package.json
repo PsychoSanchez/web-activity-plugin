@@ -8,6 +8,7 @@
     "test": "jest",
     "lint": "eslint -c eslint.config.mjs",
     "build": "npm test && npm run lint && webpack --mode=production",
+    "build:prod": "webpack --mode=production",
     "start": "webpack --mode=development --watch",
     "prepare": "husky install",
     "release": "node ./tools/release.js",
