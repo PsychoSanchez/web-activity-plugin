@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "baseUrl": "./",
     "paths": {
-      "@shared/*": ["./src/shared/*"]
+      "@shared/*": ["src/shared/*"]
     },
     "sourceMap": true,
     "strict": true,
