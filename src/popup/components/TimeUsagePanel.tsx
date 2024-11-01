@@ -2,10 +2,7 @@ import * as React from 'react';
 
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
-import {
-  getMinutesInMs,
-  getTimeWithoutSeconds,
-} from '@shared/utils/dates-helper';
+import { getMinutesInMs, getTimeWithoutSeconds } from '@shared/utils/date';
 
 export interface TimeUsagePanelProps {
   title?: string;

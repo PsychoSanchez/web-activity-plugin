@@ -3,10 +3,7 @@ import * as React from 'react';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { selectHostnames } from '@shared/tables/domain-info';
-import {
-  getTimeFromMs,
-  getTimeWithoutSeconds,
-} from '@shared/utils/dates-helper';
+import { getTimeFromMs, getTimeWithoutSeconds } from '@shared/utils/date';
 
 import { usePopupContext } from '../../hooks/PopupContext';
 

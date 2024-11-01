@@ -1,4 +1,4 @@
-import { getIsoDate } from '@shared/utils/dates-helper';
+import { getIsoDate } from '@shared/utils/date';
 import { mergeTimeStore } from '@shared/utils/time-store';
 
 import {

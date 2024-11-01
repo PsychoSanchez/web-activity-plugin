@@ -3,7 +3,7 @@ import * as React from 'react';
 import { getTotalActivity } from '@shared/db/sync-storage';
 import type { TimeStore } from '@shared/db/types';
 import { getActiveTabRecord } from '@shared/tables/state';
-import { getIsoDate } from '@shared/utils/dates-helper';
+import { getIsoDate } from '@shared/utils/date';
 
 export { TimeStore };
 

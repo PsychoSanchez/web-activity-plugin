@@ -1,7 +1,7 @@
 import { Tab } from '@shared/browser-api.types';
 import { TimelineRecord } from '@shared/db/types';
 import { getActiveTabRecord, setActiveTabRecord } from '@shared/tables/state';
-import { getIsoDate } from '@shared/utils/dates-helper';
+import { getIsoDate } from '@shared/utils/date';
 import { getHostNameFromUrl } from '@shared/utils/url';
 
 export class ActiveTimelineRecordDao {

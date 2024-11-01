@@ -9,7 +9,7 @@ import {
   getIsoDate,
   getTimeFromMs,
   getTimeWithoutSeconds,
-} from '@shared/utils/dates-helper';
+} from '@shared/utils/date';
 import { getTotalDailyActivity } from '@shared/utils/time-store';
 
 import { useIsDarkMode } from '../../hooks/useTheme';

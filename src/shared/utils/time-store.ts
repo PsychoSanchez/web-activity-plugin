@@ -1,5 +1,5 @@
 import { TimeStore } from '@shared/db/types';
-import { get7DaysPriorDate, getIsoDate } from '@shared/utils/dates-helper';
+import { get7DaysPriorDate, getIsoDate } from '@shared/utils/date';
 
 export const mergeTimeStore = (
   storeA: TimeStore,

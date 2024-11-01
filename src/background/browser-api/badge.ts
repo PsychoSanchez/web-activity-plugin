@@ -1,6 +1,5 @@
+import { isTabNotExistError } from '@shared/services/browser-api/errors';
 import { ignore } from '@shared/utils/errors';
-
-import { isTabNotExistError } from './errors';
 
 export const setActionBadge = async ({
   tabId,

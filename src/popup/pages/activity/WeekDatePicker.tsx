@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Button, ButtonType } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
-import { getIsoDate } from '@shared/utils/dates-helper';
+import { getIsoDate } from '@shared/utils/date';
 
 export interface WeekDatePickerProps {
   sundayDate: Date;

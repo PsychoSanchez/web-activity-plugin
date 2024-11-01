@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { get7DaysPriorDate, getIsoDate } from '@shared/utils/dates-helper';
+import { get7DaysPriorDate, getIsoDate } from '@shared/utils/date';
 import { getTotalWeeklyActivity } from '@shared/utils/time-store';
 
 import { TimeUsagePanel } from '../../components/TimeUsagePanel';

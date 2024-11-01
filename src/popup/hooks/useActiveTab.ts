@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { getFocusedTab } from '../../background/browser-api/tabs';
+import { getFocusedTab } from '@shared/services/browser-api/tabs';
 
 export const useActiveTabHostname = () => {
   const [host, setHost] = React.useState<string | null>(null);

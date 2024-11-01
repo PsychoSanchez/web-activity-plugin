@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { getMinutesInMs } from '@shared/utils/dates-helper';
+import { getMinutesInMs } from '@shared/utils/date';
 
 import { GeneralTimeline } from '../components/GeneralTimeline';
 import { TimeUsagePanel } from '../components/TimeUsagePanel';

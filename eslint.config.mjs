@@ -23,7 +23,6 @@ delete globals.browser['AudioWorkletGlobalScope '];
 
 export default [
   {
-    // files: ['src/**/*.ts', 'src/**/*.tsx'],
     ignores: ['dist/*', 'tools/*', 'node_modules/*', 'static/*'],
   },
   ...fixupConfigRules(

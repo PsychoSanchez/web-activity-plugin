@@ -1,18 +1,18 @@
 import type { IdleState, Tab, TabActiveInfo } from '@shared/browser-api.types';
 import { ActiveTabState } from '@shared/db/types';
+import { isUserDraggingWindowError } from '@shared/services/browser-api/errors';
+import { getFocusedWindowId } from '@shared/services/browser-api/windows';
 import {
   createTabsStateTransaction,
   getTabsState,
   setTabsState,
 } from '@shared/tables/state';
 
-import { isUserDraggingWindowError } from '../browser-api/errors';
 import {
   getAllActiveTabs,
   getTabFromFocusedWindow,
   getActiveTabFromWindowId,
 } from '../browser-api/tabs';
-import { getFocusedWindowId } from '../browser-api/windows';
 
 // remember last active tab
 // if idle state changes to idle clear stopwatch and send time

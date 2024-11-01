@@ -1,4 +1,20 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run lint && npm run prettier:check
+FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+[ -z "$FILES" ] && exit 0
+
+# Prettify all selected files
+echo "$FILES" | npm run prettier:write
+
+# Add back the modified/prettified files to staging
+echo "$FILES" | xargs git add
+
+if npm run prettier:check; then
+  echo "Prettier passed"
+else
+  echo "Prettier failed"
+  exit 1
+fi
+
+npm run lint

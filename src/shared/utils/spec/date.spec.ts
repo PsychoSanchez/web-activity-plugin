@@ -7,7 +7,7 @@ import {
   getTimeWithoutSeconds,
   get7DaysPriorDate,
   getDatesWeekSundayDate,
-} from '../dates-helper';
+} from '../date';
 
 describe('getIsoDate', () => {
   it('should return a string in the format YYYY-MM-DD', () => {

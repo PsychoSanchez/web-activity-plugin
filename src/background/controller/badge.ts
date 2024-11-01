@@ -1,7 +1,7 @@
 import { Tab } from '@shared/browser-api.types';
 import { getCurrentHostTime } from '@shared/db/sync-storage';
 import { TimelineRecord } from '@shared/db/types';
-import { presentHoursOrMinutesFromMinutes } from '@shared/utils/dates-helper';
+import { presentHoursOrMinutesFromMinutes } from '@shared/utils/date';
 import { getHostNameFromUrl } from '@shared/utils/url';
 
 import { setActionBadge, hideBadge } from '../browser-api/badge';

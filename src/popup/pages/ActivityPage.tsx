@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Button, ButtonType } from '@shared/blocks/Button';
 import { Panel } from '@shared/blocks/Panel';
-import { getDatesWeekSundayDate, getIsoDate } from '@shared/utils/dates-helper';
+import { getDatesWeekSundayDate, getIsoDate } from '@shared/utils/date';
 
 import { usePopupContext } from '../hooks/PopupContext';
 import { ActivityDatePicker } from './activity/ActivityDatePicker';

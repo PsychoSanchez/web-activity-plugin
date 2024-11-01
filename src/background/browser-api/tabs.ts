@@ -1,13 +1,11 @@
 import { ActiveTabState } from '@shared/db/types';
 import { LIMIT_EXCEEDED, LIMIT_OK } from '@shared/messages';
-import { ignore } from '@shared/utils/errors';
-
 import {
   isCouldNotEstablishConnectionError,
   isTabNotExistError,
   throwRuntimeLastError,
-} from './errors';
-import { getFocusedWindowId } from './windows';
+} from '@shared/services/browser-api/errors';
+import { ignore } from '@shared/utils/errors';
 
 export const getActiveAudibleTab = () =>
   chrome.tabs.query({
@@ -29,19 +27,6 @@ export const getAllActiveTabs = () =>
   chrome.tabs.query({
     active: true,
   });
-
-export const getFocusedTab = async () => {
-  const windowId = await getFocusedWindowId();
-  const tabs = await chrome.tabs.query({
-    windowId,
-  });
-  throwRuntimeLastError();
-
-  return (
-    tabs.filter((tab) => tab.active)[0] ??
-    tabs.filter((tab) => tab.highlighted)[0]
-  );
-};
 
 export const getTabFromFocusedWindow = async (
   windowId: number,

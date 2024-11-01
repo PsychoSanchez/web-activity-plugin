@@ -1,7 +1,7 @@
 import { ActiveTabState, TimelineRecord } from '@shared/db/types';
 import { getSettings } from '@shared/preferences';
 import { setActiveTabRecord } from '@shared/tables/state';
-import { getIsoDate, getMinutesInMs } from '@shared/utils/dates-helper';
+import { getIsoDate, getMinutesInMs } from '@shared/utils/date';
 import { isInvalidUrl } from '@shared/utils/url';
 
 import { ActiveTimelineRecordDao, createNewActiveRecord } from './active';

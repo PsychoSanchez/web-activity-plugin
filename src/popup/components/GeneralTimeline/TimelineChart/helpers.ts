@@ -1,5 +1,5 @@
 import { TimelineRecord } from '@shared/db/types';
-import { getMinutesInMs } from '@shared/utils/dates-helper';
+import { getMinutesInMs } from '@shared/utils/date';
 import { assert } from '@shared/utils/guards';
 
 const presentHour = (hour: number) => `${hour.toString().padStart(2, '0')}:00`;

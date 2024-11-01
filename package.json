@@ -17,7 +17,8 @@
     "preversion": "npm test && npm run lint",
     "version": "npm run release && git add .",
     "postversion": "git push && git push --tags",
-    "prettier:check": "prettier ./src -c"
+    "prettier:check": "prettier ./src --check --cache --ignore-path .gitignore",
+    "prettier:write": "prettier ./src --write --ignore-unknown --ignore-path .gitignore"
   },
   "repository": {
     "type": "git",
