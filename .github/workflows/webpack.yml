@@ -7,9 +7,42 @@ on:
     branches: [ "main" ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint code
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 23
+
+    - name: Lint
+      run: |
+        npm install
+        npm run ci:lint
+
+  test:
+    runs-on: ubuntu-latest
+    name: Run tests
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 23
+
+    - name: Test
+      run: |
+        npm install
+        npm run ci:test
+
   build:
     runs-on: ubuntu-latest
     name: Build production
+    needs: [lint, test]
     steps:
     - uses: actions/checkout@v3
 
@@ -21,7 +54,7 @@ jobs:
     - name: Build
       run: |
         npm install
-        npx run build
+        npm run ci:build
 
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
