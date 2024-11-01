@@ -16,7 +16,8 @@
     "release:major": "npm version major",
     "preversion": "npm test && npm run lint",
     "version": "npm run release && git add .",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "prettier:check": "prettier ./src -c"
   },
   "repository": {
     "type": "git",
