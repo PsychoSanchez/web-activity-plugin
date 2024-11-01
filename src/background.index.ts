@@ -1,5 +1,5 @@
-import { Tab } from '@shared/browser-api.types';
 import { WAKE_UP_BACKGROUND } from '@shared/messages';
+import { Tab } from '@shared/services/browser-api/types';
 import { logMessage } from '@shared/tables/logs';
 
 import { getTabInfo } from './background/browser-api/tabs';

@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   buttonType?: ButtonType;
 }
 
 export enum ButtonType {
-  Primary,
-  Secondary,
+  Primary = 'Primary',
+  Secondary = 'Secondary',
 }
 
 export const Button: React.FC<ButtonProps> = ({

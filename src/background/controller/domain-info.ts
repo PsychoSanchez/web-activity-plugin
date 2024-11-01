@@ -1,4 +1,4 @@
-import { Tab } from '@shared/browser-api.types';
+import { Tab } from '@shared/services/browser-api/types';
 import { upsertDomainInfo } from '@shared/tables/domain-info';
 import { getHostNameFromUrl } from '@shared/utils/url';
 

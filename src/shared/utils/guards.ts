@@ -6,3 +6,7 @@ export function assert<T>(
     throw new Error(message ?? 'Assertion failed');
   }
 }
+
+export function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}

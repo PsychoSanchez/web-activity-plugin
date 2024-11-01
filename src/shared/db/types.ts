@@ -1,4 +1,4 @@
-import { IdleState, Tab } from '../browser-api.types';
+import { IdleState, Tab } from '../services/browser-api/types';
 
 export type TimeStore = Record<string, Record<string, number>>;
 

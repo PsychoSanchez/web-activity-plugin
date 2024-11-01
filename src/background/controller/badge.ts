@@ -1,6 +1,6 @@
-import { Tab } from '@shared/browser-api.types';
 import { getCurrentHostTime } from '@shared/db/sync-storage';
 import { TimelineRecord } from '@shared/db/types';
+import { Tab } from '@shared/services/browser-api/types';
 import { presentHoursOrMinutesFromMinutes } from '@shared/utils/date';
 import { getHostNameFromUrl } from '@shared/utils/url';
 

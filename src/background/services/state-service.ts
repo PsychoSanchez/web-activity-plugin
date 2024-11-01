@@ -1,6 +1,10 @@
-import type { IdleState, Tab, TabActiveInfo } from '@shared/browser-api.types';
 import { ActiveTabState } from '@shared/db/types';
 import { isUserDraggingWindowError } from '@shared/services/browser-api/errors';
+import type {
+  IdleState,
+  Tab,
+  TabActiveInfo,
+} from '@shared/services/browser-api/types';
 import { getFocusedWindowId } from '@shared/services/browser-api/windows';
 import {
   createTabsStateTransaction,

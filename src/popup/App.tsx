@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel } from '@shared/blocks/Panel';
 
+import '../tailwind.css';
 import './App.css';
 import { PopupContextProvider } from './hooks/PopupContext';
 import { ActivityPage } from './pages/ActivityPage';
