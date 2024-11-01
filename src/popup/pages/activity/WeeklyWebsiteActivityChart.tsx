@@ -10,10 +10,10 @@ import {
   getTimeFromMs,
   getTimeWithoutSeconds,
 } from '@shared/utils/dates-helper';
+import { getTotalDailyActivity } from '@shared/utils/time-store';
 
 import { useIsDarkMode } from '../../hooks/useTheme';
 import { TimeStore } from '../../hooks/useTimeStore';
-import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
 
 export interface WeeklyWebsiteActivityChartProps {
   store: TimeStore;

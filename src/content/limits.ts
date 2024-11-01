@@ -4,11 +4,7 @@ let initialPageStyles: Pick<
 > | null = null;
 
 export const greyOutBody = () => {
-  if (!document.body) {
-    return;
-  }
-
-  if (initialPageStyles) {
+  if (!document.body || initialPageStyles) {
     return;
   }
 
@@ -26,11 +22,7 @@ export const greyOutBody = () => {
 };
 
 export const unGreyOutBody = () => {
-  if (!initialPageStyles) {
-    return;
-  }
-
-  if (!document.body) {
+  if (!document.body || !initialPageStyles) {
     return;
   }
 

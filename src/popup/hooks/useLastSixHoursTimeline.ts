@@ -8,8 +8,7 @@ export const useLastSixHoursTimelineEvents = () => {
   const [activityEvents, setActivityEvents] = useState<TimelineRecord[]>([]);
 
   useEffect(() => {
-    (async () => {
-      const timeline = await getActivityTimeline(getIsoDate(new Date()));
+    getActivityTimeline(getIsoDate(new Date())).then((timeline) => {
       const sixHoursAgo = Date.now() - getHoursInMs(6);
 
       const events = timeline.filter(
@@ -17,7 +16,7 @@ export const useLastSixHoursTimelineEvents = () => {
       );
 
       setActivityEvents(events);
-    })();
+    });
   }, []);
 
   return activityEvents;

@@ -4,11 +4,15 @@ export const getHostNameFromUrl = (url: string) => {
   return hostname || url;
 };
 
+const BROWSER_URL_PREFIX = [
+  'chrome',
+  'about',
+  'opera',
+  'edge',
+  'coccoc',
+  'yabro',
+];
+
 export const isInvalidUrl = (url: string | undefined): url is undefined => {
-  return (
-    !url ||
-    ['chrome', 'about', 'opera', 'edge', 'coccoc', 'yabro'].some((broName) =>
-      url.startsWith(broName),
-    )
-  );
+  return !url || BROWSER_URL_PREFIX.some((broName) => url.startsWith(broName));
 };

@@ -1,4 +1,4 @@
-import { mergeTimeStore } from '../merge-time-store';
+import { mergeTimeStore } from '../time-store';
 
 describe('mergeTimeStore', () => {
   it('should merge keys of two time stores', () => {

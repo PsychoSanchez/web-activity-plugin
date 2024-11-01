@@ -8,7 +8,6 @@ import { initTheme } from './popup/hooks/useTheme';
 
 initTheme();
 
-// eslint-disable-next-line react/no-deprecated
 ReactDOM.render(<PopupApp />, document.querySelector('#app'));
 
 function tryWakeUpBackground() {

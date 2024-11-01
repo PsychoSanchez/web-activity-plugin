@@ -1,5 +1,6 @@
-import { getIsoDate } from '../utils/dates-helper';
-import { mergeTimeStore } from '../utils/merge-time-store';
+import { getIsoDate } from '@shared/utils/dates-helper';
+import { mergeTimeStore } from '@shared/utils/time-store';
+
 import {
   connect,
   TimeTrackerStoreStateTableKeys,

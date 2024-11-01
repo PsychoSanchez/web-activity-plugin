@@ -1,5 +1,6 @@
 import { TimelineRecord } from '@shared/db/types';
 import { getMinutesInMs } from '@shared/utils/dates-helper';
+import { assert } from '@shared/utils/guards';
 
 const presentHour = (hour: number) => `${hour.toString().padStart(2, '0')}:00`;
 export const MINIMUM_DISPLAYED_ACTIVITY = getMinutesInMs(1);
@@ -57,7 +58,7 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
     chartDatasetData.push(newDataSet);
   };
 
-  activityEvents.forEach((event) => {
+  for (const event of activityEvents) {
     const eventStartDate = new Date(event.activityPeriodStart);
     const eventEndDate = new Date(event.activityPeriodEnd);
     const eventEndHour = eventEndDate.getHours();
@@ -70,7 +71,7 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
         eventStartDate.getMinutes(),
         eventEndDate.getMinutes(),
       ]);
-      return;
+      continue;
     }
 
     // Split event into two
@@ -79,7 +80,7 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
       59,
     ]);
     pushTimelineDataToDataset(eventEndHour, [0, eventEndDate.getMinutes()]);
-  });
+  }
 
   return {
     chartDatasetData,
@@ -98,8 +99,8 @@ export const joinNeighborTimelineEvents = (
         return acc;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know that the previous record exists
-      const previousNeighbor = acc[acc.length - 1]!;
+      const previousNeighbor = acc.at(-1);
+      assert(previousNeighbor, 'Previous neighbor should exist');
 
       const timeBetweenEvents =
         record.activityPeriodStart - previousNeighbor.activityPeriodEnd;

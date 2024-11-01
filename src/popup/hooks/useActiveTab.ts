@@ -6,17 +6,13 @@ export const useActiveTabHostname = () => {
   const [host, setHost] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    async function getActiveHostInfo() {
-      const tab = await getFocusedTab();
-
+    getFocusedTab().then((tab) => {
       if (tab?.url) {
         const host = new URL(tab.url).host;
 
         setHost(host);
       }
-    }
-
-    getActiveHostInfo();
+    });
   }, []);
 
   return host;

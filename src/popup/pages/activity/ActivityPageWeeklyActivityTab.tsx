@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import { get7DaysPriorDate, getIsoDate } from '@shared/utils/dates-helper';
+import { getTotalWeeklyActivity } from '@shared/utils/time-store';
 
 import { TimeUsagePanel } from '../../components/TimeUsagePanel';
 import { TimeStore } from '../../hooks/useTimeStore';
-import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
 import { WebsiteActivityTable } from './WebsiteActivityTable';
 import { WeeklyWebsiteActivityChart } from './WeeklyWebsiteActivityChart';
 
@@ -57,6 +57,7 @@ export const ActivityPageWeeklyActivityTab: React.FC<
       Object.values(allWeekActivity).reduce(
         (acc, dailyUsage) => {
           Object.entries(dailyUsage).forEach(([key, value]) => {
+            acc[key] ??= 0;
             acc[key] += value;
           });
 

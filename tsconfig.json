@@ -5,12 +5,10 @@
       "@shared/*": ["./src/shared/*"]
     },
     "sourceMap": true,
-    "noImplicitAny": true,
     "strict": true,
-    "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
     "module": "CommonJS",
-    "target": "es5",
+    "target": "ES2018",
     "jsx": "react",
     "lib": ["ESNext", "DOM"],
     "allowJs": true,

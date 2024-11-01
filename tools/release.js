@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 // Update manifest.json to package.json version
 const manifest = require(__dirname + '/../static/manifest.json');

@@ -2,11 +2,11 @@ import * as React from 'react';
 
 import { TimelineRecord } from '@shared/db/types';
 import { getActivityTimeline } from '@shared/tables/activity-timeline';
+import { getTotalDailyActivity } from '@shared/utils/time-store';
 
 import { GeneralTimeline } from '../../components/GeneralTimeline';
 import { TimeStore } from '../../hooks/useTimeStore';
 import { useTotalWebsiteActivity } from '../../hooks/useTotalWebsiteActivity';
-import { getTotalDailyActivity } from '../../selectors/get-total-daily-activity';
 import { DailyUsage } from './DailyUsage';
 import { WebsiteActivityTable } from './WebsiteActivityTable';
 

@@ -20,7 +20,7 @@ import { getFocusedWindowId } from '../browser-api/windows';
 // do not track time in locked state
 // once idle state changes back to active, start track last active tab again
 
-const DEFAULT_ACTIVE_TAB_STATE: ActiveTabState = {
+const DEFAULT_ACTIVE_TAB_STATE: Readonly<ActiveTabState> = {
   activeTabs: [],
   focusedActiveTab: null,
   focusedWindowId: chrome.windows.WINDOW_ID_NONE,
