@@ -16,11 +16,6 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-// Fix for globals, it doesn't allow trailing spaces
-globals.browser['AudioWorkletGlobalScope'] =
-  globals.browser['AudioWorkletGlobalScope '];
-delete globals.browser['AudioWorkletGlobalScope '];
-
 export default [
   {
     ignores: ['dist/*', 'tools/*', 'node_modules/*', 'static/*'],
