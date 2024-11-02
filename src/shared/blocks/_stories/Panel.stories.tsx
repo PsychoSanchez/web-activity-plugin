@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Panel, PanelHeader, PanelBody } from '../Panel';
 
 const meta: Meta = {
-  title: 'Example/Panel',
+  title: 'Block/Panel',
   component: Panel,
   subcomponents: { PanelHeader, PanelBody },
   parameters: {

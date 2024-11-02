@@ -11,20 +11,34 @@ const config: StorybookConfig = {
     name: '@storybook/react-webpack5',
     options: {},
   },
-  // webpackFinal: async (config) => {
-  //   const path = require('path');
-  //   const __dirname = path.resolve();
+  webpackFinal: async (config) => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const path = require('path');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const tsConfig = require('../tsconfig.json');
+    const __dirname = path.resolve();
 
-  //   return {
-  //     ...config,
-  //     resolve: {
-  //       ...config.resolve,
-  //       alias: {
-  //         ...config.resolve?.alias,
-  //         '@shared': path.resolve(__dirname, '../src/shared'),
-  //       },
-  //     },
-  //   };
-  // },
+    function createWebpackAliasFromTsConfigPaths() {
+      return Object.fromEntries(
+        Object.entries<[string, string[]]>(
+          tsConfig.compilerOptions.paths || {},
+        ).map(([key, [value]]) => [
+          key.replace('/*', ''),
+          path.resolve(__dirname, value.replace('/*', '')),
+        ]),
+      );
+    }
+
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve?.alias,
+          ...createWebpackAliasFromTsConfigPaths(),
+        },
+      },
+    };
+  },
 };
 export default config;

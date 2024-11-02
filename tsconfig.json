@@ -5,15 +5,15 @@
     "paths": {
       "@shared/*": ["src/shared/*"]
     },
+    "allowJs": true,
     "sourceMap": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "module": "CommonJS",
     "target": "ES2018",
-    "jsx": "react",
     "lib": ["ESNext", "DOM"],
-    "allowJs": true,
+    "module": "CommonJS",
     "moduleResolution": "node",
+    "jsx": "react",
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment"
   }

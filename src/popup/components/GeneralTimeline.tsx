@@ -3,15 +3,15 @@ import { twMerge } from 'tailwind-merge';
 
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
+import { TimelineChart } from '@shared/components/TimelineChart';
 import { TimelineRecord } from '@shared/db/types';
-
-import { TimelineChart } from './TimelineChart';
 
 export interface GeneralTimelineProps {
   title: string;
   emptyHoursMarginCount?: number;
   filteredHostname?: string | null;
   activityTimeline: TimelineRecord[];
+  isDarkMode?: boolean;
 }
 
 const GeneralTimelineFC: React.FC<GeneralTimelineProps> = ({
@@ -19,6 +19,7 @@ const GeneralTimelineFC: React.FC<GeneralTimelineProps> = ({
   activityTimeline,
   title,
   emptyHoursMarginCount = 2,
+  isDarkMode,
 }) => {
   return (
     <Panel>
@@ -36,6 +37,7 @@ const GeneralTimelineFC: React.FC<GeneralTimelineProps> = ({
         <TimelineChart
           emptyHoursMarginCount={emptyHoursMarginCount}
           timelineEvents={activityTimeline}
+          isDarkMode={isDarkMode}
         />
         <span
           className={twMerge(

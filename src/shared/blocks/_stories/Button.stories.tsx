@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-// TODO: Figure out why @shared is not resolving in storybook
-// import { isString } from '@shared/utils/guards';
 import { Button, ButtonProps, ButtonType } from '../Button';
 
 const meta: Meta<ButtonProps> = {
-  title: 'Example/Button',
+  title: 'Block/Button',
   component: Button,
   parameters: {
     layout: 'centered',

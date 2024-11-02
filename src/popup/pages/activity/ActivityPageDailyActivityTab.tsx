@@ -5,6 +5,7 @@ import { getActivityTimeline } from '@shared/tables/activity-timeline';
 import { getTotalDailyActivity } from '@shared/utils/time-store';
 
 import { GeneralTimeline } from '../../components/GeneralTimeline';
+import { useIsDarkMode } from '../../hooks/useTheme';
 import { TimeStore } from '../../hooks/useTimeStore';
 import { useTotalWebsiteActivity } from '../../hooks/useTotalWebsiteActivity';
 import { DailyUsage } from './DailyUsage';
@@ -59,6 +60,8 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
     scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
+  const isDarkMode = useIsDarkMode();
+
   return (
     <>
       <DailyUsage
@@ -72,6 +75,7 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
           title="Activity Timeline"
           activityTimeline={activityTimeline}
           filteredHostname={filteredHostname}
+          isDarkMode={isDarkMode}
         />
       </div>
       <WebsiteActivityTable

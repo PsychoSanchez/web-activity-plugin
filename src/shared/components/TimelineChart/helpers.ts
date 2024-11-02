@@ -39,12 +39,8 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
     updateTimelineStartAndEndHour(hour);
 
     const emptyDataset = chartDatasetData.find((dataset) => {
-      const ds = dataset[hour];
-      if (ds) {
-        return ds[0] === 0 && ds[1] === 0;
-      }
-
-      return false;
+      const [left, right] = dataset[hour] ?? [];
+      return left === 0 && right === 0;
     });
 
     if (emptyDataset) {
@@ -92,32 +88,32 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
 export const joinNeighborTimelineEvents = (
   activityEvents: TimelineRecord[],
 ) => {
-  return activityEvents.reduce(
-    (acc, record, index) => {
-      if (!index) {
-        acc.push(record);
-        return acc;
-      }
+  const joinedEvents: TimelineRecord[] = activityEvents
+    .slice(0, 1)
+    .map((record) => structuredClone(record));
 
-      const previousNeighbor = acc.at(-1);
-      assert(previousNeighbor, 'Previous neighbor should exist');
+  for (const [index, record] of activityEvents.entries()) {
+    if (index === 0) {
+      continue;
+    }
 
-      const timeBetweenEvents =
-        record.activityPeriodStart - previousNeighbor.activityPeriodEnd;
+    const previousNeighbor = joinedEvents.at(-1);
+    assert(previousNeighbor, 'Previous neighbor should exist');
 
-      const isLessThenMinimumBetweenEvents =
-        timeBetweenEvents < MINIMUM_DISPLAYED_ACTIVITY;
+    const timeBetweenEvents =
+      record.activityPeriodStart - previousNeighbor.activityPeriodEnd;
 
-      if (isLessThenMinimumBetweenEvents) {
-        previousNeighbor.activityPeriodEnd = record.activityPeriodEnd;
+    const isLessThenMinimumBetweenEvents =
+      timeBetweenEvents < MINIMUM_DISPLAYED_ACTIVITY;
 
-        return acc;
-      }
+    if (isLessThenMinimumBetweenEvents) {
+      previousNeighbor.activityPeriodEnd = record.activityPeriodEnd;
 
-      acc.push(record);
+      continue;
+    }
 
-      return acc;
-    },
-    [] as typeof activityEvents,
-  );
+    joinedEvents.push(structuredClone(record));
+  }
+
+  return joinedEvents;
 };

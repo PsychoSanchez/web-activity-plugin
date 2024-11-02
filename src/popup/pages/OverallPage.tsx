@@ -7,6 +7,7 @@ import { TimeUsagePanel } from '../components/TimeUsagePanel';
 import { usePopupContext } from '../hooks/PopupContext';
 import { useActiveTabTime } from '../hooks/useActiveTabTime';
 import { useLastSixHoursTimelineEvents } from '../hooks/useLastSixHoursTimeline';
+import { useIsDarkMode } from '../hooks/useTheme';
 import { useTotalWebsiteActivity } from '../hooks/useTotalWebsiteActivity';
 import { OverallActivityCalendarPanel } from './overall/OverallActivityCalendar';
 
@@ -26,6 +27,7 @@ export const OverallPage: React.FC<OverallPageProps> = ({
   const timelineEvents = useLastSixHoursTimelineEvents();
   const { time: activeWebsiteTime, weekTime: activeWebsiteWeekTime } =
     useActiveTabTime();
+  const isDarkMode = useIsDarkMode();
 
   return (
     <div>
@@ -54,6 +56,7 @@ export const OverallPage: React.FC<OverallPageProps> = ({
         activityTimeline={timelineEvents}
         filteredHostname={null}
         emptyHoursMarginCount={0}
+        isDarkMode={isDarkMode}
       />
     </div>
   );
