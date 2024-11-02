@@ -1,5 +1,6 @@
 import { TimelineRecord } from '@shared/db/types';
-import { getMinutesInMs } from '@shared/utils/dates-helper';
+import { getMinutesInMs } from '@shared/utils/date';
+import { assert } from '@shared/utils/guards';
 
 const presentHour = (hour: number) => `${hour.toString().padStart(2, '0')}:00`;
 export const MINIMUM_DISPLAYED_ACTIVITY = getMinutesInMs(1);
@@ -8,16 +9,18 @@ export function getChartTimeLabels(
   timelineStartHour: number,
   timelineEndHour: number,
 ) {
-  return new Array(timelineEndHour - timelineStartHour + 1)
-    .fill(0)
-    .map((_, i) => {
+  return Array.from(
+    { length: timelineEndHour - timelineStartHour + 1 },
+    (_, i) => {
       const hour = (timelineStartHour + i) % 24;
 
       return `${presentHour(hour)}-${presentHour((hour + 1) % 24)}`;
-    });
+    },
+  );
 }
 
-const createNewTimelineDataset = () => new Array(24).fill([0, 0]);
+const createNewTimelineDataset = () =>
+  Array.from({ length: 24 }, () => [0, 0] satisfies [number, number]);
 
 export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
   const chartDatasetData: [number, number][][] = [];
@@ -36,12 +39,8 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
     updateTimelineStartAndEndHour(hour);
 
     const emptyDataset = chartDatasetData.find((dataset) => {
-      const ds = dataset[hour];
-      if (ds) {
-        return ds[0] === 0 && ds[1] === 0;
-      }
-
-      return false;
+      const [left, right] = dataset[hour] ?? [];
+      return left === 0 && right === 0;
     });
 
     if (emptyDataset) {
@@ -55,7 +54,7 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
     chartDatasetData.push(newDataSet);
   };
 
-  activityEvents.forEach((event) => {
+  for (const event of activityEvents) {
     const eventStartDate = new Date(event.activityPeriodStart);
     const eventEndDate = new Date(event.activityPeriodEnd);
     const eventEndHour = eventEndDate.getHours();
@@ -68,7 +67,7 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
         eventStartDate.getMinutes(),
         eventEndDate.getMinutes(),
       ]);
-      return;
+      continue;
     }
 
     // Split event into two
@@ -77,7 +76,7 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
       59,
     ]);
     pushTimelineDataToDataset(eventEndHour, [0, eventEndDate.getMinutes()]);
-  });
+  }
 
   return {
     chartDatasetData,
@@ -89,32 +88,32 @@ export const transformTimelineDataset = (activityEvents: TimelineRecord[]) => {
 export const joinNeighborTimelineEvents = (
   activityEvents: TimelineRecord[],
 ) => {
-  return activityEvents.reduce(
-    (acc, record, index) => {
-      if (!index) {
-        acc.push(record);
-        return acc;
-      }
+  const joinedEvents: TimelineRecord[] = activityEvents
+    .slice(0, 1)
+    .map((record) => structuredClone(record));
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know that the previous record exists
-      const previousNeighbor = acc[acc.length - 1]!;
+  for (const [index, record] of activityEvents.entries()) {
+    if (index === 0) {
+      continue;
+    }
 
-      const timeBetweenEvents =
-        record.activityPeriodStart - previousNeighbor.activityPeriodEnd;
+    const previousNeighbor = joinedEvents.at(-1);
+    assert(previousNeighbor, 'Previous neighbor should exist');
 
-      const isLessThenMinimumBetweenEvents =
-        timeBetweenEvents < MINIMUM_DISPLAYED_ACTIVITY;
+    const timeBetweenEvents =
+      record.activityPeriodStart - previousNeighbor.activityPeriodEnd;
 
-      if (isLessThenMinimumBetweenEvents) {
-        previousNeighbor.activityPeriodEnd = record.activityPeriodEnd;
+    const isLessThenMinimumBetweenEvents =
+      timeBetweenEvents < MINIMUM_DISPLAYED_ACTIVITY;
 
-        return acc;
-      }
+    if (isLessThenMinimumBetweenEvents) {
+      previousNeighbor.activityPeriodEnd = record.activityPeriodEnd;
 
-      acc.push(record);
+      continue;
+    }
 
-      return acc;
-    },
-    [] as typeof activityEvents,
-  );
+    joinedEvents.push(structuredClone(record));
+  }
+
+  return joinedEvents;
 };

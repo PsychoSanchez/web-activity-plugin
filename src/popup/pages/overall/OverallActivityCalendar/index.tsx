@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
-import { getTimeWithoutSeconds } from '@shared/utils/dates-helper';
+import { getTimeWithoutSeconds } from '@shared/utils/date';
 
 import {
   GithubCalendarWrapper,

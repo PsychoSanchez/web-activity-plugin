@@ -4,7 +4,7 @@ import { Button, ButtonType } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Input, Time } from '@shared/blocks/Input';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
-import { assertDomainIsValid } from '@shared/utils/domains';
+import { assertIsValidHostname } from '@shared/utils/url';
 
 import { usePopupContext } from '../../hooks/PopupContext';
 
@@ -19,7 +19,7 @@ export const LimitsSetting: React.FC = () => {
   const handleLimitChange = React.useCallback(
     (domain: string, limit: number) => {
       try {
-        assertDomainIsValid(domain);
+        assertIsValidHostname(domain);
         setLimits((prev) => {
           const newLimits = {
             ...prev,

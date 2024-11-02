@@ -1,12 +1,11 @@
 import { WAKE_UP_BACKGROUND } from '@shared/messages';
-import { getMinutesInMs } from '@shared/utils/dates-helper';
-import { ignore } from '@shared/utils/errors';
-
 import {
   isCouldNotEstablishConnectionError,
   isExtensionContextInvalidatedError,
   throwRuntimeLastError,
-} from '../background/browser-api/errors';
+} from '@shared/services/browser-api/errors';
+import { getMinutesInMs } from '@shared/utils/date';
+import { ignore } from '@shared/utils/errors';
 
 let messagePollingId = 0;
 

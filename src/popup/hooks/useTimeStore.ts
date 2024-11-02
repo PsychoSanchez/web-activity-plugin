@@ -3,7 +3,7 @@ import * as React from 'react';
 import { getTotalActivity } from '@shared/db/sync-storage';
 import type { TimeStore } from '@shared/db/types';
 import { getActiveTabRecord } from '@shared/tables/state';
-import { getIsoDate } from '@shared/utils/dates-helper';
+import { getIsoDate } from '@shared/utils/date';
 
 export { TimeStore };
 
@@ -13,11 +13,12 @@ export const useTimeStore = () => {
   React.useEffect(() => {
     Promise.all([getTotalActivity(), getActiveTabRecord()]).then(
       ([activity, activeRecord]) => {
-        if (activeRecord?.hostname) {
+        const hostname = activeRecord?.hostname;
+        if (hostname) {
           const date = getIsoDate(new Date());
           const currentDayActivity = (activity[date] ??= {});
-          currentDayActivity[activeRecord.hostname] ??= 0;
-          currentDayActivity[activeRecord.hostname] +=
+          currentDayActivity[hostname] ??= 0;
+          currentDayActivity[hostname] +=
             activeRecord.activityPeriodEnd - activeRecord.activityPeriodStart;
         }
 

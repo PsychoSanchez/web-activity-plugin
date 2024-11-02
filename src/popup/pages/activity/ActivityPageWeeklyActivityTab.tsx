@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { get7DaysPriorDate, getIsoDate } from '@shared/utils/dates-helper';
+import { get7DaysPriorDate, getIsoDate } from '@shared/utils/date';
+import { getTotalWeeklyActivity } from '@shared/utils/time-store';
 
 import { TimeUsagePanel } from '../../components/TimeUsagePanel';
 import { TimeStore } from '../../hooks/useTimeStore';
-import { getTotalWeeklyActivity } from '../../selectors/get-total-weekly-activity';
 import { WebsiteActivityTable } from './WebsiteActivityTable';
 import { WeeklyWebsiteActivityChart } from './WeeklyWebsiteActivityChart';
 

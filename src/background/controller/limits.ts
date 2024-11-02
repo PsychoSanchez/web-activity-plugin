@@ -1,7 +1,7 @@
-import { Tab } from '@shared/browser-api.types';
 import { getTotalActivity } from '@shared/db/sync-storage';
 import { TimelineRecord } from '@shared/db/types';
-import { getIsoDate } from '@shared/utils/dates-helper';
+import { Tab } from '@shared/services/browser-api/types';
+import { getIsoDate } from '@shared/utils/date';
 import { getHostNameFromUrl } from '@shared/utils/url';
 
 import { greyOutTab, unGreyOutTab } from '../browser-api/tabs';

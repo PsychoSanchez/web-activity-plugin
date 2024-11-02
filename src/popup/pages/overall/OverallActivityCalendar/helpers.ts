@@ -1,4 +1,4 @@
-import { getHoursInMs, getMinutesInMs } from '@shared/utils/dates-helper';
+import { getHoursInMs, getMinutesInMs } from '@shared/utils/date';
 
 import {
   CalendarDisplayedActivity,
@@ -26,30 +26,24 @@ export const getActivityLevel = (
 
 export const convertCombinedDailyActivityToCalendarActivity = (
   totalActivity: Record<string, number> = {},
-): CalendarDisplayedActivity => {
-  const calendarActivity: CalendarDisplayedActivity = {};
-
-  return Object.entries(totalActivity).reduce((acc, [key, value]) => {
-    acc[key] = getActivityLevel(value);
-
-    return acc;
-  }, calendarActivity);
-};
+): CalendarDisplayedActivity =>
+  Object.fromEntries(
+    Object.entries(totalActivity).map(([key, value]) => [
+      key,
+      getActivityLevel(value),
+    ]),
+  );
 
 export const getCombinedTotalDailyActivity = (
   totalActivity: TotalDailyActivity = {},
 ) => {
-  return Object.entries(totalActivity).reduce(
-    (acc, [key, value]) => {
-      const totalTimeSpentThatDay = Object.values(value).reduce(
-        (acc, val) => acc + val,
-        0,
-      );
-
-      acc[key] = totalTimeSpentThatDay;
-
-      return acc;
-    },
-    {} as Record<string, number>,
+  return Object.fromEntries(
+    Object.entries(totalActivity).map(
+      ([key, value]) =>
+        [
+          key,
+          Object.values(value).reduce((acc, val) => acc + val, 0),
+        ] satisfies [key: string, activitySum: number],
+    ),
   );
 };

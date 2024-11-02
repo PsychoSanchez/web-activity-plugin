@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import {
-  getMinutesInMs,
-  getTimeWithoutSeconds,
-} from '@shared/utils/dates-helper';
+import { getMinutesInMs, getTimeWithoutSeconds } from '@shared/utils/date';
 
 import { useIsDarkMode } from '../../hooks/useTheme';
 

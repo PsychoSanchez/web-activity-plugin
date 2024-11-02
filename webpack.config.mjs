@@ -1,6 +1,9 @@
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
-const tsConfig = require('./tsconfig.json');
+import CopyPlugin from 'copy-webpack-plugin';
+import path from 'path';
+
+import tsConfig from './tsconfig.json' with { type: "json" };;
+
+const __dirname = path.resolve();
 
 function createWebpackAliasFromTsConfigPaths() {
   return Object.fromEntries(
@@ -13,7 +16,7 @@ function createWebpackAliasFromTsConfigPaths() {
   );
 }
 
-module.exports = (_env, argv) => ({
+export default (_env, argv) => ({
   entry: {
     background: './src/background.index.ts',
     popup: './src/popup.index.tsx',

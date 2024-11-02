@@ -12,10 +12,7 @@ export const useSettings = () => {
     React.useState<Preferences>(DEFAULT_PREFERENCES);
 
   React.useEffect(() => {
-    (async function () {
-      const savedSettings = await getSettings();
-      setCachedSettings(savedSettings);
-    })();
+    getSettings().then(setCachedSettings);
   }, []);
 
   const updateSettings = React.useCallback(

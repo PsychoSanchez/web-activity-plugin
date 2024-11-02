@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "baseUrl": "./",
     "paths": {
-      "@shared/*": ["./src/shared/*"]
+      "@shared/*": ["src/shared/*"]
     },
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "noUncheckedIndexedAccess": true,
-    "module": "CommonJS",
-    "target": "es5",
-    "jsx": "react",
-    "lib": ["ESNext", "DOM"],
     "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "target": "ES2018",
+    "lib": ["ESNext", "DOM"],
+    "module": "CommonJS",
     "moduleResolution": "node",
+    "jsx": "react",
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment"
   }

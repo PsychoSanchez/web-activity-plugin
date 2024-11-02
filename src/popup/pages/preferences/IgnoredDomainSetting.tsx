@@ -5,7 +5,7 @@ import { Button, ButtonType } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Input } from '@shared/blocks/Input';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
-import { assertDomainIsValid } from '@shared/utils/domains';
+import { assertIsValidHostname } from '@shared/utils/url';
 
 import { usePopupContext } from '../../hooks/PopupContext';
 
@@ -20,7 +20,7 @@ export const IgnoredDomainSetting: React.FC = () => {
 
   const handleAddIgnoredDomain = React.useCallback(() => {
     try {
-      assertDomainIsValid(domainToIgnore);
+      assertIsValidHostname(domainToIgnore);
       setIgnoredDomains((prev) => {
         const newIgnoredHostList = Array.from(
           new Set([...prev, domainToIgnore]),

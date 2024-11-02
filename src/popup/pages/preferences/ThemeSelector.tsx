@@ -3,31 +3,30 @@ import { twMerge } from 'tailwind-merge';
 
 import { Button } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
-
-import { getAppTheme, setAppTheme } from '../../hooks/useTheme';
+import { ColorScheme, ThemeService } from '@shared/services/theme';
 
 export const ThemeSelector: React.FC = () => {
-  const [theme, setTheme] = React.useState(getAppTheme());
+  const [theme, setTheme] = React.useState(() => ThemeService.getAppTheme());
 
-  const handleThemeChange = React.useCallback(
-    (theme: 'light' | 'dark' | 'auto') => {
-      setAppTheme(theme);
-      setTheme(theme);
-    },
-    [],
+  const handleThemeChange = React.useCallback((theme: ColorScheme) => {
+    ThemeService.setAppTheme(theme);
+    setTheme(theme);
+  }, []);
+
+  const handleDarkThemeSelect = React.useCallback(
+    () => handleThemeChange(ColorScheme.Dark),
+    [handleThemeChange],
   );
 
-  const handleDarkThemeSelect = React.useCallback(() => {
-    handleThemeChange('dark');
-  }, [handleThemeChange]);
+  const handleLightThemeSelect = React.useCallback(
+    () => handleThemeChange(ColorScheme.Light),
+    [handleThemeChange],
+  );
 
-  const handleLightThemeSelect = React.useCallback(() => {
-    handleThemeChange('light');
-  }, [handleThemeChange]);
-
-  const handleAutoThemeSelect = React.useCallback(() => {
-    handleThemeChange('auto');
-  }, [handleThemeChange]);
+  const handleAutoThemeSelect = React.useCallback(
+    () => handleThemeChange(ColorScheme.SwitchByTime),
+    [handleThemeChange],
+  );
 
   return (
     <div className="flex flex-col gap-2">
