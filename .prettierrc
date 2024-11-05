@@ -10,6 +10,10 @@
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
     "^@shared/(.*)$",
+    "^@popup/(.*)$",
+    "^@background/(.*)$",
+    "^@content/(.*)$",
+    "^@dashboard/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true
