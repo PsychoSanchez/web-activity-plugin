@@ -9,12 +9,12 @@ import { useActiveTabTime } from '../hooks/useActiveTabTime';
 import { useLastSixHoursTimelineEvents } from '../hooks/useLastSixHoursTimeline';
 import { useIsDarkMode } from '../hooks/useTheme';
 import { useTotalWebsiteActivity } from '../hooks/useTotalWebsiteActivity';
-import { OverallActivityCalendarPanel } from './overall/OverallActivityCalendar';
+import { OverallActivityCalendar } from './overall/OverallActivityCalendar';
 
 export interface OverallPageProps {
   onNavigateToActivityPage: React.ComponentProps<
-    typeof OverallActivityCalendarPanel
-  >['navigateToDateActivityPage'];
+    typeof OverallActivityCalendar
+  >['onDateClick'];
 }
 
 const MINUTE_IN_MS = getMinutesInMs(1);
@@ -47,9 +47,9 @@ export const OverallPage: React.FC<OverallPageProps> = ({
           averageTimeComparedTo="average"
         />
       ) : null}
-      <OverallActivityCalendarPanel
+      <OverallActivityCalendar
         store={store}
-        navigateToDateActivityPage={onNavigateToActivityPage}
+        onDateClick={onNavigateToActivityPage}
       />
       <GeneralTimeline
         title="Activity in last 6 hours"

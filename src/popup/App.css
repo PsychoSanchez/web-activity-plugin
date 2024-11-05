@@ -24,11 +24,6 @@ body {
   filter: invert(1);
 }
 
-.calendar svg rect {
-  cursor: pointer;
-  rx: 3;
-}
-
 i.fi::before {
   line-height: inherit;
 }

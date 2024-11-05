@@ -1,6 +1,7 @@
 import { ActiveTabState, TimelineRecord } from '@shared/db/types';
 import { getSettings } from '@shared/preferences';
 import { setActiveTabRecord } from '@shared/tables/state';
+import { HostName, IsoDate } from '@shared/types';
 import { getIsoDate, getMinutesInMs } from '@shared/utils/date';
 import { isInvalidUrl } from '@shared/utils/url';
 
@@ -96,11 +97,13 @@ async function commitTabActivity(currentTimelineRecord: TimelineRecord | null) {
   // previous day's total time as well.
   // Dates in the array should be different in this case.
   const dates = Array.from(
-    new Set([currentIsoDate, currentTimelineRecord.date]),
+    new Set([currentIsoDate, currentTimelineRecord.date as IsoDate]),
   );
 
   await Promise.all(
-    dates.map((date) => updateTotalTime(date, currentTimelineRecord.hostname)),
+    dates.map((date) =>
+      updateTotalTime(date, currentTimelineRecord.hostname as HostName),
+    ),
   );
 
   await setActiveTabRecord(null);

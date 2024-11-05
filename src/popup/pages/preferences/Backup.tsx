@@ -4,7 +4,7 @@ import { Button, ButtonType } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { TimelineRecord } from '@shared/db/types';
-import { getAllActivityTimeline } from '@shared/tables/activity-timeline';
+import { getFullActivityTimeline } from '@shared/tables/activity-timeline';
 
 import { usePopupContext } from '../../hooks/PopupContext';
 
@@ -18,7 +18,7 @@ export const BackupSetting: React.FC = () => {
   const { settings } = usePopupContext();
 
   const handleExportCSV = React.useCallback(async () => {
-    const timeline = await getAllActivityTimeline();
+    const timeline = await getFullActivityTimeline();
     const csv = [
       'Date,Domain,Page Title,Time start, Time end,Time Spent (seconds)',
       ...timeline.map((t) => presentTimeline(t)),
@@ -49,7 +49,7 @@ export const BackupSetting: React.FC = () => {
   }, []);
 
   const handleExportJSON = React.useCallback(async () => {
-    const timeline = await getAllActivityTimeline();
+    const timeline = await getFullActivityTimeline();
     const blob = new Blob(
       [
         JSON.stringify({

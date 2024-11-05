@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { TimelineRecord } from '@shared/db/types';
 import { getActivityTimeline } from '@shared/tables/activity-timeline';
+import { IsoDate } from '@shared/types';
 import { getTotalDailyActivity } from '@shared/utils/time-store';
 
 import { GeneralTimeline } from '../../components/GeneralTimeline';
@@ -13,10 +14,10 @@ import { WebsiteActivityTable } from './WebsiteActivityTable';
 
 export interface DailyActivityTabProps {
   store: TimeStore;
-  date: string;
+  date: IsoDate;
 }
 
-const useActivityTimeline = (date: string, filteredHostname?: string) => {
+const useActivityTimeline = (date: IsoDate, filteredHostname?: string) => {
   const [activityTimeline, setActivityTimeline] = React.useState<
     TimelineRecord[]
   >([]);
@@ -66,8 +67,8 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
     <>
       <DailyUsage
         date={date}
-        dailyActivity={dailyActiveWebsites}
-        totalDailyActivity={totalDailyActivity}
+        activityByDate={dailyActiveWebsites}
+        totalActivityTime={totalDailyActivity}
         weeklyAverage={weeklyUsage / 7}
       />
       <div ref={scrollToRef}>

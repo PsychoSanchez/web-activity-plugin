@@ -1,9 +1,11 @@
+import { HostName } from '@shared/types';
+
 import { assert } from './guards';
 
-export const getHostNameFromUrl = (url: string) => {
+export const getHostNameFromUrl = (url: string): HostName => {
   const { hostname } = new URL(url);
 
-  return hostname || url;
+  return (hostname || url) as HostName;
 };
 
 const BROWSER_URL_PREFIX = [

@@ -1,10 +1,16 @@
 import * as React from 'react';
 
-import { get7DaysPriorDate, getIsoDate } from '@shared/utils/date';
+import { HostName } from '@shared/types';
 import { getTotalWeeklyActivity } from '@shared/utils/time-store';
 
-import { TimeUsagePanel } from '../../components/TimeUsagePanel';
-import { TimeStore } from '../../hooks/useTimeStore';
+import { TimeUsagePanel } from '@popup/components/TimeUsagePanel';
+import { TimeStore } from '@popup/hooks/useTimeStore';
+import {
+  getTimeStoreWeekSlice,
+  getTotalWebsiteActivity,
+  getTimeStoreWebsiteSlice,
+} from '@popup/services/time-store';
+
 import { WebsiteActivityTable } from './WebsiteActivityTable';
 import { WeeklyWebsiteActivityChart } from './WeeklyWebsiteActivityChart';
 
@@ -16,83 +22,59 @@ export interface ActivityPageWeeklyActivityTabProps {
 export const ActivityPageWeeklyActivityTab: React.FC<
   ActivityPageWeeklyActivityTabProps
 > = ({ store, sundayDate }) => {
-  const [pickedDomain, setPickedDomain] = React.useState<null | string>(null);
-  const scrollToRef = React.useRef<HTMLDivElement | null>(null);
+  const [pickedDomain, setPickedDomain] = React.useState<
+    'All Websites' | HostName
+  >('All Websites');
+  const scrollToRef = React.useRef<HTMLDivElement>(null);
 
   const handleDomainRowClick = React.useCallback((domain: string) => {
-    setPickedDomain(domain);
+    // TODO: check HostName
+    setPickedDomain(domain as HostName);
     scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
-  const allWeekActivity = React.useMemo(
-    () =>
-      get7DaysPriorDate(sundayDate).reduce((acc, date) => {
-        const isoDate = getIsoDate(date);
-        acc[isoDate] = store[isoDate] || {};
-
-        return acc;
-      }, {} as TimeStore),
+  const weekActivitySlice = React.useMemo(
+    () => getTimeStoreWeekSlice(store, sundayDate),
     [store, sundayDate],
   );
 
-  const filteredWebsiteWeekActivity = React.useMemo(() => {
-    if (pickedDomain === null) {
-      return allWeekActivity;
+  const weeklyActivityByDomain = React.useMemo(() => {
+    if (pickedDomain === 'All Websites') {
+      return weekActivitySlice;
     }
 
-    return Object.entries(allWeekActivity).reduce(
-      (acc, [date, dateWebsitesUsage]) => {
-        acc[date] = {
-          [pickedDomain]: dateWebsitesUsage[pickedDomain] || 0,
-        };
+    return getTimeStoreWebsiteSlice(weekActivitySlice, [pickedDomain]);
+  }, [weekActivitySlice, pickedDomain]);
 
-        return acc;
-      },
-      {} as typeof allWeekActivity,
-    );
-  }, [allWeekActivity, pickedDomain]);
-
-  const totalWebsiteWeeklyActivity = React.useMemo(
-    () =>
-      Object.values(allWeekActivity).reduce(
-        (acc, dailyUsage) => {
-          Object.entries(dailyUsage).forEach(([key, value]) => {
-            acc[key] ??= 0;
-            acc[key] += value;
-          });
-
-          return acc;
-        },
-        {} as Record<string, number>,
-      ),
-    [allWeekActivity],
+  const weeklyActivityTotal = React.useMemo(
+    () => getTotalWebsiteActivity(weekActivitySlice),
+    [weekActivitySlice],
   );
 
-  const averageWeeklyActivity = React.useMemo(() => {
-    const averageWeekly =
-      getTotalWeeklyActivity(filteredWebsiteWeekActivity, sundayDate) / 7;
-    return averageWeekly;
-  }, [filteredWebsiteWeekActivity, sundayDate]);
+  const weeklyActivityAverage = React.useMemo(() => {
+    return getTotalWeeklyActivity(weeklyActivityByDomain, sundayDate) / 7;
+  }, [weeklyActivityByDomain, sundayDate]);
 
-  const presentedPickedDomain = pickedDomain ?? 'All Websites';
+  const presentChartTitle = React.useCallback(
+    () => `Activity on ${pickedDomain} per day`,
+    [pickedDomain],
+  );
 
   return (
     <div>
       <TimeUsagePanel
         title="Average Daily Activity"
-        time={averageWeeklyActivity}
+        time={weeklyActivityAverage}
       />
       <div ref={scrollToRef}>
         <WeeklyWebsiteActivityChart
-          store={filteredWebsiteWeekActivity}
+          store={weeklyActivityByDomain}
           sundayDate={sundayDate}
-          presentChartTitle={() =>
-            `Activity on ${presentedPickedDomain} per day`
-          }
+          presentChartTitle={presentChartTitle}
         />
       </div>
       <WebsiteActivityTable
-        websiteTimeMap={totalWebsiteWeeklyActivity}
+        websiteTimeMap={weeklyActivityTotal}
         title={'Websites This Week'}
         onDomainRowClicked={handleDomainRowClick}
       />

@@ -1,3 +1,4 @@
+import { HostName, IsoDate } from '@shared/types';
 import { getIsoDate } from '@shared/utils/date';
 import { mergeTimeStore } from '@shared/utils/time-store';
 
@@ -53,8 +54,8 @@ export const setTotalDailyHostTime = async ({
   host,
   duration,
 }: {
-  date: string;
-  host: string;
+  date: IsoDate;
+  host: HostName;
   duration: number;
 }) => {
   const store = await getTotalActivity();
