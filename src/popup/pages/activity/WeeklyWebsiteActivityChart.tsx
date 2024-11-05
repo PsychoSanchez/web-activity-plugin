@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Bar } from 'react-chartjs-2';
 
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelHeader } from '@shared/blocks/Panel';
+import { Bar, ChartOptions } from '@shared/libs/ChartJs';
 import {
-  get7DaysPriorDate,
+  generatePrior7DaysDates,
   getHoursInMs,
   getIsoDate,
   getTimeFromMs,
@@ -29,8 +29,8 @@ const BAR_OPTIONS = {
     y: {
       ticks: {
         color: '#222',
-        callback: (value: number) => {
-          return getTimeWithoutSeconds(value * HOUR_IN_MS);
+        callback: (value) => {
+          return getTimeWithoutSeconds(Number(value) * HOUR_IN_MS);
         },
       },
     },
@@ -57,7 +57,7 @@ const BAR_OPTIONS = {
       },
     },
   },
-};
+} satisfies ChartOptions<'bar'>;
 
 const DARK_MODE_BAR_OPTIONS = {
   ...BAR_OPTIONS,
@@ -84,7 +84,7 @@ const DARK_MODE_BAR_OPTIONS = {
       },
     },
   },
-};
+} satisfies ChartOptions<'bar'>;
 
 export const WeeklyWebsiteActivityChart: React.FC<
   WeeklyWebsiteActivityChartProps
@@ -92,7 +92,7 @@ export const WeeklyWebsiteActivityChart: React.FC<
   const isDarkMode = useIsDarkMode();
 
   const [labels, data] = React.useMemo(() => {
-    const week = get7DaysPriorDate(sundayDate).reverse();
+    const week = generatePrior7DaysDates(sundayDate).reverse();
     const labels = week.map((date) => getIsoDate(date));
     const data = week.map(
       (date) => getTotalDailyActivity(store, date) / HOUR_IN_MS,

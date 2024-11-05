@@ -3,6 +3,8 @@ import * as React from 'react';
 import { Preferences } from '@shared/db/types';
 import { DEFAULT_PREFERENCES } from '@shared/preferences';
 
+import { getFilteredWebsiteTimeStoreSlice } from '@popup/services/time-store';
+
 import { useActiveTabHostname } from './useActiveTab';
 import { useSettings } from './useSettings';
 import { TimeStore, useTimeStore } from './useTimeStore';
@@ -18,7 +20,7 @@ const DEFAULT_CONTEXT: PopupContextType = {
   store: {},
   activeHostname: '',
   settings: DEFAULT_PREFERENCES,
-  updateSettings: () => 0,
+  updateSettings: () => {},
 };
 
 const PopupContext = React.createContext<PopupContextType>(DEFAULT_CONTEXT);
@@ -30,27 +32,13 @@ export const PopupContextProvider: React.FC = ({ children }) => {
   const host = useActiveTabHostname();
   const [settings, updateSettings] = useSettings();
 
-  const filterDomainsFromStore = React.useCallback(
-    (store: Record<string, number>) => {
-      const filteredStore = Object.fromEntries(
-        Object.entries(store).filter(
-          ([key]) => !settings.ignoredHosts.includes(key),
-        ),
-      );
-      return filteredStore;
-    },
-    [settings.ignoredHosts],
-  );
-
   const filteredStore = React.useMemo(
     () =>
-      Object.fromEntries(
-        Object.entries(store).map(([day, value]) => [
-          day,
-          filterDomainsFromStore(value),
-        ]),
+      getFilteredWebsiteTimeStoreSlice(
+        store,
+        (_date, host) => !settings.ignoredHosts.includes(host),
       ),
-    [store, filterDomainsFromStore],
+    [store, settings.ignoredHosts],
   );
 
   return (

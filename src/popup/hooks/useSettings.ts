@@ -18,7 +18,7 @@ export const useSettings = () => {
   const updateSettings = React.useCallback(
     async (updates: Partial<Preferences>) => {
       await setSettings(updates);
-      setCachedSettings((set) => ({ ...set, ...updates }));
+      setCachedSettings((prev) => ({ ...prev, ...updates }));
     },
     [],
   );

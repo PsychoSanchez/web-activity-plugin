@@ -5,7 +5,7 @@ import {
   getDaysInMs,
   getTimeFromMs,
   getTimeWithoutSeconds,
-  get7DaysPriorDate,
+  generatePrior7DaysDates,
   getDatesWeekSundayDate,
 } from '../date';
 
@@ -109,14 +109,14 @@ describe('get7DaysPriorDate', () => {
   it('should return an array of 7 dates', () => {
     const date = new Date('2020-01-01T00:00:00.000Z');
 
-    expect(get7DaysPriorDate(date)).toHaveLength(7);
+    expect(generatePrior7DaysDates(date)).toHaveLength(7);
   });
 
   it('should return an array of 7 dates starting from the given date', () => {
     const date = new Date('2020-01-01T00:00:00.000Z');
 
-    expect(get7DaysPriorDate(date)[0]).toEqual(date);
-    expect(get7DaysPriorDate(date)[6]).toEqual(
+    expect(generatePrior7DaysDates(date)[0]).toEqual(date);
+    expect(generatePrior7DaysDates(date)[6]).toEqual(
       new Date('2019-12-26T00:00:00.000Z'),
     );
   });

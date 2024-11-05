@@ -1,6 +1,8 @@
-import { IdleState, Tab } from '../services/browser-api/types';
+import { IdleState, Tab } from '@shared/services/browser-api/types';
+import { HostName, IsoDate } from '@shared/types';
 
-export type TimeStore = Record<string, Record<string, number>>;
+export type ActivitySummaryByHostname = Record<HostName, number>;
+export type TimeStore = Record<IsoDate, ActivitySummaryByHostname>;
 
 export interface TimelineRecord {
   tabId: number;

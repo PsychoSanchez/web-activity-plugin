@@ -1,17 +1,23 @@
 import { TimeStore } from '@shared/db/types';
-import { get7DaysPriorDate, getIsoDate } from '@shared/utils/date';
+import { generatePrior7DaysDates, getIsoDate } from '@shared/utils/date';
 
 export const mergeTimeStore = (
   storeA: TimeStore,
   storeB: TimeStore,
 ): TimeStore => {
-  const allStoreKeys = Object.keys({ ...(storeA || {}), ...(storeB || {}) });
+  const allStoreKeys = Object.keys({
+    ...(storeA || {}),
+    ...(storeB || {}),
+  }) as Array<keyof TimeStore>;
   const mergedStore: TimeStore = {};
 
   for (const key of allStoreKeys) {
     const storeAValue = storeA[key];
     const storeBValue = storeB[key];
-    const storeValueKeys = Object.keys({ ...storeAValue, ...storeBValue });
+    const storeValueKeys = Object.keys({
+      ...storeAValue,
+      ...storeBValue,
+    }) as Array<keyof typeof storeAValue>;
 
     const mergedValue: Record<string, number> = {};
     for (const storeValueKey of storeValueKeys) {
@@ -37,7 +43,7 @@ export const getTotalDailyActivity = (store: TimeStore, date: Date) => {
 };
 
 export const getTotalWeeklyActivity = (store: TimeStore, date = new Date()) =>
-  get7DaysPriorDate(date).reduce(
+  generatePrior7DaysDates(date).reduce(
     (sum, date) => sum + getTotalDailyActivity(store, date),
     0,
   );

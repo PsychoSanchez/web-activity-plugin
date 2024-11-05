@@ -13,8 +13,11 @@ export const WeekDatePicker: React.FC<WeekDatePickerProps> = ({
   onWeekChange,
   sundayDate,
 }) => {
-  const weekStartDate = new Date();
-  weekStartDate.setDate(sundayDate.getDate() - 6);
+  const weekStartDate = React.useMemo(() => {
+    const date = new Date();
+    date.setDate(sundayDate.getDate() - 6);
+    return date;
+  }, [sundayDate]);
 
   const handleChangeWeekButtonClick = React.useCallback(
     (direction) => {

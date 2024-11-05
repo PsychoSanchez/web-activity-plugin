@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Bar } from 'react-chartjs-2';
 
 import { TimelineRecord } from '@shared/db/types';
+import { Bar } from '@shared/libs/ChartJs';
 
 import {
   TIMELINE_CHART_DARK_THEME_OPTIONS,

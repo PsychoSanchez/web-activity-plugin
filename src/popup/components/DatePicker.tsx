@@ -2,18 +2,17 @@ import * as React from 'react';
 
 import { Button, ButtonType } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
-import { getDaysInMs, getIsoDate } from '@shared/utils/date';
-
-interface ActivityDatePickerProps {
-  date: string;
-  onChange: (date: string) => void;
-}
+import { IsoDate } from '@shared/types';
+import { assertIsIsoDate, getDaysInMs, getIsoDate } from '@shared/utils/date';
 
 const DAY_IN_MS = getDaysInMs(1);
-export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
-  date,
-  onChange,
-}) => {
+
+interface DatePickerProps {
+  date: IsoDate;
+  onChange: (date: IsoDate) => void;
+}
+
+export const DatePicker: React.FC<DatePickerProps> = ({ date, onChange }) => {
   const onDateChangeButtonClick = React.useCallback(
     (direction: 1 | -1) => {
       const selectedDate = new Date(date);
@@ -28,6 +27,8 @@ export const ActivityDatePicker: React.FC<ActivityDatePickerProps> = ({
 
   const handleChangeToSpecificDate = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>): void => {
+      assertIsIsoDate(event.currentTarget.value);
+
       onChange(event.currentTarget.value);
     },
     [onChange],

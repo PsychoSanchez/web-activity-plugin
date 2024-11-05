@@ -52,6 +52,7 @@
     "@storybook/addon-interactions": "^8.4.0",
     "@storybook/addon-onboarding": "^8.4.0",
     "@storybook/addon-styling-webpack": "^1.0.1",
+    "@storybook/addon-themes": "^8.4.1",
     "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
     "@storybook/blocks": "^8.4.0",
     "@storybook/react": "^8.4.0",
@@ -95,13 +96,13 @@
     "webpack-cli": "5.1.4"
   },
   "dependencies": {
-    "chart.js": "3.2.1",
+    "chart.js": "^4.4.6",
     "idb": "6.1.2",
     "react": "17.0.2",
-    "react-chartjs-2": "3.0.3",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "17.0.2",
     "react-github-contribution-calendar": "2.2.0",
-    "react-tooltip": "4.2.21",
+    "react-tooltip": "5.28.0",
     "tailwind-merge": "2.5.4",
     "throttle-debounce": "5.0.2"
   },

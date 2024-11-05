@@ -1,18 +1,20 @@
+import { ChartOptions } from 'chart.js';
+
 export const TIMELINE_CHART_LIGHT_THEME_OPTIONS = {
   plugins: {
     legend: {
       display: false,
     },
     tooltip: {
-      display: false,
+      enabled: false,
       callbacks: {
-        title: (items: any[]) => {
+        title: (items) => {
           const totalActivityThisHour = items.reduce((acc, item) => {
             const { raw } = item;
-            const [startMin = 0, endMin = 0] = raw;
+            const [startMin = 0, endMin = 0] = raw as [number, number];
             return acc + (endMin - startMin);
           }, 0);
-          return `${totalActivityThisHour}m surfed between ${items[0].label}`;
+          return `${totalActivityThisHour}m surfed between ${items[0]?.label}`;
         },
         label: () => void 0,
       },
@@ -34,13 +36,13 @@ export const TIMELINE_CHART_LIGHT_THEME_OPTIONS = {
       min: 0,
       ticks: {
         color: '#222222',
-        callback: (value: number) => {
+        callback: (value) => {
           return `:${value.toString().padStart(2, '0')}`;
         },
       },
     },
   },
-};
+} satisfies ChartOptions<'bar'>;
 
 export const TIMELINE_CHART_DARK_THEME_OPTIONS = {
   ...TIMELINE_CHART_LIGHT_THEME_OPTIONS,
@@ -67,4 +69,4 @@ export const TIMELINE_CHART_DARK_THEME_OPTIONS = {
       },
     },
   },
-};
+} satisfies ChartOptions<'bar'>;

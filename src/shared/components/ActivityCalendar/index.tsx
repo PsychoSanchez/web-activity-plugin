@@ -1,29 +1,30 @@
 import * as React from 'react';
 import Calendar from 'react-github-contribution-calendar';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip, TooltipRefProps } from 'react-tooltip';
 import { debounce } from 'throttle-debounce';
 
-import { getIsoDate } from '@shared/utils/date';
+import { IsoDate } from '@shared/types';
+import { assertIsIsoDate, getIsoDate } from '@shared/utils/date';
+
+import './ActivityCalendar.css';
 
 export enum CalendarDisplayedActivityType {
   Inactive = 0,
-  Low,
-  Medium,
-  High,
+  Low = 1,
+  Medium = 2,
+  High = 3,
 }
 
 export type CalendarDisplayedActivity = Record<
-  string,
+  IsoDate,
   CalendarDisplayedActivityType
 >;
 
-export type GithubCalendarProps = {
+export type ActivityCalendarProps = {
   activity: CalendarDisplayedActivity;
-  onDateClick: (isoDate: string) => void;
-  getTooltip?: (isoDate: string) => string;
+  onDateClick: (isoDate: IsoDate) => void;
+  getTooltip?: (isoDate: IsoDate) => string;
 };
-
-export type TotalDailyActivity = Record<string, Record<string, number>>;
 
 const INACTIVE_DAY_COLOR = '#cccccc';
 const LOW_ACTIVITY_DAY_COLOR = '#839dde';
@@ -40,13 +41,15 @@ const BUTTON_DATE_ATTRIBUTE = 'data-date';
 const REACT_TOOLTIP_ID = 'activity-calendar';
 const REACT_TOOLTIP_SHOW_DELAY_MS = 100;
 
+class GhCalendar extends Calendar {}
+
 const getDefaultTooltip = (date: string) => date;
 
 const debouncedSetCalendarTooltips = debounce(
   200,
   (
     calendarContainer: HTMLDivElement,
-    getTooltip: Required<GithubCalendarProps>['getTooltip'],
+    getTooltip: Required<ActivityCalendarProps>['getTooltip'],
   ) => {
     const elements = calendarContainer.querySelectorAll('rect');
 
@@ -59,15 +62,13 @@ const debouncedSetCalendarTooltips = debounce(
         const elementIsoDate = getIsoDate(elementDate);
 
         el.setAttribute(BUTTON_DATE_ATTRIBUTE, elementIsoDate);
-        el.setAttribute('data-tip', getTooltip(elementIsoDate));
-        el.setAttribute('data-for', REACT_TOOLTIP_ID);
+        el.setAttribute('data-tooltip-content', getTooltip(elementIsoDate));
+        el.setAttribute('data-tooltip-id', REACT_TOOLTIP_ID);
       });
-
-    ReactTooltip.rebuild();
   },
 );
 
-export const GithubCalendarWrapper: React.FC<GithubCalendarProps> = ({
+export const ActivityCalendar: React.FC<ActivityCalendarProps> = ({
   activity,
   onDateClick,
   getTooltip = getDefaultTooltip,
@@ -89,18 +90,29 @@ export const GithubCalendarWrapper: React.FC<GithubCalendarProps> = ({
         return;
       }
 
-      onDateClick(
-        target.getAttribute(BUTTON_DATE_ATTRIBUTE) || getIsoDate(new Date()),
-      );
+      const date =
+        target.getAttribute(BUTTON_DATE_ATTRIBUTE) || getIsoDate(new Date());
+
+      assertIsIsoDate(date);
+      onDateClick(date);
     },
     [onDateClick],
   );
+  const ref = React.useRef<TooltipRefProps>(null);
 
   return (
     <div className="calendar" ref={calendarRef} onClick={handleDateClick}>
-      {/* @ts-expect-error -- expected, this element does have props */}
-      <Calendar values={activity} panelColors={COLORS} />
-      <ReactTooltip
+      <GhCalendar
+        values={activity}
+        until={getIsoDate(new Date())}
+        panelColors={COLORS}
+        weekLabelAttributes={undefined}
+        monthLabelAttributes={undefined}
+        panelAttributes={undefined}
+      />
+
+      <Tooltip
+        ref={ref}
         id={REACT_TOOLTIP_ID}
         delayShow={REACT_TOOLTIP_SHOW_DELAY_MS}
       />
