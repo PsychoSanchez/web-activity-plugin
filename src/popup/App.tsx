@@ -6,9 +6,9 @@ import { Panel } from '@shared/blocks/Panel';
 import { IsoDate } from '@shared/types';
 
 import { PopupContextProvider } from '@popup/hooks/PopupContext';
-import { ActivityPage } from '@popup/pages/ActivityPage';
-import { OverallPage } from '@popup/pages/OverallPage';
-import { PreferencesPage } from '@popup/pages/PreferencesPage';
+import { ActivityPage } from '@popup/pages/activity/ActivityPage';
+import { OverallPage } from '@popup/pages/overall/OverallPage';
+import { PreferencesPage } from '@popup/pages/preferences/PreferencesPage';
 
 import '../tailwind.css';
 import './App.css';

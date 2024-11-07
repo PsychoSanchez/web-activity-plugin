@@ -7,7 +7,7 @@ import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { i18n } from '@shared/services/i18n';
 import { assertIsValidHostname } from '@shared/utils/url';
 
-import { usePopupContext } from '../../hooks/PopupContext';
+import { usePopupContext } from '@popup/hooks/PopupContext';
 
 export const LimitsSetting: React.FC = () => {
   const { settings, updateSettings } = usePopupContext();

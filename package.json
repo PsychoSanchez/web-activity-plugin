@@ -104,7 +104,8 @@
     "react-github-contribution-calendar": "2.2.0",
     "react-tooltip": "5.28.0",
     "tailwind-merge": "2.5.4",
-    "throttle-debounce": "5.0.2"
+    "throttle-debounce": "5.0.2",
+    "utility-types": "^3.11.0"
   },
   "eslintConfig": {
     "extends": [

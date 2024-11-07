@@ -1,11 +1,13 @@
+import { DeepReadonly, Mutable } from 'utility-types';
+
 import { ActiveTabState, TimelineRecord } from '@shared/db/types';
 import { getSettings } from '@shared/preferences';
-import { setActiveTabRecord } from '@shared/tables/state';
+import { Tab } from '@shared/services/browser-api/types';
+import { getActiveTabRecord, setActiveTabRecord } from '@shared/tables/state';
 import { HostName, IsoDate } from '@shared/types';
 import { getIsoDate, getMinutesInMs } from '@shared/utils/date';
-import { isInvalidUrl } from '@shared/utils/url';
+import { getHostNameFromUrl, isInvalidUrl } from '@shared/utils/url';
 
-import { ActiveTimelineRecordDao, createNewActiveRecord } from './active';
 import { updateTimeOnBadge } from './badge';
 import { updateDomainInfo } from './domain-info';
 import { handlePageLimitExceed } from './limits';
@@ -14,12 +16,13 @@ import { saveTimelineRecord } from './timeline';
 
 const FIVE_MINUTES = getMinutesInMs(5);
 export const handleStateChange = async (
-  activeTabState: ActiveTabState,
+  activeTabState: DeepReadonly<ActiveTabState>,
   timestamp: number = Date.now(),
 ) => {
-  const preferences = await getSettings();
-  const activeTimeline = new ActiveTimelineRecordDao();
-  const currentTimelineRecord = await activeTimeline.get();
+  const [preferences, currentTimelineRecord] = await Promise.all([
+    getSettings(),
+    getActiveTabRecord(),
+  ]);
 
   const focusedActiveTab = activeTabState.focusedActiveTab ?? null;
   const isLocked = activeTabState.idleState === 'locked';
@@ -34,11 +37,14 @@ export const handleStateChange = async (
   const isImpossiblyLongEvent = timestamp - lastHeartbeatTs > FIVE_MINUTES;
 
   if (currentTimelineRecord) {
-    currentTimelineRecord.activityPeriodEnd = isImpossiblyLongEvent
+    const updatedTimelineRecord = structuredClone(
+      currentTimelineRecord,
+    ) as Mutable<typeof currentTimelineRecord>;
+    updatedTimelineRecord.activityPeriodEnd = isImpossiblyLongEvent
       ? currentTimelineRecord.activityPeriodEnd
       : timestamp;
 
-    await activeTimeline.set(currentTimelineRecord);
+    await setActiveTabRecord(updatedTimelineRecord);
   }
 
   const isDomainIgnored = preferences.ignoredHosts.includes(
@@ -107,4 +113,23 @@ async function commitTabActivity(currentTimelineRecord: TimelineRecord | null) {
   );
 
   await setActiveTabRecord(null);
+}
+
+async function createNewActiveRecord(timestamp: number, focusedActiveTab: Tab) {
+  if (!focusedActiveTab.id) {
+    return;
+  }
+  const date = getIsoDate(new Date(timestamp));
+  const { url = '', title = '' } = focusedActiveTab;
+  const hostname = getHostNameFromUrl(url);
+
+  await setActiveTabRecord({
+    tabId: focusedActiveTab.id,
+    url,
+    hostname,
+    docTitle: title,
+    date,
+    activityPeriodStart: timestamp,
+    activityPeriodEnd: timestamp,
+  });
 }

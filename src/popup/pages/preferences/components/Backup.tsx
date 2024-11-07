@@ -7,7 +7,7 @@ import { TimelineRecord } from '@shared/db/types';
 import { i18n } from '@shared/services/i18n';
 import { getFullActivityTimeline } from '@shared/tables/activity-timeline';
 
-import { usePopupContext } from '../../hooks/PopupContext';
+import { usePopupContext } from '../../../hooks/PopupContext';
 
 function getActivityTimelineTimeInSeconds(t: TimelineRecord) {
   return Math.round(

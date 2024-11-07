@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Checkbox } from '@shared/blocks/Input';
 import { i18n } from '@shared/services/i18n';
 
-import { usePopupContext } from '../../hooks/PopupContext';
+import { usePopupContext } from '../../../hooks/PopupContext';
 
 export const DisplayTimeOnBadge: React.FC = () => {
   const { settings, updateSettings } = usePopupContext();

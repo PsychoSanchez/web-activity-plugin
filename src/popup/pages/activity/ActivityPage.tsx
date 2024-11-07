@@ -9,8 +9,8 @@ import { DatePicker } from '@popup/components/DatePicker';
 import { WeekDatePicker } from '@popup/components/WeekDatePicker';
 import { usePopupContext } from '@popup/hooks/PopupContext';
 
-import { DailyActivityTab } from './activity/ActivityPageDailyActivityTab';
-import { ActivityPageWeeklyActivityTab } from './activity/ActivityPageWeeklyActivityTab';
+import { DailyActivityTab } from './components/DailyActivityTab';
+import { WeeklyActivityTab } from './components/WeeklyActivityTab';
 
 interface ActivityPageProps {
   date?: IsoDate;
@@ -74,10 +74,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
       )}
 
       {activeTab === ActivityPageTabs.Weekly && (
-        <ActivityPageWeeklyActivityTab
-          store={store}
-          sundayDate={pickedSunday}
-        />
+        <WeeklyActivityTab store={store} sundayDate={pickedSunday} />
       )}
     </>
   );

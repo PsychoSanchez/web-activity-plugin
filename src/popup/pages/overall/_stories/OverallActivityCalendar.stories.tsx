@@ -4,10 +4,10 @@ import React from 'react';
 import { TimeStore } from '@shared/db/types';
 import { PredefinedIsoDates } from '@shared/utils/date';
 
-import { OverallActivityCalendar } from '../OverallActivityCalendar';
+import { OverallActivityCalendar } from '../components/OverallActivityCalendar';
 
 export default {
-  title: 'Popup/OverallPage/OverallActivityCalendar',
+  title: 'popup/OverallPage components/OverallActivityCalendar',
   component: OverallActivityCalendar,
   parameters: {
     layout: 'centered',

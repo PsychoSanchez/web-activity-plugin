@@ -3,21 +3,21 @@ import React from 'react';
 
 import { getIsoDate } from '@shared/utils/date';
 
-import { ActivityTimeline } from '../GeneralTimeline';
+import { ActivityTimelineChart } from '../ActivityTimelineChart';
 
 export default {
-  title: 'popup/components/ActivityTimeline',
-  component: ActivityTimeline,
+  title: 'popup/components/ActivityTimelineChart',
+  component: ActivityTimelineChart,
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof ActivityTimeline>;
+} satisfies Meta<typeof ActivityTimelineChart>;
 
-type Story = StoryObj<Meta<typeof ActivityTimeline>>;
+type Story = StoryObj<Meta<typeof ActivityTimelineChart>>;
 
 export const EmptyTimeline: Story = {
   render: () => (
-    <ActivityTimeline
+    <ActivityTimelineChart
       activityTimeline={[]}
       title="Activity in last 6 hours"
       emptyHoursMarginCount={2}
@@ -27,7 +27,7 @@ export const EmptyTimeline: Story = {
 
 export const Default: Story = {
   render: () => (
-    <ActivityTimeline
+    <ActivityTimelineChart
       activityTimeline={[
         {
           activityPeriodEnd: new Date().getTime(),

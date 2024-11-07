@@ -17,6 +17,11 @@ export interface ActivityTableProps {
 export const WebsiteActivityTable: React.FC<ActivityTableProps> = React.memo(
   ({ websiteTimeMap: activity, title, onDomainRowClicked }) => {
     const { settings, updateSettings } = usePopupContext();
+
+    const [domainFavIconMap, setDomainFavIconMap] = React.useState<
+      Map<string, string>
+    >(() => new Map());
+
     const handleHideDomainClick = React.useCallback(
       (domain: string) => {
         updateSettings({
@@ -25,10 +30,6 @@ export const WebsiteActivityTable: React.FC<ActivityTableProps> = React.memo(
       },
       [settings.ignoredHosts, updateSettings],
     );
-
-    const [domainFavIconMap, setDomainFavIconMap] = React.useState<
-      Map<string, string>
-    >(() => new Map());
 
     React.useEffect(() => {
       selectHostnames(Object.keys(activity).map((domain) => domain)).then(

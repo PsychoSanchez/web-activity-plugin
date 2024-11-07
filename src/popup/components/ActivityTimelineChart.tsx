@@ -6,14 +6,14 @@ import { TimelineChart } from '@shared/components/TimelineChart';
 import { TimelineRecord } from '@shared/db/types';
 import { i18n } from '@shared/services/i18n';
 
-export interface GeneralTimelineProps {
+export interface ActivityTimelineChartProps {
   title: string;
   emptyHoursMarginCount?: number;
   activityTimeline: TimelineRecord[];
   isDarkMode?: boolean;
 }
 
-const ActivityTimelineChartFC: React.FC<GeneralTimelineProps> = ({
+const ActivityTimelineChartFC: React.FC<ActivityTimelineChartProps> = ({
   title,
   activityTimeline,
   emptyHoursMarginCount = 2,
@@ -50,6 +50,5 @@ const ActivityTimelineChartFC: React.FC<GeneralTimelineProps> = ({
   );
 };
 
-export const ActivityTimeline: React.FC<GeneralTimelineProps> = React.memo(
-  ActivityTimelineChartFC,
-);
+export const ActivityTimelineChart: React.FC<ActivityTimelineChartProps> =
+  React.memo(ActivityTimelineChartFC);

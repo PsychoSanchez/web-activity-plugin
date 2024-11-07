@@ -1,11 +1,15 @@
+import { DeepReadonly } from 'utility-types';
+
 import {
   connect,
   TimeTrackerStoreStateTableKeys,
   TimeTrackerStoreTables,
-} from '../db/idb';
-import { ActiveTabState, TimelineRecord } from '../db/types';
+} from '@shared/db/idb';
+import { ActiveTabState, TimelineRecord } from '@shared/db/types';
 
-export async function setActiveTabRecord(val: TimelineRecord | null) {
+export async function setActiveTabRecord(
+  val: DeepReadonly<TimelineRecord> | null,
+) {
   const db = await connect();
 
   await db.put(
@@ -20,7 +24,7 @@ export async function getActiveTabRecord() {
   return (await db.get(
     TimeTrackerStoreTables.State,
     TimeTrackerStoreStateTableKeys.ActiveTab,
-  )) as TimelineRecord | null;
+  )) as DeepReadonly<TimelineRecord> | null;
 }
 
 export async function getTabsState() {
@@ -29,10 +33,10 @@ export async function getTabsState() {
   return (await db.get(
     TimeTrackerStoreTables.State,
     TimeTrackerStoreStateTableKeys.AppState,
-  )) as ActiveTabState;
+  )) as DeepReadonly<ActiveTabState>;
 }
 
-export async function setTabsState(val: ActiveTabState) {
+export async function setTabsState(val: DeepReadonly<ActiveTabState>) {
   const db = await connect();
 
   await db.put(

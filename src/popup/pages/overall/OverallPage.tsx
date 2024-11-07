@@ -3,14 +3,15 @@ import * as React from 'react';
 import { i18n } from '@shared/services/i18n';
 import { getMinutesInMs } from '@shared/utils/date';
 
-import { ActivityTimeline } from '../components/GeneralTimeline';
-import { TimeUsagePanel } from '../components/TimeUsagePanel';
-import { usePopupContext } from '../hooks/PopupContext';
-import { useActiveTabTime } from '../hooks/useActiveTabTime';
-import { useLastSixHoursTimelineEvents } from '../hooks/useLastSixHoursTimeline';
-import { useIsDarkMode } from '../hooks/useTheme';
-import { useTotalWebsiteActivity } from '../hooks/useTotalWebsiteActivity';
-import { OverallActivityCalendar } from './overall/OverallActivityCalendar';
+import { ActivityTimelineChart } from '@popup/components/ActivityTimelineChart';
+import { TimeUsagePanel } from '@popup/components/TimeUsagePanel';
+import { usePopupContext } from '@popup/hooks/PopupContext';
+import { useActiveTabTime } from '@popup/hooks/useActiveTabTime';
+import { useLastSixHoursTimelineEvents } from '@popup/hooks/useLastSixHoursTimeline';
+import { useIsDarkMode } from '@popup/hooks/useTheme';
+import { useTotalWebsiteActivity } from '@popup/hooks/useTotalWebsiteActivity';
+
+import { OverallActivityCalendar } from './components/OverallActivityCalendar';
 
 export interface OverallPageProps {
   onNavigateToActivityPage: React.ComponentProps<
@@ -52,7 +53,7 @@ export const OverallPage: React.FC<OverallPageProps> = ({
         store={store}
         onDateClick={onNavigateToActivityPage}
       />
-      <ActivityTimeline
+      <ActivityTimelineChart
         title={i18n('OverallPage_ActivityTimelineInLast6Hours')}
         activityTimeline={timelineEvents}
         emptyHoursMarginCount={0}

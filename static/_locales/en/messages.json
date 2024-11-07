@@ -83,7 +83,7 @@
         "description": "Part 2 of the hint displayed when hovering over the website name in the table"
     },
     "ActivityTimelineChart_NoData": {
-        "message": "Don&apos;t have timeline data for this day",
+        "message": "Don't have timeline data for this day",
         "description": "Message displayed when no timeline data is available for the day"
     },
     "ActivityPageWeeklyTab_TimeUsagePanelHeader": {

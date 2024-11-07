@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { DeepReadonly } from 'utility-types';
 
 import { Preferences } from '@shared/db/types';
 import { DEFAULT_PREFERENCES } from '@shared/preferences';
@@ -12,7 +13,7 @@ import { TimeStore, useTimeStore } from './useTimeStore';
 export type PopupContextType = {
   store: TimeStore;
   activeHostname: string;
-  settings: Preferences;
+  settings: DeepReadonly<Preferences>;
   updateSettings: (updated: Partial<Preferences>) => void;
 };
 

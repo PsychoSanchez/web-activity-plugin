@@ -13,8 +13,8 @@ import {
 } from '@shared/utils/date';
 import { getTotalDailyActivity } from '@shared/utils/time-store';
 
-import { useIsDarkMode } from '../../hooks/useTheme';
-import { TimeStore } from '../../hooks/useTimeStore';
+import { useIsDarkMode } from '@popup/hooks/useTheme';
+import { TimeStore } from '@popup/hooks/useTimeStore';
 
 export interface WeeklyWebsiteActivityChartProps {
   store: TimeStore;

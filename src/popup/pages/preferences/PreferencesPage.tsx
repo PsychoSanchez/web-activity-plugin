@@ -4,11 +4,11 @@ import { FC } from 'react';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { i18n } from '@shared/services/i18n';
 
-import { BackupSetting } from './preferences/Backup';
-import { DisplayTimeOnBadge } from './preferences/DisplayTimeOnBadgeSetting';
-import { IgnoredDomainSetting } from './preferences/IgnoredDomainSetting';
-import { LimitsSetting } from './preferences/LimitsSetting';
-import { ThemeSelector } from './preferences/ThemeSelector';
+import { BackupSetting } from './components/Backup';
+import { DisplayTimeOnBadge } from './components/DisplayTimeOnBadgeSetting';
+import { IgnoredDomainSetting } from './components/IgnoredDomainSetting';
+import { LimitsSetting } from './components/LimitsSetting';
+import { ThemeSelector } from './components/ThemeSelector';
 
 export const PreferencesPage: FC = () => {
   return (

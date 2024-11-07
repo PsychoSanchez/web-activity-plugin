@@ -10,13 +10,12 @@ import { IsoDate } from '@shared/types';
 import { getMinutesInMs } from '@shared/utils/date';
 import { getTotalDailyActivity } from '@shared/utils/time-store';
 
-import { ActivityTimeline } from '@popup/components/GeneralTimeline';
+import { ActivityTimelineChart } from '@popup/components/ActivityTimelineChart';
 import { TimeUsagePanel } from '@popup/components/TimeUsagePanel';
 import { useIsDarkMode } from '@popup/hooks/useTheme';
 import { TimeStore } from '@popup/hooks/useTimeStore';
 import { useTotalWebsiteActivity } from '@popup/hooks/useTotalWebsiteActivity';
-
-import { WebsiteActivityTable } from './WebsiteActivityTable';
+import { WebsiteActivityTable } from '@popup/pages/activity/components/WebsiteActivityTable';
 
 const MINUTE_IN_MS = getMinutesInMs(1);
 
@@ -31,14 +30,13 @@ const useActivityTimeline = (date: IsoDate, filteredHostname?: string) => {
   >([]);
 
   React.useEffect(() => {
-    (async () => {
-      const timeline = await getActivityTimeline(date);
+    getActivityTimeline(date).then((timeline) => {
       setActivityTimeline(
         filteredHostname
           ? timeline.filter((record) => record.hostname === filteredHostname)
           : timeline,
       );
-    })();
+    });
   }, [date, filteredHostname]);
 
   return activityTimeline;
@@ -101,7 +99,7 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
         )}
       </Panel>
       <div ref={scrollToRef}>
-        <ActivityTimeline
+        <ActivityTimelineChart
           title={activityTimelineHeader}
           activityTimeline={activityTimeline}
           isDarkMode={isDarkMode}

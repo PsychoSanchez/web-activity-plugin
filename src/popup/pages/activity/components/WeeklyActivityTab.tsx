@@ -22,7 +22,7 @@ export interface ActivityPageWeeklyActivityTabProps {
 
 const ACTIVITY_ON_ALL_WEBSITES = 'ALL_WEBSITES';
 
-export const ActivityPageWeeklyActivityTab: React.FC<
+export const WeeklyActivityTab: React.FC<
   ActivityPageWeeklyActivityTabProps
 > = ({ store, sundayDate }) => {
   const [pickedDomain, setPickedDomain] = React.useState<
@@ -61,9 +61,10 @@ export const ActivityPageWeeklyActivityTab: React.FC<
   const presentChartTitle = React.useCallback(
     () =>
       i18n('ActivityPageWeeklyTab_WeeklyWebsiteActivityChartTitle', {
-        domain: ACTIVITY_ON_ALL_WEBSITES
-          ? i18n('ActivityPageWeeklyTab_AllWebsites')
-          : pickedDomain,
+        domain:
+          pickedDomain === ACTIVITY_ON_ALL_WEBSITES
+            ? i18n('ActivityPageWeeklyTab_AllWebsites')
+            : pickedDomain,
       }),
     [pickedDomain],
   );
