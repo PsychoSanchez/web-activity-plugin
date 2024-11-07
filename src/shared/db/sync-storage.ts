@@ -46,7 +46,7 @@ export const getCurrentHostTime = async (host: string): Promise<number> => {
   const store = await getTotalActivity();
   const currentDate = getIsoDate(new Date());
 
-  return (store[currentDate] as any)?.[host] ?? 0;
+  return store[currentDate]?.[host as HostName] ?? 0;
 };
 
 export const setTotalDailyHostTime = async ({

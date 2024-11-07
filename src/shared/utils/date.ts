@@ -81,6 +81,7 @@ export const getTimeWithoutSeconds = (number: number) => {
 const DEFAULT_DATE_TRANSFORMER = (date: Date) => new Date(date);
 
 export const generatePrior7DaysDates = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- T is a generic
   T extends (date: Date) => any = (date: Date) => Date,
 >(
   date: Date,
@@ -93,6 +94,7 @@ export const generatePrior7DaysDates = <
   });
 
 export const rangeDaysAgo = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- T is a generic
   DateTransformer extends (date: Date) => any = (date: Date) => Date,
 >({
   from: date,
