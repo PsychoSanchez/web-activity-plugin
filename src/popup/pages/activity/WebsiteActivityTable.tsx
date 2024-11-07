@@ -8,16 +8,14 @@ import { usePopupContext } from '@popup/hooks/PopupContext';
 
 export interface ActivityTableProps {
   websiteTimeMap: ActivitySummaryByHostname;
-  title?: string;
+  title: string;
   onDomainRowClicked?: (domain: string) => void;
   onFilterDomainButtonClicked?: (domain: string) => void;
   onUndoFilterDomainButtonClicked?: (domain: string) => void;
 }
 
-const DEFAULT_TITLE = 'Websites This Day';
-
 export const WebsiteActivityTable: React.FC<ActivityTableProps> = React.memo(
-  ({ websiteTimeMap: activity, title = DEFAULT_TITLE, onDomainRowClicked }) => {
+  ({ websiteTimeMap: activity, title, onDomainRowClicked }) => {
     const { settings, updateSettings } = usePopupContext();
     const handleHideDomainClick = React.useCallback(
       (domain: string) => {

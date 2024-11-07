@@ -8,6 +8,7 @@ import {
   CalendarDisplayedActivityType,
 } from '@shared/components/ActivityCalendar';
 import { TimeStore } from '@shared/db/types';
+import { i18n } from '@shared/services/i18n';
 import { IsoDate } from '@shared/types';
 import { getHoursInMs, getMinutesInMs } from '@shared/utils/date';
 
@@ -67,7 +68,7 @@ export const OverallActivityCalendar: React.FC<
     <Panel>
       <PanelHeader>
         <Icon type={IconType.CalendarClock} />
-        Overall Activity Map
+        {i18n('OverallActivityCalendar_Header')}
       </PanelHeader>
       <PanelBody className="min-h-[115px]">
         <ActivityCalendar
@@ -79,6 +80,3 @@ export const OverallActivityCalendar: React.FC<
     </Panel>
   );
 };
-
-/// SCHADCN UI
-// WINDOW AI

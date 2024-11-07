@@ -3,6 +3,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { Button } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
+import { i18n } from '@shared/services/i18n';
 import { ColorScheme, ThemeService } from '@shared/services/theme';
 
 export const ThemeSelector: React.FC = () => {
@@ -30,7 +31,7 @@ export const ThemeSelector: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <h3>Theme</h3>
+      <h3>{i18n('ThemeSelector_Header')}</h3>
       <div className="flex flex-row rounded-lg border-2 border-solid border-neutral-300 dark:border-neutral-900 overflow-hidden">
         <Button
           onClick={handleAutoThemeSelect}
@@ -39,7 +40,7 @@ export const ThemeSelector: React.FC = () => {
             theme === 'auto' && 'bg-neutral-300 dark:bg-neutral-900',
           )}
         >
-          <Icon type={IconType.Eclipse} /> Auto
+          <Icon type={IconType.Eclipse} /> {i18n('ThemeSelector_OptionAuto')}
         </Button>
         <Button
           onClick={handleDarkThemeSelect}
@@ -48,7 +49,7 @@ export const ThemeSelector: React.FC = () => {
             theme === 'dark' && 'bg-neutral-300 dark:bg-neutral-900',
           )}
         >
-          <Icon type={IconType.Moon} /> Dark
+          <Icon type={IconType.Moon} /> {i18n('ThemeSelector_OptionDark')}
         </Button>
         <Button
           onClick={handleLightThemeSelect}
@@ -57,7 +58,7 @@ export const ThemeSelector: React.FC = () => {
             theme === 'light' && 'bg-neutral-300 dark:bg-neutral-900',
           )}
         >
-          <Icon type={IconType.Sun} /> Light
+          <Icon type={IconType.Sun} /> {i18n('ThemeSelector_OptionLight')}
         </Button>
       </div>
     </div>

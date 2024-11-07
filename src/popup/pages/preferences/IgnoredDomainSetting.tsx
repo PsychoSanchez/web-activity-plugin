@@ -5,9 +5,10 @@ import { Button, ButtonType } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Input } from '@shared/blocks/Input';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
+import { i18n } from '@shared/services/i18n';
 import { assertIsValidHostname } from '@shared/utils/url';
 
-import { usePopupContext } from '../../hooks/PopupContext';
+import { usePopupContext } from '@popup/hooks/PopupContext';
 
 export const IgnoredDomainSetting: React.FC = () => {
   const { settings, updateSettings } = usePopupContext();
@@ -67,12 +68,12 @@ export const IgnoredDomainSetting: React.FC = () => {
 
   return (
     <Panel>
-      <PanelHeader>Ignored domains</PanelHeader>
+      <PanelHeader>{i18n('IgnoredDomainSetting_Header')}</PanelHeader>
       <PanelBody className="flex flex-col gap-2">
-        <p>You can hide unwanted websites to keep dashboards clean.</p>
+        <p>{i18n('IgnoredDomainSetting_FeatureDescription')}</p>
         <div className="flex justify-between items-end gap-2">
           <label className="flex flex-col gap-1 w-full">
-            Domain
+            {i18n('IgnoredDomainSetting_DomainInputLabel')}
             <Input
               placeholder="e.g. google.com"
               value={domainToIgnore}
@@ -84,7 +85,7 @@ export const IgnoredDomainSetting: React.FC = () => {
             buttonType={ButtonType.Primary}
             onClick={handleAddIgnoredDomain}
           >
-            Add
+            {i18n('IgnoredDomainSetting_AddButton')}
           </Button>
         </div>
         <div className="flex flex-col gap-2">
@@ -93,7 +94,7 @@ export const IgnoredDomainSetting: React.FC = () => {
             className="text-blue-500"
             onClick={handleToggleDomainsListExpanded}
           >
-            View all ignored domains
+            {i18n('IgnoredDomainSetting_ViewAllIgnoredDomainsLink')}
           </a>
           <div className={twMerge('hidden', isDomainsListExpanded && 'block')}>
             {!ignoredDomains.length && (

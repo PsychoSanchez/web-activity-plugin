@@ -3,13 +3,15 @@ import { twMerge } from 'tailwind-merge';
 
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel } from '@shared/blocks/Panel';
+import { IsoDate } from '@shared/types';
+
+import { PopupContextProvider } from '@popup/hooks/PopupContext';
+import { ActivityPage } from '@popup/pages/ActivityPage';
+import { OverallPage } from '@popup/pages/OverallPage';
+import { PreferencesPage } from '@popup/pages/PreferencesPage';
 
 import '../tailwind.css';
 import './App.css';
-import { PopupContextProvider } from './hooks/PopupContext';
-import { ActivityPage } from './pages/ActivityPage';
-import { OverallPage } from './pages/OverallPage';
-import { PreferencesPage } from './pages/PreferencesPage';
 
 enum Pages {
   Overall = 'overall',
@@ -22,17 +24,20 @@ const PAGES_VALUES = Object.values(Pages);
 export const PopupApp: React.FC = () => {
   const [activePage, setPage] = React.useState({
     tab: Pages.Overall,
-    params: {} as Record<string, any>,
+    params: {} as Record<string, IsoDate>,
   });
 
-  const handleNavigateToActivityDatePage = React.useCallback((date: string) => {
-    setPage({
-      tab: Pages.Detailed,
-      params: {
-        date,
-      },
-    });
-  }, []);
+  const handleNavigateToActivityDatePage = React.useCallback(
+    (date: IsoDate) => {
+      setPage({
+        tab: Pages.Detailed,
+        params: {
+          date,
+        },
+      });
+    },
+    [],
+  );
 
   const renderedActiveTab = React.useMemo(() => {
     switch (activePage.tab) {

@@ -49,3 +49,7 @@ export const DarkTheme: Story = {
     <TimelineChart timelineEvents={sampleTimelineEvents} isDarkMode />
   ),
 };
+
+export const EmptyTimeline: Story = {
+  render: () => <TimelineChart timelineEvents={[]} />,
+};

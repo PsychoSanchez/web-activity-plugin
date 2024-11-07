@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Checkbox } from '@shared/blocks/Input';
+import { i18n } from '@shared/services/i18n';
 
 import { usePopupContext } from '../../hooks/PopupContext';
 
@@ -26,7 +27,7 @@ export const DisplayTimeOnBadge: React.FC = () => {
         checked={isDisplayTimeOnIconChecked}
         onChange={handleDisplayTimeOnIconChange}
       />
-      <span>Display active time on icon</span>
+      <span>{i18n('DisplayTimeOnBadge_OptionToEnable')}</span>
     </label>
   );
 };

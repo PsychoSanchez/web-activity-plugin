@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelHeader } from '@shared/blocks/Panel';
 import { Bar, ChartOptions } from '@shared/libs/ChartJs';
+import { i18n } from '@shared/services/i18n';
 import {
   generatePrior7DaysDates,
   getHoursInMs,
@@ -46,10 +47,10 @@ const BAR_OPTIONS = {
     },
     tooltip: {
       callbacks: {
-        title: ([item]: any) => {
+        title: ([item]) => {
           return `${item?.label}`;
         },
-        label: (item: any) => {
+        label: (item) => {
           return (
             ' ' + getTimeFromMs(Number(item.formattedValue || 0) * HOUR_IN_MS)
           );
@@ -93,12 +94,11 @@ export const WeeklyWebsiteActivityChart: React.FC<
 
   const [labels, data] = React.useMemo(() => {
     const week = generatePrior7DaysDates(sundayDate).reverse();
-    const labels = week.map((date) => getIsoDate(date));
-    const data = week.map(
-      (date) => getTotalDailyActivity(store, date) / HOUR_IN_MS,
-    );
 
-    return [labels, data];
+    return [
+      week.map((date) => getIsoDate(date)),
+      week.map((date) => getTotalDailyActivity(store, date) / HOUR_IN_MS),
+    ];
   }, [store, sundayDate]);
 
   const weekName = React.useMemo(
@@ -111,7 +111,7 @@ export const WeeklyWebsiteActivityChart: React.FC<
       labels: labels,
       datasets: [
         {
-          label: 'Weekly activity',
+          label: i18n('WeeklyWebsiteActivityChart_ChartLabel'),
           data: data,
           backgroundColor: '#4b76e3',
           borderRadius: 12,

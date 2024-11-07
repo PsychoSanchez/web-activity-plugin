@@ -4,6 +4,7 @@ import { Button, ButtonType } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Input, Time } from '@shared/blocks/Input';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
+import { i18n } from '@shared/services/i18n';
 import { assertIsValidHostname } from '@shared/utils/url';
 
 import { usePopupContext } from '../../hooks/PopupContext';
@@ -79,15 +80,12 @@ export const LimitsSetting: React.FC = () => {
 
   return (
     <Panel>
-      <PanelHeader>Limits</PanelHeader>
+      <PanelHeader>{i18n('LimitsSetting_Header')}</PanelHeader>
       <PanelBody className="flex flex-col gap-2">
-        <p>
-          Add time limits to your daily web activity on specific websites. Once
-          limit reached website will become black and white.
-        </p>
+        <p>{i18n('LimitsSetting_FeatureDescription')}</p>
         <div className="flex justify-between items-end gap-2">
           <label className="flex flex-col gap-1 w-full">
-            Domain
+            {i18n('LimitsSetting_DomainInputLabel')}
             <Input
               placeholder="e.g. google.com"
               value={domainToLimit}
@@ -95,7 +93,7 @@ export const LimitsSetting: React.FC = () => {
             />
           </label>
           <label className="flex flex-col gap-1 w-full">
-            Time limit
+            {i18n('LimitsSetting_TimeLimitInputLabel')}
             <Time onChange={handleLimitTimeChange} />
           </label>
           <Button
@@ -103,7 +101,7 @@ export const LimitsSetting: React.FC = () => {
             buttonType={ButtonType.Primary}
             onClick={() => handleLimitChange(domainToLimit, limit)}
           >
-            Add
+            {i18n('LimitsSetting_AddButton')}
           </Button>
         </div>
         {limitsEntries.length > 0 ? (

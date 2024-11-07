@@ -1,23 +1,21 @@
 import * as React from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { TimelineChart } from '@shared/components/TimelineChart';
 import { TimelineRecord } from '@shared/db/types';
+import { i18n } from '@shared/services/i18n';
 
 export interface GeneralTimelineProps {
   title: string;
   emptyHoursMarginCount?: number;
-  filteredHostname?: string | null;
   activityTimeline: TimelineRecord[];
   isDarkMode?: boolean;
 }
 
-const GeneralTimelineFC: React.FC<GeneralTimelineProps> = ({
-  filteredHostname,
-  activityTimeline,
+const ActivityTimelineChartFC: React.FC<GeneralTimelineProps> = ({
   title,
+  activityTimeline,
   emptyHoursMarginCount = 2,
   isDarkMode,
 }) => {
@@ -26,31 +24,32 @@ const GeneralTimelineFC: React.FC<GeneralTimelineProps> = ({
       <PanelHeader>
         <Icon type={IconType.TimePast} />
         {title}
-        {filteredHostname ? ` On ${filteredHostname}` : ''}
       </PanelHeader>
       <PanelBody
-        className={twMerge(
-          'relative flex items-center justify-center min-h-[215px] h-[215px] transition-opacity duration-300 opacity-0',
-          activityTimeline.length > 0 && 'opacity-100',
-        )}
+        className={
+          'relative flex items-center justify-center min-h-[215px] h-[215px] transition-opacity duration-300'
+        }
       >
-        <TimelineChart
-          emptyHoursMarginCount={emptyHoursMarginCount}
-          timelineEvents={activityTimeline}
-          isDarkMode={isDarkMode}
-        />
-        <span
-          className={twMerge(
-            'absolute text-neutral-400 top-2 left-2 transition-opacity duration-75 opacity-0',
-            activityTimeline.length === 0 && 'opacity-100',
-          )}
-        >
-          Don&apos;t have timeline data for this day
-        </span>
+        {activityTimeline.length ? (
+          <TimelineChart
+            emptyHoursMarginCount={emptyHoursMarginCount}
+            timelineEvents={activityTimeline}
+            isDarkMode={isDarkMode}
+          />
+        ) : (
+          <span
+            className={
+              'text-neutral-400 top-2 left-2 transition-opacity duration-75'
+            }
+          >
+            {i18n('ActivityTimelineChart_NoData')}
+          </span>
+        )}
       </PanelBody>
     </Panel>
   );
 };
 
-export const GeneralTimeline: React.FC<GeneralTimelineProps> =
-  React.memo(GeneralTimelineFC);
+export const ActivityTimeline: React.FC<GeneralTimelineProps> = React.memo(
+  ActivityTimelineChartFC,
+);

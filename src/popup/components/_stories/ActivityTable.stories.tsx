@@ -37,3 +37,17 @@ export const Default: Story = {
     layout: 'centered',
   },
 };
+
+export const Empty: Story = {
+  render: () => (
+    <ActivityTable
+      onDomainRowClicked={(hostname) => alert(`Clicked ${hostname}`)}
+      onFilterDomainButtonClicked={(hostname) => alert(`Filter ${hostname}`)}
+      activity={{} as ActivitySummaryByHostname}
+      title="Custom Title"
+    />
+  ),
+  parameters: {
+    layout: 'centered',
+  },
+};

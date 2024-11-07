@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { i18n } from '@shared/services/i18n';
 import { HostName } from '@shared/types';
 import { getTotalWeeklyActivity } from '@shared/utils/time-store';
 
@@ -19,12 +20,14 @@ export interface ActivityPageWeeklyActivityTabProps {
   sundayDate: Date;
 }
 
+const ACTIVITY_ON_ALL_WEBSITES = 'ALL_WEBSITES';
+
 export const ActivityPageWeeklyActivityTab: React.FC<
   ActivityPageWeeklyActivityTabProps
 > = ({ store, sundayDate }) => {
   const [pickedDomain, setPickedDomain] = React.useState<
-    'All Websites' | HostName
-  >('All Websites');
+    typeof ACTIVITY_ON_ALL_WEBSITES | HostName
+  >(ACTIVITY_ON_ALL_WEBSITES);
   const scrollToRef = React.useRef<HTMLDivElement>(null);
 
   const handleDomainRowClick = React.useCallback((domain: string) => {
@@ -39,7 +42,7 @@ export const ActivityPageWeeklyActivityTab: React.FC<
   );
 
   const weeklyActivityByDomain = React.useMemo(() => {
-    if (pickedDomain === 'All Websites') {
+    if (pickedDomain === ACTIVITY_ON_ALL_WEBSITES) {
       return weekActivitySlice;
     }
 
@@ -56,15 +59,20 @@ export const ActivityPageWeeklyActivityTab: React.FC<
   }, [weeklyActivityByDomain, sundayDate]);
 
   const presentChartTitle = React.useCallback(
-    () => `Activity on ${pickedDomain} per day`,
+    () =>
+      i18n('ActivityPageWeeklyTab_WeeklyWebsiteActivityChartTitle', {
+        domain: ACTIVITY_ON_ALL_WEBSITES
+          ? i18n('ActivityPageWeeklyTab_AllWebsites')
+          : pickedDomain,
+      }),
     [pickedDomain],
   );
 
   return (
     <div>
       <TimeUsagePanel
-        title="Average Daily Activity"
-        time={weeklyActivityAverage}
+        title={i18n('ActivityPageWeeklyTab_TimeUsagePanelHeader')}
+        totalActivityTime={weeklyActivityAverage}
       />
       <div ref={scrollToRef}>
         <WeeklyWebsiteActivityChart
@@ -75,7 +83,7 @@ export const ActivityPageWeeklyActivityTab: React.FC<
       </div>
       <WebsiteActivityTable
         websiteTimeMap={weeklyActivityTotal}
-        title={'Websites This Week'}
+        title={i18n('ActivityPageWeeklyTab_WebsiteActivityTableHeader')}
         onDomainRowClicked={handleDomainRowClick}
       />
     </div>

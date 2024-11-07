@@ -4,6 +4,7 @@ import { Button, ButtonType } from '@shared/blocks/Button';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { TimelineRecord } from '@shared/db/types';
+import { i18n } from '@shared/services/i18n';
 import { getFullActivityTimeline } from '@shared/tables/activity-timeline';
 
 import { usePopupContext } from '../../hooks/PopupContext';
@@ -72,13 +73,14 @@ export const BackupSetting: React.FC = () => {
 
   return (
     <Panel>
-      <PanelHeader>Backup</PanelHeader>
+      <PanelHeader>{i18n('Backup_Header')}</PanelHeader>
       <PanelBody className="flex flex-row justify-evenly">
         <Button buttonType={ButtonType.Primary} onClick={handleExportCSV}>
-          <Icon type={IconType.CloudDownload}></Icon> CSV
+          <Icon type={IconType.CloudDownload}></Icon> {i18n('Backup_OptionCSV')}
         </Button>
         <Button buttonType={ButtonType.Primary} onClick={handleExportJSON}>
-          <Icon type={IconType.CloudDownload}></Icon> JSON
+          <Icon type={IconType.CloudDownload}></Icon>{' '}
+          {i18n('Backup_OptionJSON')}
         </Button>
       </PanelBody>
     </Panel>

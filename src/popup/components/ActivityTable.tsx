@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { ActivitySummaryByHostname } from '@shared/db/types';
+import { i18n } from '@shared/services/i18n';
 import { getTimeFromMs, getTimeWithoutSeconds } from '@shared/utils/date';
 
 import {
@@ -59,6 +60,12 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({
         <span>{getTimeWithoutSeconds(totalActivity)}</span>
       </PanelHeader>
       <PanelBody className="flex flex-col gap-2">
+        {websiteEntriesSortedDesc.length === 0 ? (
+          <span className="dark:text-neutral-300">
+            {i18n('ActivityTable_NoDataAvailable')}
+          </span>
+        ) : null}
+
         {websiteEntriesSortedDesc.map(([domain, time]) => {
           return (
             <div
@@ -97,12 +104,12 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({
         })}
         <div className="pt-2">
           <p className="dark:text-neutral-300">
-            Click on the website name to view stats for this website.
+            {i18n('ActivityTable_ClickToFilterHint')}
           </p>
           <p className="dark:text-neutral-300">
-            Click on the <Icon className="m-0" type={IconType.Close} /> icon to
-            hide and ignore this website. You can always unhide it in the
-            Ignored domains section.
+            {i18n('ActivityTable_ClickToIgnoreHintPart1')}{' '}
+            <Icon className="m-0" type={IconType.Close} />{' '}
+            {i18n('ActivityTable_ClickToIgnoreHintPart2')}
           </p>
         </div>
       </PanelBody>

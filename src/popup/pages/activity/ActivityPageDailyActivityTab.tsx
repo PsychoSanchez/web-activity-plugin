@@ -1,16 +1,24 @@
 import * as React from 'react';
 
+import { Icon, IconType } from '@shared/blocks/Icon';
+import { Panel, PanelHeader } from '@shared/blocks/Panel';
+import { ActivityDoughnutChart } from '@shared/components/ActivityDoughnutChart';
 import { TimelineRecord } from '@shared/db/types';
+import { i18n } from '@shared/services/i18n';
 import { getActivityTimeline } from '@shared/tables/activity-timeline';
 import { IsoDate } from '@shared/types';
+import { getMinutesInMs } from '@shared/utils/date';
 import { getTotalDailyActivity } from '@shared/utils/time-store';
 
-import { GeneralTimeline } from '../../components/GeneralTimeline';
-import { useIsDarkMode } from '../../hooks/useTheme';
-import { TimeStore } from '../../hooks/useTimeStore';
-import { useTotalWebsiteActivity } from '../../hooks/useTotalWebsiteActivity';
-import { DailyUsage } from './DailyUsage';
+import { ActivityTimeline } from '@popup/components/GeneralTimeline';
+import { TimeUsagePanel } from '@popup/components/TimeUsagePanel';
+import { useIsDarkMode } from '@popup/hooks/useTheme';
+import { TimeStore } from '@popup/hooks/useTimeStore';
+import { useTotalWebsiteActivity } from '@popup/hooks/useTotalWebsiteActivity';
+
 import { WebsiteActivityTable } from './WebsiteActivityTable';
+
+const MINUTE_IN_MS = getMinutesInMs(1);
 
 export interface DailyActivityTabProps {
   store: TimeStore;
@@ -43,10 +51,7 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
   const [filteredHostname, setFilteredHostname] = React.useState<
     string | undefined
   >(undefined);
-  const dailyActiveWebsites = React.useMemo(
-    () => store[date] ?? {},
-    [store, date],
-  );
+  const activityByDate = React.useMemo(() => store[date] ?? {}, [store, date]);
   const totalDailyActivity = React.useMemo(
     () => getTotalDailyActivity(store, new Date(date)),
     [store, date],
@@ -63,24 +68,48 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
 
   const isDarkMode = useIsDarkMode();
 
+  const activityTimelineHeader = filteredHostname
+    ? i18n('ActivityPageDailyActivityTab_ActivityTimelineHeaderOnHostname', {
+        hostname: filteredHostname,
+      })
+    : i18n('ActivityPageDailyActivityTab_ActivityTimelineHeader');
+
   return (
     <>
-      <DailyUsage
-        date={date}
-        activityByDate={dailyActiveWebsites}
+      <TimeUsagePanel
+        title={i18n('ActivityPageDailyActivityTab_TimeUsagePanelHeader')}
         totalActivityTime={totalDailyActivity}
-        weeklyAverage={weeklyUsage / 7}
+        averageTime={weeklyUsage / 7}
       />
+      <Panel className="min-h-[160px] flex flex-col justify-center">
+        <PanelHeader>
+          <Icon type={IconType.ChartPieAlt} />
+          {i18n('ActivityPageDailyActivityTab_TopFiveActiveWebsites', { date })}
+        </PanelHeader>
+        {totalDailyActivity > MINUTE_IN_MS ? (
+          <div className="[&>canvas]:max-h-[150px]">
+            <ActivityDoughnutChart
+              datasetLabel={date}
+              activity={activityByDate}
+              isDarkMode={isDarkMode}
+            />
+          </div>
+        ) : (
+          <div className="text-center text-neutral-800">
+            {i18n('ActivityPageDailyActivityTab_EmptyActivity')}
+          </div>
+        )}
+      </Panel>
       <div ref={scrollToRef}>
-        <GeneralTimeline
-          title="Activity Timeline"
+        <ActivityTimeline
+          title={activityTimelineHeader}
           activityTimeline={activityTimeline}
-          filteredHostname={filteredHostname}
           isDarkMode={isDarkMode}
         />
       </div>
       <WebsiteActivityTable
-        websiteTimeMap={dailyActiveWebsites}
+        title={i18n('ActivityPageDailyActivityTab_WebsiteActivityTableHeader')}
+        websiteTimeMap={activityByDate}
         onDomainRowClicked={handleDomainRowClick}
       />
     </>

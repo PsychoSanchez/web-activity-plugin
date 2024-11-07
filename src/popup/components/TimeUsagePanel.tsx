@@ -2,33 +2,32 @@ import * as React from 'react';
 
 import { Icon, IconType } from '@shared/blocks/Icon';
 import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
+import { i18n } from '@shared/services/i18n';
 import { getMinutesInMs, getTimeWithoutSeconds } from '@shared/utils/date';
 
 export interface TimeUsagePanelProps {
-  title?: string;
+  title: string;
   averageTime?: number;
-  averageTimeComparedTo?: string;
-  time: number;
+  totalActivityTime: number;
 }
 
-const COMPONENT_TITLE = 'Daily Usage';
 const MINUTE_IN_MS = getMinutesInMs(1);
 
-const LOWER_SPAN = <span className="text-green-600">lower</span>;
-const HIGHER_SPAN = <span className="text-red-600">higher</span>;
+const LOWER_SPAN = (
+  <span className="text-green-600">{i18n('TimeUsagePanel_LowerSpan')}</span>
+);
+const HIGHER_SPAN = (
+  <span className="text-red-600">{i18n('TimeUsagePanel_HigherSpan')}</span>
+);
 
-const presentWeekComparison = (
-  time: number,
-  averageTime: number,
-  averageTimeComparedTo: string,
-) => {
+const presentWeekComparison = (time: number, averageTime: number) => {
   const percent = Math.round((time / averageTime) * 100 - 100);
 
   return (
     <span>
       <span>{Math.abs(percent)} % </span>
       {percent < 0 ? LOWER_SPAN : HIGHER_SPAN}
-      <span> than {averageTimeComparedTo}</span>
+      <span>{' ' + i18n('TimeUsagePanel_ThanAverageSpan')}</span>
     </span>
   );
 };
@@ -42,9 +41,8 @@ const presentTotalDailyActivity = (totalDailyActivity: number) => {
 };
 
 export const TimeUsagePanel: React.FC<TimeUsagePanelProps> = ({
-  title = COMPONENT_TITLE,
-  averageTimeComparedTo = 'average',
-  time,
+  title,
+  totalActivityTime: time,
   averageTime = 0,
 }) => {
   return (
@@ -58,9 +56,11 @@ export const TimeUsagePanel: React.FC<TimeUsagePanelProps> = ({
         {averageTime > 0 && (
           <span className="flex flex-col text-xs items-end">
             <span className="font-light text-xs">
-              7 days average: {presentTotalDailyActivity(averageTime)}
+              {i18n('TimeUsagePanel_7DayAverageTime', {
+                time: presentTotalDailyActivity(averageTime),
+              })}
             </span>
-            {presentWeekComparison(time, averageTime, averageTimeComparedTo)}
+            {presentWeekComparison(time, averageTime)}
           </span>
         )}
       </PanelBody>
