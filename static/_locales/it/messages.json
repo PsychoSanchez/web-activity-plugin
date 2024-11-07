@@ -1,0 +1,164 @@
+{
+    "error": {
+        "message": "Errore: $details$",
+        "placeholders": {
+            "details": {
+                "content": "$1"
+            }
+        }
+    },
+    "TimeUsagePanel_7DayAverageTime": {
+        "message": "Media 7 giorni: $time$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "TimeUsagePanel_LowerSpan": {
+        "message": "inferiore"
+    },
+    "TimeUsagePanel_HigherSpan": {
+        "message": "superiore"
+    },
+    "TimeUsagePanel_ThanAverageSpan": {
+        "message": "rispetto alla media"
+    },
+    "ActivityPageDailyActivityTab_TimeUsagePanelHeader": {
+        "message": "Utilizzo giornaliero"
+    },
+    "ActivityPageDailyActivityTab_EmptyActivity": {
+        "message": "Niente da vedere qui per ora..."
+    },
+    "ActivityPageDailyActivityTab_ActivityTimelineHeader": {
+        "message": "Cronologia Attività"
+    },
+    "ActivityPageDailyActivityTab_ActivityTimelineHeaderOnHostname": {
+        "message": "Cronologia Attività su $hostname$",
+        "placeholders": {
+            "hostname": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityPageDailyActivityTab_TopFiveActiveWebsites": {
+        "message": "Top 5 Siti Attivi il $date$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityTable_NoDataAvailable": {
+        "message": "Nessun dato disponibile"
+    },
+    "ActivityTable_ClickToFilterHint": {
+        "message": "Clicca sul nome del sito per visualizzare le statistiche per questo sito."
+    },
+    "ActivityTable_ClickToIgnoreHintPart1": {
+        "message": "Clicca sul "
+    },
+    "ActivityTable_ClickToIgnoreHintPart2": {
+        "message": "icona per nascondere e ignorare questo sito. Puoi sempre cambiare la tua decisione nella sezione Domini ignorati."
+    },
+    "ActivityTimelineChart_NoData": {
+        "message": "Non ci sono dati di cronologia per questo giorno"
+    },
+    "ActivityPageWeeklyTab_TimeUsagePanelHeader": {
+        "message": "Attività Giornaliera Media"
+    },
+    "ActivityPageWeeklyTab_WebsiteActivityTableHeader": {
+        "message": "Siti Web Questa Settimana"
+    },
+    "ActivityPageWeeklyTab_WeeklyWebsiteActivityChartTitle": {
+        "message": "Attività su $domain$ per giorno",
+        "placeholders": {
+            "domain": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityPageWeeklyTab_AllWebsites": {
+        "message": "Tutti i Siti Web"
+    },
+    "ActivityPageDailyActivityTab_WebsiteActivityTableHeader": {
+        "message": "Siti Web Questo Giorno"
+    },
+    "WeeklyWebsiteActivityChart_ChartLabel": {
+        "message": "Attività settimanale"
+    },
+    "OverallActivityCalendar_Header": {
+        "message": "Mappa dell'Attività Generale"
+    },
+    "OverallPage_TimeUsagePanelHeader": {
+        "message": "Navigato Oggi"
+    },
+    "OverallPage_ActivityTimelineInLast6Hours": {
+        "message": "Attività nelle ultime 6 ore"
+    },
+    "OverallPage_TimeUsagePanelOnActiveWebsite": {
+        "message": "Navigato su $hostname$",
+        "placeholders": {
+            "hostname": {
+                "content": "$1"
+            }
+        }
+    },
+    "PreferencesPage_Header": {
+        "message": "Preferenze"
+    },
+    "Backup_Header": {
+        "message": "Backup"
+    },
+    "Backup_OptionCSV": {
+        "message": "Esporta in CSV"
+    },
+    "Backup_OptionJSON": {
+        "message": "Esporta in JSON"
+    },
+    "DisplayTimeOnBadge_OptionToEnable": {
+        "message": "Mostra il tempo attivo sull'icona dell'estensione"
+    },
+    "ThemeSelector_Header": {
+        "message": "Tema"
+    },
+    "ThemeSelector_OptionLight": {
+        "message": "Chiaro"
+    },
+    "ThemeSelector_OptionDark": {
+        "message": "Scuro"
+    },
+    "ThemeSelector_OptionAuto": {
+        "message": "Automatico"
+    },
+    "LimitsSetting_Header": {
+        "message": "Limiti"
+    },
+    "LimitsSetting_FeatureDescription": {
+        "message": "Aggiungi limiti di tempo alla tua attività web giornaliera su siti specifici. Una volta raggiunto il limite, il sito diventerà in bianco e nero."
+    },
+    "LimitsSetting_DomainInputLabel": {
+        "message": "Dominio"
+    },
+    "LimitsSetting_TimeLimitInputLabel": {
+        "message": "Limite di tempo"
+    },
+    "LimitsSetting_AddButton": {
+        "message": "Aggiungi"
+    },
+    "IgnoredDomainSetting_Header": {
+        "message": "Domini Ignorati"
+    },
+    "IgnoredDomainSetting_FeatureDescription": {
+        "message": "Nascondi e ignora specifici siti web dalla tua cronologia attività."
+    },
+    "IgnoredDomainSetting_DomainInputLabel": {
+        "message": "Dominio"
+    },
+    "IgnoredDomainSetting_AddButton": {
+        "message": "Aggiungi"
+    },
+    "IgnoredDomainSetting_ViewAllIgnoredDomainsLink": {
+        "message": "Visualizza tutti i domini ignorati"
+    }
+}

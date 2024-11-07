@@ -1,0 +1,164 @@
+{
+    "error": {
+        "message": "Fehler: $details$",
+        "placeholders": {
+            "details": {
+                "content": "$1"
+            }
+        }
+    },
+    "TimeUsagePanel_7DayAverageTime": {
+        "message": "7-Tage-Durchschnitt: $time$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "TimeUsagePanel_LowerSpan": {
+        "message": "niedriger"
+    },
+    "TimeUsagePanel_HigherSpan": {
+        "message": "höher"
+    },
+    "TimeUsagePanel_ThanAverageSpan": {
+        "message": "als der Durchschnitt"
+    },
+    "ActivityPageDailyActivityTab_TimeUsagePanelHeader": {
+        "message": "Tägliche Nutzung"
+    },
+    "ActivityPageDailyActivityTab_EmptyActivity": {
+        "message": "Hier gibt es noch nichts zu sehen..."
+    },
+    "ActivityPageDailyActivityTab_ActivityTimelineHeader": {
+        "message": "Aktivitätsverlauf"
+    },
+    "ActivityPageDailyActivityTab_ActivityTimelineHeaderOnHostname": {
+        "message": "Aktivitätsverlauf auf $hostname$",
+        "placeholders": {
+            "hostname": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityPageDailyActivityTab_TopFiveActiveWebsites": {
+        "message": "Top 5 aktive Seiten am $date$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityTable_NoDataAvailable": {
+        "message": "Keine Daten verfügbar"
+    },
+    "ActivityTable_ClickToFilterHint": {
+        "message": "Klicken Sie auf den Namen der Website, um die Statistiken für diese Website anzuzeigen."
+    },
+    "ActivityTable_ClickToIgnoreHintPart1": {
+        "message": "Klicken Sie auf das "
+    },
+    "ActivityTable_ClickToIgnoreHintPart2": {
+        "message": "Symbol, um diese Website zu verbergen und zu ignorieren. Sie können Ihre Entscheidung jederzeit im Bereich Ignorierte Domains ändern."
+    },
+    "ActivityTimelineChart_NoData": {
+        "message": "Keine Verlaufsdaten für diesen Tag verfügbar"
+    },
+    "ActivityPageWeeklyTab_TimeUsagePanelHeader": {
+        "message": "Durchschnittliche tägliche Aktivität"
+    },
+    "ActivityPageWeeklyTab_WebsiteActivityTableHeader": {
+        "message": "Websites dieser Woche"
+    },
+    "ActivityPageWeeklyTab_WeeklyWebsiteActivityChartTitle": {
+        "message": "Aktivität auf $domain$ pro Tag",
+        "placeholders": {
+            "domain": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityPageWeeklyTab_AllWebsites": {
+        "message": "Alle Websites"
+    },
+    "ActivityPageDailyActivityTab_WebsiteActivityTableHeader": {
+        "message": "Websites an diesem Tag"
+    },
+    "WeeklyWebsiteActivityChart_ChartLabel": {
+        "message": "Wöchentliche Aktivität"
+    },
+    "OverallActivityCalendar_Header": {
+        "message": "Gesamtaktivitätskarte"
+    },
+    "OverallPage_TimeUsagePanelHeader": {
+        "message": "Heute besucht"
+    },
+    "OverallPage_ActivityTimelineInLast6Hours": {
+        "message": "Aktivität in den letzten 6 Stunden"
+    },
+    "OverallPage_TimeUsagePanelOnActiveWebsite": {
+        "message": "Besucht auf $hostname$",
+        "placeholders": {
+            "hostname": {
+                "content": "$1"
+            }
+        }
+    },
+    "PreferencesPage_Header": {
+        "message": "Einstellungen"
+    },
+    "Backup_Header": {
+        "message": "Sicherung"
+    },
+    "Backup_OptionCSV": {
+        "message": "Exportieren nach CSV"
+    },
+    "Backup_OptionJSON": {
+        "message": "Exportieren nach JSON"
+    },
+    "DisplayTimeOnBadge_OptionToEnable": {
+        "message": "Aktive Zeit auf dem Erweiterungssymbol anzeigen"
+    },
+    "ThemeSelector_Header": {
+        "message": "Thema"
+    },
+    "ThemeSelector_OptionLight": {
+        "message": "Hell"
+    },
+    "ThemeSelector_OptionDark": {
+        "message": "Dunkel"
+    },
+    "ThemeSelector_OptionAuto": {
+        "message": "Automatisch"
+    },
+    "LimitsSetting_Header": {
+        "message": "Grenzen"
+    },
+    "LimitsSetting_FeatureDescription": {
+        "message": "Fügen Sie Zeitlimits für Ihre tägliche Webaktivität auf bestimmten Websites hinzu. Sobald das Limit erreicht ist, wird die Website schwarz-weiß angezeigt."
+    },
+    "LimitsSetting_DomainInputLabel": {
+        "message": "Domain"
+    },
+    "LimitsSetting_TimeLimitInputLabel": {
+        "message": "Zeitlimit"
+    },
+    "LimitsSetting_AddButton": {
+        "message": "Hinzufügen"
+    },
+    "IgnoredDomainSetting_Header": {
+        "message": "Ignorierte Domains"
+    },
+    "IgnoredDomainSetting_FeatureDescription": {
+        "message": "Bestimmte Websites in Ihrem Aktivitätsverlauf ausblenden und ignorieren."
+    },
+    "IgnoredDomainSetting_DomainInputLabel": {
+        "message": "Domain"
+    },
+    "IgnoredDomainSetting_AddButton": {
+        "message": "Hinzufügen"
+    },
+    "IgnoredDomainSetting_ViewAllIgnoredDomainsLink": {
+        "message": "Alle ignorierten Domains anzeigen"
+    }
+}
