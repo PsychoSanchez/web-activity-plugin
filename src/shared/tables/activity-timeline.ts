@@ -11,7 +11,7 @@ export async function getActivityTimeline(isoDate: string) {
   return db.getAllFromIndex(TimeTrackerStoreTables.Timeline, 'date', isoDate);
 }
 
-export async function getAllActivityTimeline() {
+export async function getFullActivityTimeline() {
   const db = await connect();
 
   return db.getAll(TimeTrackerStoreTables.Timeline);

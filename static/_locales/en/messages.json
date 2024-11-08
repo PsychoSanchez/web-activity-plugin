@@ -1,0 +1,217 @@
+{
+    "error": {
+        "message": "Error: $details$",
+        "description": "Generic error template. Expects error parameter to be passed in.",
+        "placeholders": {
+            "details": {
+                "content": "$1",
+                "example": "Failed to fetch RSS feed."
+            }
+        }
+    },
+    "TimeUsagePanel_7DayAverageTime": {
+        "message": "7 day average: $time$",
+        "description": "7 day average 2hr 30m",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "1h 30m"
+            }
+        }
+    },
+    "TimeUsagePanel_LowerSpan": {
+        "message": "lower",
+        "description": "Text in between two time spans",
+        "example": "20% lower than"
+    },
+    "TimeUsagePanel_HigherSpan": {
+        "message": "higher",
+        "description": "Text in between two time spans",
+        "example": "20% higher than"
+    },
+    "TimeUsagePanel_ThanAverageSpan": {
+        "message": "than average",
+        "description": "Text in between two time spans",
+        "example": "20% higher than average"
+    },
+    "ActivityPageDailyActivityTab_TimeUsagePanelHeader": {
+        "message": "Daily usage",
+        "description": "Header for daily usage panel"
+    },
+    "ActivityPageDailyActivityTab_EmptyActivity": {
+        "message": "Nothing to see here yet...",
+        "description": "Empty state message for daily activity tab"
+    },
+    "ActivityPageDailyActivityTab_ActivityTimelineHeader": {
+        "message": "Activity Timeline",
+        "description": "Header for activity timeline"
+    },
+    "ActivityPageDailyActivityTab_ActivityTimelineHeaderOnHostname": {
+        "message": "Activity Timeline On $hostname$",
+        "description": "Header for activity timeline",
+        "placeholders": {
+            "hostname": {
+                "content": "$1",
+                "example": "example.com"
+            }
+        }
+    },
+    "ActivityPageDailyActivityTab_TopFiveActiveWebsites": {
+        "message": "Top 5 Active Sites on $date$",
+        "description": "Top 5 Active Sites on 2021-01-01",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "2021-01-01"
+            }
+        }
+    },
+    "ActivityTable_NoDataAvailable": {
+        "message": "No data available",
+        "description": "Message displayed when no data is available for the table"
+    },
+    "ActivityTable_ClickToFilterHint": {
+        "message": "Click on the website name to view stats for this website.",
+        "description": "Hint displayed when hovering over the website name in the table"
+    },
+    "ActivityTable_ClickToIgnoreHintPart1": {
+        "message": "Click on the ",
+        "description": "Part 1 of the hint displayed when hovering over the website name in the table"
+    },
+    "ActivityTable_ClickToIgnoreHintPart2": {
+        "message": "icon to hide and ignore this website. You can always change your decision it in the Ignored domains section.",
+        "description": "Part 2 of the hint displayed when hovering over the website name in the table"
+    },
+    "ActivityTimelineChart_NoData": {
+        "message": "Don't have timeline data for this day",
+        "description": "Message displayed when no timeline data is available for the day"
+    },
+    "ActivityPageWeeklyTab_TimeUsagePanelHeader": {
+        "message": "Average Daily Activity",
+        "description": "Header for weekly usage panel"
+    },
+    "ActivityPageWeeklyTab_WebsiteActivityTableHeader": {
+        "message": "Websites This Week",
+        "description": "Header for website activity table"
+    },
+    "ActivityPageWeeklyTab_WeeklyWebsiteActivityChartTitle": {
+        "message": "Activity on $domain$ per day",
+        "description": "Activity on example.com per day",
+        "placeholders": {
+            "domain": {
+                "content": "$1",
+                "example": "example.com"
+            }
+        }
+    },
+    "ActivityPageWeeklyTab_AllWebsites": {
+        "message": "All Websites",
+        "description": "All Websites"
+    },
+    "ActivityPageDailyActivityTab_WebsiteActivityTableHeader": {
+        "message": "Websites This Day",
+        "description": "Header for website activity table"
+    },
+    "WeeklyWebsiteActivityChart_ChartLabel": {
+        "message": "Weekly activity",
+        "description": "Label for weekly activity chart"
+    },
+    "OverallActivityCalendar_Header": {
+        "message": "Overall Activity Map",
+        "description": "Header for overall activity calendar"
+    },
+    "OverallPage_TimeUsagePanelHeader": {
+        "message": "Surfed Today",
+        "description": "Header for overall usage panel"
+    },
+    "OverallPage_ActivityTimelineInLast6Hours": {
+        "message": "Activity in last 6 hours",
+        "description": "Header for activity timeline"
+    },
+    "OverallPage_TimeUsagePanelOnActiveWebsite": {
+        "message": "Surfed on $hostname$",
+        "description": "Header for overall usage panel",
+        "placeholders": {
+            "hostname": {
+                "content": "$1",
+                "example": "example.com"
+            }
+        }
+    },
+    "PreferencesPage_Header": {
+        "message": "Preferences",
+        "description": "Header for preferences page"
+    },
+    "Backup_Header": {
+        "message": "Backup",
+        "description": "Header for backup page"
+    },
+    "Backup_OptionCSV": {
+        "message": "Export to CSV",
+        "description": "Option to export data to CSV"
+    },
+    "Backup_OptionJSON": {
+        "message": "Export to JSON",
+        "description": "Option to export data to JSON"
+    },
+    "DisplayTimeOnBadge_OptionToEnable": {
+        "message": "Display active time on the extension icon",
+        "description": "Option to enable display of active time on the extension icon"
+    },
+    "ThemeSelector_Header": {
+        "message": "Theme",
+        "description": "Header for theme selector"
+    },
+    "ThemeSelector_OptionLight": {
+        "message": "Light",
+        "description": "Option for light theme"
+    },
+    "ThemeSelector_OptionDark": {
+        "message": "Dark",
+        "description": "Option for dark theme"
+    },
+    "ThemeSelector_OptionAuto": {
+        "message": "Auto",
+        "description": "Option for dark theme"
+    },
+    "LimitsSetting_Header": {
+        "message": "Limits",
+        "description": "Header for limits setting"
+    },
+    "LimitsSetting_FeatureDescription": {
+        "message": "Add time limits to your daily web activity on specific websites. Once limit reached website will become black and white.",
+        "description": "Description for limits setting"
+    },
+    "LimitsSetting_DomainInputLabel": {
+        "message": "Domain",
+        "description": "Domain label for input"
+    },
+    "LimitsSetting_TimeLimitInputLabel": {
+        "message": "Time limit",
+        "description": "Time limit label for input"
+    },
+    "LimitsSetting_AddButton": {
+        "message": "Add",
+        "description": "Add button"
+    },
+    "IgnoredDomainSetting_Header": {
+        "message": "Ignored Domains",
+        "description": "Header for ignored domains setting"
+    },
+    "IgnoredDomainSetting_FeatureDescription": {
+        "message": "Hide and ignore specific websites from your activity timeline.",
+        "description": "Description for ignored domains setting"
+    },
+    "IgnoredDomainSetting_DomainInputLabel": {
+        "message": "Domain",
+        "description": "Domain label for input"
+    },
+    "IgnoredDomainSetting_AddButton": {
+        "message": "Add",
+        "description": "Add button"
+    },
+    "IgnoredDomainSetting_ViewAllIgnoredDomainsLink": {
+        "message": "View all ignored domains",
+        "description": "Link to view all ignored domains"
+    }
+}

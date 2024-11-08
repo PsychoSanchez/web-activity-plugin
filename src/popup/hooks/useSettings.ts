@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { DeepReadonly } from 'utility-types';
 
 import { Preferences } from '@shared/db/types';
 import {
@@ -9,7 +10,7 @@ import {
 
 export const useSettings = () => {
   const [settings, setCachedSettings] =
-    React.useState<Preferences>(DEFAULT_PREFERENCES);
+    React.useState<DeepReadonly<Preferences>>(DEFAULT_PREFERENCES);
 
   React.useEffect(() => {
     getSettings().then(setCachedSettings);
@@ -18,7 +19,7 @@ export const useSettings = () => {
   const updateSettings = React.useCallback(
     async (updates: Partial<Preferences>) => {
       await setSettings(updates);
-      setCachedSettings((set) => ({ ...set, ...updates }));
+      setCachedSettings((prev) => ({ ...prev, ...updates }));
     },
     [],
   );

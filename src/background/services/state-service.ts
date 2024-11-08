@@ -1,3 +1,5 @@
+import { DeepReadonly } from 'utility-types';
+
 import { ActiveTabState } from '@shared/db/types';
 import { isUserDraggingWindowError } from '@shared/services/browser-api/errors';
 import type {
@@ -97,7 +99,7 @@ export const handleTabUpdate = async (tab: Tab) => {
 
 export const handleWindowFocusChange = async (
   windowId: number,
-): Promise<ActiveTabState> => {
+): Promise<DeepReadonly<ActiveTabState>> => {
   try {
     const focusedActiveTab = await getActiveTabFromWindowId(windowId);
 

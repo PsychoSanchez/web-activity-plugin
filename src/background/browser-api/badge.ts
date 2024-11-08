@@ -4,7 +4,7 @@ import { ignore } from '@shared/utils/errors';
 export const setActionBadge = async ({
   tabId,
   text,
-  color = '#4b76e3',
+  color,
 }: {
   tabId: number;
   text: string;

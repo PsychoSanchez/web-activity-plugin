@@ -6,12 +6,19 @@ const config: StorybookConfig = {
     '@storybook/addon-webpack5-compiler-swc',
     '@storybook/addon-essentials',
     '@storybook/addon-styling-webpack',
+    '@storybook/addon-themes',
   ],
   framework: {
     name: '@storybook/react-webpack5',
     options: {},
   },
-  webpackFinal: async (config) => {
+  env(config) {
+    return {
+      ...config,
+      ENV: 'storybook',
+    };
+  },
+  webpackFinal: (config) => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const path = require('path');
     // eslint-disable-next-line @typescript-eslint/no-require-imports

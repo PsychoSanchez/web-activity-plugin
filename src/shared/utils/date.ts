@@ -1,3 +1,5 @@
+import { IsoDate } from '@shared/types';
+
 const SECOND_IN_MS = 1000;
 const MINUTE_IN_MS = 60 * SECOND_IN_MS;
 const HOUR_IN_MS = 60 * MINUTE_IN_MS;
@@ -6,15 +8,21 @@ const WEEK_IN_MS = 7 * DAY_IN_MS;
 const MONTH_IN_MS = 30 * DAY_IN_MS;
 const YEAR_IN_MS = 365 * DAY_IN_MS;
 
-export const getIsoDate = (date: Date = new Date()) => {
+export const getIsoDate = (date: Date = new Date()): IsoDate => {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
 
-  const isoDate = `${year}-${month}-${day}`;
+  const isoDate = `${year}-${month}-${day}` as IsoDate;
 
   return isoDate;
 };
+
+export function assertIsIsoDate(date: string): asserts date is IsoDate {
+  if (!date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    throw new Error('assertIsIsoDate: Invalid date format');
+  }
+}
 
 export const getMinutesInMs = (number: number) => number * MINUTE_IN_MS;
 export const getHoursInMs = (number: number) => number * HOUR_IN_MS;
@@ -72,7 +80,8 @@ export const getTimeWithoutSeconds = (number: number) => {
 
 const DEFAULT_DATE_TRANSFORMER = (date: Date) => new Date(date);
 
-export const get7DaysPriorDate = <
+export const generatePrior7DaysDates = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- T is a generic
   T extends (date: Date) => any = (date: Date) => Date,
 >(
   date: Date,
@@ -85,6 +94,7 @@ export const get7DaysPriorDate = <
   });
 
 export const rangeDaysAgo = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- T is a generic
   DateTransformer extends (date: Date) => any = (date: Date) => Date,
 >({
   from: date,
@@ -125,3 +135,39 @@ export const presentHoursOrMinutesFromMinutes = (minutes: number) => {
 
   return `${hoursRounded - 0.5}h`;
 };
+
+export const today = () => new Date();
+export const yesterday = () => {
+  const date = new Date();
+  date.setDate(date.getDate() - 1);
+
+  return date;
+};
+export const tomorrow = () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+
+  return date;
+};
+
+export const daysAgo = (date: Date, days: number) => {
+  const daysAgoDate = new Date(date);
+  daysAgoDate.setDate(daysAgoDate.getDate() - days);
+
+  return daysAgoDate;
+};
+
+export const weeksBefore = (date: Date, weeks: number) => {
+  const weeksBeforeDate = new Date(date);
+  weeksBeforeDate.setDate(weeksBeforeDate.getDate() - weeks * 7);
+
+  return weeksBeforeDate;
+};
+
+export class PredefinedIsoDates {
+  static today = getIsoDate(today());
+  static yesterday = getIsoDate(yesterday());
+  static tomorrow = getIsoDate(tomorrow());
+  static lastWeek = getIsoDate(weeksBefore(today(), 1));
+  static lastMonth = getIsoDate(daysAgo(today(), 30));
+}

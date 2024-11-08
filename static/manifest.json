@@ -1,6 +1,7 @@
 {
   "name": "BroTime",
   "manifest_version": 3,
+  "default_locale": "en",
   "action": {
     "default_popup": "popup.html",
     "default_title": "BroTime",

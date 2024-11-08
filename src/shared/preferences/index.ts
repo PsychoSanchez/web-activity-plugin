@@ -1,12 +1,16 @@
-import { Preferences } from '../db/types';
+import { DeepReadonly } from 'utility-types';
 
-export const DEFAULT_PREFERENCES: Preferences = {
+import { Preferences } from '@shared/db/types';
+
+export const DEFAULT_PREFERENCES: DeepReadonly<Preferences> = {
   ignoredHosts: [],
   limits: {},
   displayTimeOnBadge: true,
 };
 
-export const setSettings = async (settings: Partial<Preferences>) => {
+export const setSettings = async (
+  settings: Partial<DeepReadonly<Preferences>>,
+) => {
   const currentSettings = await getSettings();
 
   await chrome.storage.local.set({
@@ -14,10 +18,10 @@ export const setSettings = async (settings: Partial<Preferences>) => {
   });
 };
 
-export const getSettings = async () => {
+export const getSettings = async (): Promise<DeepReadonly<Preferences>> => {
   const { settings = {} } = await chrome.storage.local.get('settings');
   return {
     ...DEFAULT_PREFERENCES,
     ...settings,
-  } as Preferences;
+  };
 };

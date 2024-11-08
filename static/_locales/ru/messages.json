@@ -1,0 +1,164 @@
+{
+    "error": {
+        "message": "Ошибка: $details$",
+        "placeholders": {
+            "details": {
+                "content": "$1"
+            }
+        }
+    },
+    "TimeUsagePanel_7DayAverageTime": {
+        "message": "В среднем за за 7 дней: $time$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "TimeUsagePanel_LowerSpan": {
+        "message": "меньше"
+    },
+    "TimeUsagePanel_HigherSpan": {
+        "message": "больше"
+    },
+    "TimeUsagePanel_ThanAverageSpan": {
+        "message": "чем в среднем"
+    },
+    "ActivityPageDailyActivityTab_TimeUsagePanelHeader": {
+        "message": "Ежедневное использование"
+    },
+    "ActivityPageDailyActivityTab_EmptyActivity": {
+        "message": "Пока здесь нечего смотреть..."
+    },
+    "ActivityPageDailyActivityTab_ActivityTimelineHeader": {
+        "message": "Лента активности"
+    },
+    "ActivityPageDailyActivityTab_ActivityTimelineHeaderOnHostname": {
+        "message": "Лента активности на $hostname$",
+        "placeholders": {
+            "hostname": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityPageDailyActivityTab_TopFiveActiveWebsites": {
+        "message": "Топ 5 активных сайтов за $date$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityTable_NoDataAvailable": {
+        "message": "Нет доступных данных"
+    },
+    "ActivityTable_ClickToFilterHint": {
+        "message": "Нажмите на название сайта, чтобы просмотреть статистику для этого сайта."
+    },
+    "ActivityTable_ClickToIgnoreHintPart1": {
+        "message": "Нажмите на "
+    },
+    "ActivityTable_ClickToIgnoreHintPart2": {
+        "message": "иконку, чтобы скрыть и игнорировать этот сайт. Вы всегда можете изменить свое решение в разделе Игнорируемые домены."
+    },
+    "ActivityTimelineChart_NoData": {
+        "message": "Нет данных по ленте активности на этот день"
+    },
+    "ActivityPageWeeklyTab_TimeUsagePanelHeader": {
+        "message": "Средняя дневная активность"
+    },
+    "ActivityPageWeeklyTab_WebsiteActivityTableHeader": {
+        "message": "Сайты на этой неделе"
+    },
+    "ActivityPageWeeklyTab_WeeklyWebsiteActivityChartTitle": {
+        "message": "Активность на $domain$ по дням",
+        "placeholders": {
+            "domain": {
+                "content": "$1"
+            }
+        }
+    },
+    "ActivityPageWeeklyTab_AllWebsites": {
+        "message": "Все сайты"
+    },
+    "ActivityPageDailyActivityTab_WebsiteActivityTableHeader": {
+        "message": "Сайты в этот день"
+    },
+    "WeeklyWebsiteActivityChart_ChartLabel": {
+        "message": "Еженедельная активность"
+    },
+    "OverallActivityCalendar_Header": {
+        "message": "Общая карта активности"
+    },
+    "OverallPage_TimeUsagePanelHeader": {
+        "message": "Посещено сегодня"
+    },
+    "OverallPage_ActivityTimelineInLast6Hours": {
+        "message": "Активность за последние 6 часов"
+    },
+    "OverallPage_TimeUsagePanelOnActiveWebsite": {
+        "message": "Посещено на $hostname$",
+        "placeholders": {
+            "hostname": {
+                "content": "$1"
+            }
+        }
+    },
+    "PreferencesPage_Header": {
+        "message": "Настройки"
+    },
+    "Backup_Header": {
+        "message": "Резервное копирование"
+    },
+    "Backup_OptionCSV": {
+        "message": "Экспорт в CSV"
+    },
+    "Backup_OptionJSON": {
+        "message": "Экспорт в JSON"
+    },
+    "DisplayTimeOnBadge_OptionToEnable": {
+        "message": "Отображать активное время на значке расширения"
+    },
+    "ThemeSelector_Header": {
+        "message": "Тема"
+    },
+    "ThemeSelector_OptionLight": {
+        "message": "Светлая"
+    },
+    "ThemeSelector_OptionDark": {
+        "message": "Темная"
+    },
+    "ThemeSelector_OptionAuto": {
+        "message": "Автоматическая"
+    },
+    "LimitsSetting_Header": {
+        "message": "Ограничения"
+    },
+    "LimitsSetting_FeatureDescription": {
+        "message": "Добавьте ограничения по времени на ежедневную веб-активность на конкретных сайтах. После достижения лимита сайт станет черно-белым."
+    },
+    "LimitsSetting_DomainInputLabel": {
+        "message": "Домен"
+    },
+    "LimitsSetting_TimeLimitInputLabel": {
+        "message": "Лимит времени"
+    },
+    "LimitsSetting_AddButton": {
+        "message": "Добавить"
+    },
+    "IgnoredDomainSetting_Header": {
+        "message": "Игнорируемые домены"
+    },
+    "IgnoredDomainSetting_FeatureDescription": {
+        "message": "Скрывайте и игнорируйте конкретные сайты из ленты вашей активности."
+    },
+    "IgnoredDomainSetting_DomainInputLabel": {
+        "message": "Домен"
+    },
+    "IgnoredDomainSetting_AddButton": {
+        "message": "Добавить"
+    },
+    "IgnoredDomainSetting_ViewAllIgnoredDomainsLink": {
+        "message": "Просмотреть все игнорируемые домены"
+    }
+}

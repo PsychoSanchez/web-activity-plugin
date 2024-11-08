@@ -105,3 +105,4 @@ dist
 
 .vscode
 *storybook.log
+.DS_Store
