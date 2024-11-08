@@ -12,9 +12,9 @@ import { usePopupContext } from '@popup/hooks/PopupContext';
 
 export const IgnoredDomainSetting: React.FC = () => {
   const { settings, updateSettings } = usePopupContext();
-  const [ignoredDomains, setIgnoredDomains] = React.useState<string[]>(
-    settings.ignoredHosts,
-  );
+  const [ignoredDomains, setIgnoredDomains] = React.useState<
+    Readonly<string[]>
+  >(settings.ignoredHosts);
   const [domainToIgnore, setDomainToIgnore] = React.useState<string>('');
   const [isDomainsListExpanded, setDomainsListExpanded] =
     React.useState<boolean>(false);
