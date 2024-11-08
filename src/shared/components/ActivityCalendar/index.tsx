@@ -83,7 +83,9 @@ export const ActivityCalendar: React.FC<ActivityCalendarProps> = ({
     debouncedSetCalendarTooltips(calendarRef.current, getTooltip);
   }, [getTooltip]);
 
-  const handleDateClick = React.useCallback(
+  const handleDateClick = React.useCallback<
+    NonNullable<React.ComponentProps<'div'>['onClick']>
+  >(
     (el) => {
       const target = el.target as HTMLElement;
       if (target.nodeName !== 'rect') {

@@ -15,7 +15,7 @@ function getActivityTimelineTimeInSeconds(t: TimelineRecord) {
   );
 }
 
-export const BackupSetting: React.FC = () => {
+export const BackupSetting = () => {
   const { settings } = usePopupContext();
 
   const handleExportCSV = React.useCallback(async () => {

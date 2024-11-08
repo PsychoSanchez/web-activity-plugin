@@ -6,7 +6,7 @@ import { Icon, IconType } from '@shared/blocks/Icon';
 import { i18n } from '@shared/services/i18n';
 import { ColorScheme, ThemeService } from '@shared/services/theme';
 
-export const ThemeSelector: React.FC = () => {
+export const ThemeSelector = () => {
   const [theme, setTheme] = React.useState(() => ThemeService.getAppTheme());
 
   const handleThemeChange = React.useCallback((theme: ColorScheme) => {

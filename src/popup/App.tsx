@@ -21,7 +21,7 @@ enum Pages {
 
 const PAGES_VALUES = Object.values(Pages);
 
-export const PopupApp: React.FC = () => {
+export const PopupApp = () => {
   const [activePage, setPage] = React.useState({
     tab: Pages.Overall,
     params: {} as Record<string, IsoDate>,

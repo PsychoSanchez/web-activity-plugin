@@ -10,7 +10,7 @@ import { assertIsValidHostname } from '@shared/utils/url';
 
 import { usePopupContext } from '@popup/hooks/PopupContext';
 
-export const IgnoredDomainSetting: React.FC = () => {
+export const IgnoredDomainSetting = () => {
   const { settings, updateSettings } = usePopupContext();
   const [ignoredDomains, setIgnoredDomains] = React.useState<
     Readonly<string[]>

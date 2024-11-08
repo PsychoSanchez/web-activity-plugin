@@ -20,7 +20,7 @@ export const WeekDatePicker: React.FC<WeekDatePickerProps> = ({
   }, [sundayDate]);
 
   const handleChangeWeekButtonClick = React.useCallback(
-    (direction) => {
+    (direction: 1 | -1) => {
       const newWeekEndDate = new Date(sundayDate);
       newWeekEndDate.setDate(sundayDate.getDate() + direction * 7);
 
