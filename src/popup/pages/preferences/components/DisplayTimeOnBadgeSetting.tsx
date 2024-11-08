@@ -5,7 +5,7 @@ import { i18n } from '@shared/services/i18n';
 
 import { usePopupContext } from '../../../hooks/PopupContext';
 
-export const DisplayTimeOnBadge: React.FC = () => {
+export const DisplayTimeOnBadge = () => {
   const { settings, updateSettings } = usePopupContext();
   const [isDisplayTimeOnIconChecked, setIsDisplayTimeOnIconChecked] =
     React.useState<boolean>(settings.displayTimeOnBadge);

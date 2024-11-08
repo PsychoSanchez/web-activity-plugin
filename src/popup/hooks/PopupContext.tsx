@@ -28,7 +28,7 @@ const PopupContext = React.createContext<PopupContextType>(DEFAULT_CONTEXT);
 
 export const usePopupContext = () => React.useContext(PopupContext);
 
-export const PopupContextProvider: React.FC = ({ children }) => {
+export const PopupContextProvider = ({ children }: React.PropsWithChildren) => {
   const store = useTimeStore();
   const host = useActiveTabHostname();
   const [settings, updateSettings] = useSettings();

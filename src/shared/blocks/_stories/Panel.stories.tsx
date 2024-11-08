@@ -3,9 +3,10 @@ import * as React from 'react';
 
 import { Panel, PanelHeader, PanelBody } from '../Panel';
 
-const meta: Meta = {
+const meta = {
   title: 'Block/Panel',
   component: Panel,
+  // @ts-expect-error -- broken typing for meta type
   subcomponents: { PanelHeader, PanelBody },
   parameters: {
     layout: 'centered',

@@ -9,7 +9,7 @@ import { assertIsValidHostname } from '@shared/utils/url';
 
 import { usePopupContext } from '@popup/hooks/PopupContext';
 
-export const LimitsSetting: React.FC = () => {
+export const LimitsSetting = () => {
   const { settings, updateSettings } = usePopupContext();
   const [limits, setLimits] = React.useState<Record<string, number>>(
     settings.limits,

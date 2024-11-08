@@ -5,10 +5,9 @@ interface PanelComponentClassNameProps {
   className?: string;
 }
 
-export const Panel: React.FC<PanelComponentClassNameProps> = ({
-  children,
-  className,
-}) => {
+export const Panel: React.FC<
+  React.PropsWithChildren<PanelComponentClassNameProps>
+> = ({ children, className }) => {
   return (
     <div
       className={twMerge(
@@ -21,10 +20,9 @@ export const Panel: React.FC<PanelComponentClassNameProps> = ({
   );
 };
 
-export const PanelHeader: React.FC<PanelComponentClassNameProps> = ({
-  children,
-  className,
-}) => {
+export const PanelHeader: React.FC<
+  React.PropsWithChildren<PanelComponentClassNameProps>
+> = ({ children, className }) => {
   return (
     <h2
       className={twMerge(
@@ -37,10 +35,9 @@ export const PanelHeader: React.FC<PanelComponentClassNameProps> = ({
   );
 };
 
-export const PanelBody: React.FC<PanelComponentClassNameProps> = ({
-  children,
-  className,
-}) => {
+export const PanelBody: React.FC<
+  React.PropsWithChildren<PanelComponentClassNameProps>
+> = ({ children, className }) => {
   return (
     <div className={twMerge('dark:text-neutral-200', className)}>
       {children}
