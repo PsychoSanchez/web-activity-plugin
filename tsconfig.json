@@ -1,4 +1,5 @@
 {
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "outDir": "./dist/",
     "baseUrl": "./",
@@ -17,8 +18,8 @@
     "noUncheckedIndexedAccess": true,
     "target": "ES2018",
     "lib": ["ESNext", "DOM"],
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "ES2015",
+    "moduleResolution": "Bundler",
     "jsx": "react",
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment",
