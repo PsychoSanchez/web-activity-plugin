@@ -14,7 +14,11 @@ export default {
 type Story = StoryObj<Meta<typeof AppLoadingSkeleton>>;
 
 export const Default: Story = {
-  render: () => <AppLoadingSkeleton />,
+  render: () => (
+    <div className="min-w-[600px]">
+      <AppLoadingSkeleton />
+    </div>
+  ),
   parameters: {
     layout: 'centered',
   },
