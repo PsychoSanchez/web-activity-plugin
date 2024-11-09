@@ -1,10 +1,17 @@
+import { CircleX } from 'lucide-react';
 import * as React from 'react';
 
-import { Button, ButtonType } from '@shared/blocks/Button';
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Input, Time } from '@shared/blocks/Input';
-import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
+import { Time } from '@shared/blocks/Input';
 import { i18n } from '@shared/services/i18n';
+import { Button } from '@shared/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@shared/ui/card';
+import { Input } from '@shared/ui/input';
 import { assertIsValidHostname } from '@shared/utils/url';
 
 import { usePopupContext } from '@popup/hooks/PopupContext';
@@ -79,10 +86,14 @@ export const LimitsSetting = () => {
   const limitsEntries = React.useMemo(() => Object.entries(limits), [limits]);
 
   return (
-    <Panel>
-      <PanelHeader>{i18n('LimitsSetting_Header')}</PanelHeader>
-      <PanelBody className="flex flex-col gap-2">
-        <p>{i18n('LimitsSetting_FeatureDescription')}</p>
+    <Card>
+      <CardHeader>
+        <CardTitle>{i18n('LimitsSetting_Header')}</CardTitle>
+        <CardDescription>
+          {i18n('LimitsSetting_FeatureDescription')}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2">
         <div className="flex justify-between items-end gap-2">
           <label className="flex flex-col gap-1 w-full">
             {i18n('LimitsSetting_DomainInputLabel')}
@@ -98,7 +109,6 @@ export const LimitsSetting = () => {
           </label>
           <Button
             className="h-fit py-2 px-4 border-2 border-solid border-transparent"
-            buttonType={ButtonType.Primary}
             onClick={() => handleLimitChange(domainToLimit, limit)}
           >
             {i18n('LimitsSetting_AddButton')}
@@ -111,10 +121,10 @@ export const LimitsSetting = () => {
                 key={domain}
                 className="flex justify-between items-center gap-2"
               >
-                <Icon
-                  type={IconType.Close}
-                  className="hover:text-neutral-400 cursor-pointer"
+                <CircleX
+                  className="hover:text-red-500 cursor-pointer"
                   onClick={() => handleLimitRemove(domain)}
+                  size={16}
                 />
                 <span className="flex-1">{domain}</span>
                 {/* Present time limit from number in minutes to 1h 30m */}
@@ -125,7 +135,7 @@ export const LimitsSetting = () => {
             ))}
           </div>
         ) : null}
-      </PanelBody>
-    </Panel>
+      </CardContent>
+    </Card>
   );
 };

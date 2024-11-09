@@ -1,11 +1,17 @@
+import { CircleX } from 'lucide-react';
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { Button, ButtonType } from '@shared/blocks/Button';
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Input } from '@shared/blocks/Input';
-import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { i18n } from '@shared/services/i18n';
+import { Button } from '@shared/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@shared/ui/card';
+import { Input } from '@shared/ui/input';
 import { assertIsValidHostname } from '@shared/utils/url';
 
 import { usePopupContext } from '@popup/hooks/PopupContext';
@@ -67,10 +73,14 @@ export const IgnoredDomainSetting = () => {
   }, [setDomainsListExpanded]);
 
   return (
-    <Panel>
-      <PanelHeader>{i18n('IgnoredDomainSetting_Header')}</PanelHeader>
-      <PanelBody className="flex flex-col gap-2">
-        <p>{i18n('IgnoredDomainSetting_FeatureDescription')}</p>
+    <Card>
+      <CardHeader>
+        <CardTitle>{i18n('IgnoredDomainSetting_Header')}</CardTitle>
+        <CardDescription>
+          {i18n('IgnoredDomainSetting_FeatureDescription')}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2">
         <div className="flex justify-between items-end gap-2">
           <label className="flex flex-col gap-1 w-full">
             {i18n('IgnoredDomainSetting_DomainInputLabel')}
@@ -82,7 +92,6 @@ export const IgnoredDomainSetting = () => {
           </label>
           <Button
             className="h-fit py-2 px-4 border-2 border-solid border-transparent"
-            buttonType={ButtonType.Primary}
             onClick={handleAddIgnoredDomain}
           >
             {i18n('IgnoredDomainSetting_AddButton')}
@@ -98,21 +107,23 @@ export const IgnoredDomainSetting = () => {
           </a>
           <div className={twMerge('hidden', isDomainsListExpanded && 'block')}>
             {!ignoredDomains.length && (
-              <p className="text-gray-500">No ignored domains</p>
+              <p className="text-gray-500">
+                {i18n('IgnoredDomainSetting_NoIgnoredDomains')}
+              </p>
             )}
             {ignoredDomains.map((domain) => (
               <div key={domain} className="flex items-center gap-2">
-                <Icon
-                  type={IconType.Close}
-                  className="hover:text-neutral-400 cursor-pointer"
+                <CircleX
+                  className="hover:text-red-500 cursor-pointer"
                   onClick={() => handleRemoveIgnoredDomain(domain)}
+                  size={16}
                 />
                 <span>{domain}</span>
               </div>
             ))}
           </div>
         </div>
-      </PanelBody>
-    </Panel>
+      </CardContent>
+    </Card>
   );
 };

@@ -1,7 +1,7 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import * as React from 'react';
 
-import { Button, ButtonType } from '@shared/blocks/Button';
-import { Icon, IconType } from '@shared/blocks/Icon';
+import { Button } from '@shared/ui/button';
 import { getIsoDate } from '@shared/utils/date';
 
 export interface WeekDatePickerProps {
@@ -32,10 +32,11 @@ export const WeekDatePicker: React.FC<WeekDatePickerProps> = ({
   return (
     <div className="flex flex-1 justify-between items-center">
       <Button
-        buttonType={ButtonType.Secondary}
+        variant="outline"
+        size="icon"
         onClick={() => handleChangeWeekButtonClick(-1)}
       >
-        <Icon className="m-0 flex" type={IconType.LeftArrow} />
+        <ChevronLeft />
       </Button>
       <div className="break-words break-all text-sm min-w-[120px] text-center dark:text-neutral-300">
         <span>{getIsoDate(weekStartDate)}</span>
@@ -43,10 +44,11 @@ export const WeekDatePicker: React.FC<WeekDatePickerProps> = ({
         <span>{getIsoDate(sundayDate)}</span>
       </div>
       <Button
-        buttonType={ButtonType.Secondary}
+        variant="outline"
+        size="icon"
         onClick={() => handleChangeWeekButtonClick(1)}
       >
-        <Icon className="m-0 flex" type={IconType.RightArrow} />
+        <ChevronRight />
       </Button>
     </div>
   );

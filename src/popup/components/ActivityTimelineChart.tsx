@@ -1,10 +1,10 @@
+import { Activity } from 'lucide-react';
 import * as React from 'react';
 
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { TimelineChart } from '@shared/components/TimelineChart';
 import { TimelineRecord } from '@shared/db/types';
 import { i18n } from '@shared/services/i18n';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
 
 export interface ActivityTimelineChartProps {
   title: string;
@@ -20,14 +20,16 @@ const ActivityTimelineChartFC: React.FC<ActivityTimelineChartProps> = ({
   isDarkMode,
 }) => {
   return (
-    <Panel>
-      <PanelHeader>
-        <Icon type={IconType.TimePast} />
-        {title}
-      </PanelHeader>
-      <PanelBody
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex gap-2">
+          <Activity size={16} />
+          {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent
         className={
-          'relative flex items-center justify-center min-h-[215px] h-[215px] transition-opacity duration-300'
+          'relative flex items-center justify-center min-h-[215px] h-[215px] duration-300'
         }
       >
         {activityTimeline.length ? (
@@ -37,16 +39,12 @@ const ActivityTimelineChartFC: React.FC<ActivityTimelineChartProps> = ({
             isDarkMode={isDarkMode}
           />
         ) : (
-          <span
-            className={
-              'text-neutral-400 top-2 left-2 transition-opacity duration-75'
-            }
-          >
+          <span className={'text-neutral-400 top-2 left-2 duration-75'}>
             {i18n('ActivityTimelineChart_NoData')}
           </span>
         )}
-      </PanelBody>
-    </Panel>
+      </CardContent>
+    </Card>
   );
 };
 

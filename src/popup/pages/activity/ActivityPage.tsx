@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Button, ButtonType } from '@shared/blocks/Button';
-import { Panel } from '@shared/blocks/Panel';
 import { IsoDate } from '@shared/types';
+import { Button } from '@shared/ui/button';
+import { Card } from '@shared/ui/card';
 import { getDatesWeekSundayDate, getIsoDate } from '@shared/utils/date';
 
 import { DatePicker } from '@popup/components/DatePicker';
@@ -42,9 +42,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
 
       return (
         <Button
-          buttonType={
-            activeTab === value ? ButtonType.Primary : ButtonType.Secondary
-          }
+          variant={activeTab === value ? 'default' : 'outline'}
           onClick={() => setActiveTab(value)}
           key={key}
         >
@@ -55,8 +53,8 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
   }, [activeTab]);
 
   return (
-    <>
-      <Panel className="flex items-center justify-between p-2 gap-2">
+    <div className="flex flex-col gap-2">
+      <Card className="flex items-center justify-between p-2 gap-2 bg-muted">
         <div className="flex gap-2">{tabs}</div>
         {activeTab === ActivityPageTabs.Daily && (
           <DatePicker date={pickedIsoDate} onChange={setPickedIsoDate} />
@@ -67,7 +65,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
             onWeekChange={setPickedSunday}
           />
         )}
-      </Panel>
+      </Card>
 
       {activeTab === ActivityPageTabs.Daily && (
         <DailyActivityTab store={store} date={pickedIsoDate} />
@@ -76,6 +74,6 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({
       {activeTab === ActivityPageTabs.Weekly && (
         <WeeklyActivityTab store={store} sundayDate={pickedSunday} />
       )}
-    </>
+    </div>
   );
 };

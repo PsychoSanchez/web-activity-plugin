@@ -1,8 +1,8 @@
+import { History } from 'lucide-react';
 import * as React from 'react';
 
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { i18n } from '@shared/services/i18n';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
 import { getMinutesInMs, getTimeWithoutSeconds } from '@shared/utils/date';
 
 export interface TimeUsagePanelProps {
@@ -46,12 +46,14 @@ export const TimeUsagePanel: React.FC<TimeUsagePanelProps> = ({
   averageTime = 0,
 }) => {
   return (
-    <Panel>
-      <PanelHeader>
-        <Icon type={IconType.TimeCheck} />
-        {title}
-      </PanelHeader>
-      <PanelBody className="flex justify-between items-center text-3xl">
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex gap-2">
+          <History size={16} />
+          {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex justify-between items-center text-3xl">
         <span className="font-light">{presentTotalDailyActivity(time)}</span>
         {averageTime > 0 && (
           <span className="flex flex-col text-xs items-end">
@@ -63,7 +65,7 @@ export const TimeUsagePanel: React.FC<TimeUsagePanelProps> = ({
             {presentWeekComparison(time, averageTime)}
           </span>
         )}
-      </PanelBody>
-    </Panel>
+      </CardContent>
+    </Card>
   );
 };
