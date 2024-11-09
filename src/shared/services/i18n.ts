@@ -13,19 +13,28 @@ export const i18n = <T extends keyof I18n>(
 ) => {
   const values = placeholders[0];
   if (chrome?.i18n?.getMessage) {
-    return chrome.i18n.getMessage(
-      message,
-      values ? Object.values(values) : undefined,
+    return (
+      chrome.i18n.getMessage(
+        message,
+        values ? Object.values(values) : undefined,
+      ) ?? getMessageFromFallback(message, values)
     );
   }
 
+  return getMessageFromFallback(message, values);
+};
+
+function getMessageFromFallback<T extends keyof I18n>(
+  message: T,
+  values?: Record<string, string>,
+) {
   const messageTemplate = fallback[message].message;
   if (!values) {
     return messageTemplate;
   }
 
   return formatI18NMessage(messageTemplate, values);
-};
+}
 
 export function formatI18NMessage(
   message: string,

@@ -4,6 +4,7 @@ import { DeepReadonly } from 'utility-types';
 import { Preferences } from '@shared/db/types';
 import { DEFAULT_PREFERENCES } from '@shared/preferences';
 
+import { AppLoadingSkeleton } from '@popup/components/AppLoadingSkeleton';
 import { getFilteredWebsiteTimeStoreSlice } from '@popup/services/time-store';
 
 import { useActiveTabHostname } from './useActiveTab';
@@ -29,7 +30,7 @@ const PopupContext = React.createContext<PopupContextType>(DEFAULT_CONTEXT);
 export const usePopupContext = () => React.useContext(PopupContext);
 
 export const PopupContextProvider = ({ children }: React.PropsWithChildren) => {
-  const store = useTimeStore();
+  const [store, isLoaded] = useTimeStore();
   const host = useActiveTabHostname();
   const [settings, updateSettings] = useSettings();
 
@@ -51,7 +52,7 @@ export const PopupContextProvider = ({ children }: React.PropsWithChildren) => {
         updateSettings,
       }}
     >
-      {children}
+      {isLoaded ? children : <AppLoadingSkeleton />}
     </PopupContext.Provider>
   );
 };
