@@ -1,9 +1,8 @@
+import { Settings } from 'lucide-react';
 import * as React from 'react';
-import { twMerge } from 'tailwind-merge';
 
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Panel } from '@shared/blocks/Panel';
 import { IsoDate } from '@shared/types';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 
 import { PopupContextProvider } from '@popup/hooks/PopupContext';
 import { ActivityPage } from '@popup/pages/activity/ActivityPage';
@@ -18,8 +17,6 @@ enum Pages {
   Detailed = 'detailed',
   Preferences = 'preferences',
 }
-
-const PAGES_VALUES = Object.values(Pages);
 
 export const PopupApp = () => {
   const [activePage, setPage] = React.useState({
@@ -39,63 +36,32 @@ export const PopupApp = () => {
     [],
   );
 
-  const renderedActiveTab = React.useMemo(() => {
-    switch (activePage.tab) {
-      case Pages.Overall:
-        return (
+  return (
+    <PopupContextProvider>
+      <Tabs defaultValue={Pages.Overall} className="p-2">
+        <TabsList className="flex">
+          <TabsTrigger className="flex-1" value={Pages.Overall}>
+            Overall
+          </TabsTrigger>
+          <TabsTrigger className="flex-1" value={Pages.Detailed}>
+            Detailed
+          </TabsTrigger>
+          <TabsTrigger value={Pages.Preferences} className="max-w-[50px]">
+            <Settings />
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value={Pages.Overall}>
           <OverallPage
             onNavigateToActivityPage={handleNavigateToActivityDatePage}
           />
-        );
-      case Pages.Detailed:
-        return <ActivityPage date={activePage.params?.date} />;
-      case Pages.Preferences:
-        return <PreferencesPage />;
-
-      default:
-        return null;
-    }
-  }, [
-    activePage.params?.date,
-    activePage.tab,
-    handleNavigateToActivityDatePage,
-  ]);
-
-  const tabs = React.useMemo(
-    () =>
-      PAGES_VALUES.map((tab) => {
-        return (
-          <div
-            className={twMerge(
-              'cursor-pointer flex-1 capitalize text-center rounded-xl p-2 text-lg font-light transition-colors duration-300',
-              activePage.tab === tab &&
-                'bg-neutral-300 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-200',
-              activePage.tab !== tab &&
-                'hover:bg-neutral-100 text-neutral-400 dark:hover:bg-neutral-900 dark:text-neutral-400',
-              tab === Pages.Preferences && 'max-w-[75px]',
-            )}
-            key={tab}
-            onClick={() => setPage({ tab, params: {} })}
-          >
-            {tab === Pages.Preferences ? (
-              <Icon type={IconType.BurgerMenu} className="m-0" />
-            ) : (
-              tab
-            )}
-          </div>
-        );
-      }),
-    [activePage.tab],
-  );
-
-  return (
-    <PopupContextProvider>
-      <div className="flex flex-col p-2 pt-4 dark:bg-neutral-900">
-        <Panel className="flex gap-2 p-2 font-semibold">{tabs}</Panel>
-        <Panel className="p-2 border-none bg-slate-200 dark:bg-slate-800 tab-body-shadow dark:dark-tab-body-shadow">
-          {renderedActiveTab}
-        </Panel>
-      </div>
+        </TabsContent>
+        <TabsContent value={Pages.Detailed}>
+          <ActivityPage date={activePage.params?.date} />
+        </TabsContent>
+        <TabsContent value={Pages.Preferences}>
+          <PreferencesPage />
+        </TabsContent>
+      </Tabs>
     </PopupContextProvider>
   );
 };

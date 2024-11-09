@@ -91,14 +91,22 @@
     "webpack-cli": "5.1.4"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.2",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.1",
+    "@radix-ui/react-tabs": "^1.1.1",
     "chart.js": "^4.4.6",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "idb": "6.1.2",
+    "lucide-react": "^0.456.0",
     "react": "18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.3.1",
     "react-github-contribution-calendar": "2.2.0",
     "react-tooltip": "5.28.0",
     "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7",
     "throttle-debounce": "5.0.2",
     "utility-types": "^3.11.0"
   },

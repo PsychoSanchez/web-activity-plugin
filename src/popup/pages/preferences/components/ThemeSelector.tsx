@@ -30,8 +30,8 @@ export const ThemeSelector = () => {
   );
 
   return (
-    <div className="flex flex-col gap-2">
-      <h3>{i18n('ThemeSelector_Header')}</h3>
+    <div className="flex flex-col gap-1">
+      <label>{i18n('ThemeSelector_Header')}</label>
       <div className="flex flex-row rounded-lg border-2 border-solid border-neutral-300 dark:border-neutral-900 overflow-hidden">
         <Button
           onClick={handleAutoThemeSelect}

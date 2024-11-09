@@ -1,7 +1,6 @@
+import { CalendarSearch } from 'lucide-react';
 import React, { useCallback, useMemo } from 'react';
 
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import {
   ActivityCalendar,
   CalendarDisplayedActivity,
@@ -10,6 +9,7 @@ import {
 import { TimeStore } from '@shared/db/types';
 import { i18n } from '@shared/services/i18n';
 import { IsoDate } from '@shared/types';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
 import { getHoursInMs, getMinutesInMs } from '@shared/utils/date';
 
 import {
@@ -65,18 +65,20 @@ export const OverallActivityCalendar: React.FC<
   );
 
   return (
-    <Panel>
-      <PanelHeader>
-        <Icon type={IconType.CalendarClock} />
-        {i18n('OverallActivityCalendar_Header')}
-      </PanelHeader>
-      <PanelBody className="min-h-[115px]">
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex gap-2">
+          <CalendarSearch size={16} />
+          {i18n('OverallActivityCalendar_Header')}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="min-h-[115px]">
         <ActivityCalendar
           activity={calendarActivity}
           onDateClick={onDateClick}
           getTooltip={getTooltipForDateButton}
         />
-      </PanelBody>
-    </Panel>
+      </CardContent>
+    </Card>
   );
 };

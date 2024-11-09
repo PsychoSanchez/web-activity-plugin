@@ -1,12 +1,11 @@
-type I18n = typeof import('../../../static/_locales/en/messages.json');
+import fallback from '../../../static/_locales/en/messages.json';
+
+type I18n = typeof fallback;
 type I18NPlaceholder<T extends keyof I18n> = I18n[T] extends {
   placeholders: infer P;
 }
   ? [{ [K in keyof P]: string }]
   : [];
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic import
-const fallback = require('../../../static/_locales/en/messages.json') as I18n;
 
 export const i18n = <T extends keyof I18n>(
   message: T,

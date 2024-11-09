@@ -1,9 +1,9 @@
+import { ChartBarDecreasing, CircleX, Globe } from 'lucide-react';
 import * as React from 'react';
 
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { ActivitySummaryByHostname } from '@shared/db/types';
 import { i18n } from '@shared/services/i18n';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
 import { getTimeFromMs, getTimeWithoutSeconds } from '@shared/utils/date';
 
 import {
@@ -51,15 +51,17 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({
   );
 
   return (
-    <Panel>
-      <PanelHeader className="flex justify-between pb-4">
-        <span>
-          <Icon type={IconType.CalendarLinesPen} />
-          {title}
-        </span>
-        <span>{getTimeWithoutSeconds(totalActivity)}</span>
-      </PanelHeader>
-      <PanelBody className="flex flex-col gap-2">
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex justify-between">
+          <span className="flex gap-2">
+            <ChartBarDecreasing size={16} />
+            {title}
+          </span>
+          <span>{getTimeWithoutSeconds(totalActivity)}</span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2">
         {websiteEntriesSortedDesc.length === 0 ? (
           <span className="dark:text-neutral-300">
             {i18n('ActivityTable_NoDataAvailable')}
@@ -84,9 +86,9 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({
                     alt={domain + ' icon'}
                   />
                 ) : (
-                  <Icon
+                  <Globe
                     className="w-4 m-0 scale-105 translate-x-[1px] flex items-center"
-                    type={IconType.Globe}
+                    size={16}
                   />
                 )}
                 {domain}
@@ -94,8 +96,8 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({
               <span className="min-w-[90px] text-right">
                 {getTimeFromMs(time)}
               </span>
-              <Icon
-                type={IconType.Close}
+              <CircleX
+                size={16}
                 className="hover:text-red-500 cursor-pointer flex items-center"
                 onClick={() => handleHideDomainClick(domain)}
               />
@@ -108,11 +110,11 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({
           </p>
           <p className="dark:text-neutral-300">
             {i18n('ActivityTable_ClickToIgnoreHintPart1')}{' '}
-            <Icon className="m-0" type={IconType.Close} />{' '}
+            <CircleX className="m-0" size={16} />{' '}
             {i18n('ActivityTable_ClickToIgnoreHintPart2')}
           </p>
         </div>
-      </PanelBody>
-    </Panel>
+      </CardContent>
+    </Card>
   );
 };

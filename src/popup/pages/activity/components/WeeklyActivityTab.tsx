@@ -70,7 +70,7 @@ export const WeeklyActivityTab: React.FC<
   );
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <TimeUsagePanel
         title={i18n('ActivityPageWeeklyTab_TimeUsagePanelHeader')}
         totalActivityTime={weeklyActivityAverage}

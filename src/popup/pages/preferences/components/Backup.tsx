@@ -1,13 +1,13 @@
+import { CloudDownload } from 'lucide-react';
 import * as React from 'react';
 
-import { Button, ButtonType } from '@shared/blocks/Button';
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Panel, PanelBody, PanelHeader } from '@shared/blocks/Panel';
 import { TimelineRecord } from '@shared/db/types';
 import { i18n } from '@shared/services/i18n';
 import { getFullActivityTimeline } from '@shared/tables/activity-timeline';
+import { Button } from '@shared/ui/button';
+import { Card, CardFooter, CardHeader, CardTitle } from '@shared/ui/card';
 
-import { usePopupContext } from '../../../hooks/PopupContext';
+import { usePopupContext } from '@popup/hooks/PopupContext';
 
 function getActivityTimelineTimeInSeconds(t: TimelineRecord) {
   return Math.round(
@@ -72,17 +72,18 @@ export const BackupSetting = () => {
   }, [settings]);
 
   return (
-    <Panel>
-      <PanelHeader>{i18n('Backup_Header')}</PanelHeader>
-      <PanelBody className="flex flex-row justify-evenly">
-        <Button buttonType={ButtonType.Primary} onClick={handleExportCSV}>
-          <Icon type={IconType.CloudDownload}></Icon> {i18n('Backup_OptionCSV')}
+    <Card>
+      <CardHeader>
+        <CardTitle>{i18n('Backup_Header')}</CardTitle>
+      </CardHeader>
+      <CardFooter className="flex flex-row justify-evenly">
+        <Button variant="default" onClick={handleExportCSV}>
+          <CloudDownload /> {i18n('Backup_OptionCSV')}
         </Button>
-        <Button buttonType={ButtonType.Primary} onClick={handleExportJSON}>
-          <Icon type={IconType.CloudDownload}></Icon>{' '}
-          {i18n('Backup_OptionJSON')}
+        <Button variant="default" onClick={handleExportJSON}>
+          <CloudDownload /> {i18n('Backup_OptionJSON')}
         </Button>
-      </PanelBody>
-    </Panel>
+      </CardFooter>
+    </Card>
   );
 };
