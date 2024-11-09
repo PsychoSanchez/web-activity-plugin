@@ -6,10 +6,10 @@
   "scripts": {
     "test:watch": "jest --watch",
     "test": "jest",
-    "lint": "npm run check:ts && npm run check:eslint && npm run check:prettier && npm run check:i18n",
+    "lint": "npm run check:ts && npm run check:eslint && npm run check:prettier-diff && npm run check:i18n",
     "check:ts": "tsc --noEmit",
     "check:i18n": "node ./tools/check-i18n.mjs",
-    "check:prettier": "npm run prettier:check",
+    "check:prettier-diff": "node ./tools/check-prettier-diff.mjs",
     "check:eslint": "eslint -c eslint.config.mjs",
     "build": "npm test && npm run lint && npm run build:prod",
     "build:prod": "webpack --mode=production",
