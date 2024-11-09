@@ -14,4 +14,13 @@ function Skeleton({
   );
 }
 
-export { Skeleton };
+function SkeletonStatic({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn('rounded-md bg-primary/50', className)} {...props} />
+  );
+}
+
+export { Skeleton, SkeletonStatic };

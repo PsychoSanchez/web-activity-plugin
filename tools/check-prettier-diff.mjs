@@ -1,7 +1,7 @@
 // Check prettier only on changed files
 import { execSync } from 'child_process';
 
-const changedFiles = execSync('git diff --name-only HEAD')
+const changedFiles = execSync('git diff --name-only HEAD --diff-filter=d')
   .toString()
   .split('\n');
 
