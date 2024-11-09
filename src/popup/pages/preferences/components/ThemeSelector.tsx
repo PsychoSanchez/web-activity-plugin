@@ -1,10 +1,9 @@
+import { Eclipse, Moon, Sun } from 'lucide-react';
 import * as React from 'react';
-import { twMerge } from 'tailwind-merge';
 
-import { Button } from '@shared/blocks/Button';
-import { Icon, IconType } from '@shared/blocks/Icon';
 import { i18n } from '@shared/services/i18n';
 import { ColorScheme, ThemeService } from '@shared/services/theme';
+import { Button } from '@shared/ui/button';
 
 export const ThemeSelector = () => {
   const [theme, setTheme] = React.useState(() => ThemeService.getAppTheme());
@@ -35,30 +34,27 @@ export const ThemeSelector = () => {
       <div className="flex flex-row rounded-lg border-2 border-solid border-neutral-300 dark:border-neutral-900 overflow-hidden">
         <Button
           onClick={handleAutoThemeSelect}
-          className={twMerge(
-            'flex-1 rounded-none',
-            theme === 'auto' && 'bg-neutral-300 dark:bg-neutral-900',
-          )}
+          className="flex-1"
+          variant={theme === 'auto' ? 'default' : 'secondary'}
         >
-          <Icon type={IconType.Eclipse} /> {i18n('ThemeSelector_OptionAuto')}
+          <Eclipse size={16} className="mr-1" />
+          {i18n('ThemeSelector_OptionAuto')}
         </Button>
         <Button
           onClick={handleDarkThemeSelect}
-          className={twMerge(
-            'flex-1 rounded-none border-l-2 border-r-2 border-solid border-neutral-300 dark:border-neutral-900',
-            theme === 'dark' && 'bg-neutral-300 dark:bg-neutral-900',
-          )}
+          className="flex-1"
+          variant={theme === 'dark' ? 'default' : 'secondary'}
         >
-          <Icon type={IconType.Moon} /> {i18n('ThemeSelector_OptionDark')}
+          <Moon size={16} className="mr-1" />
+          {i18n('ThemeSelector_OptionDark')}
         </Button>
         <Button
           onClick={handleLightThemeSelect}
-          className={twMerge(
-            'flex-1 rounded-none',
-            theme === 'light' && 'bg-neutral-300 dark:bg-neutral-900',
-          )}
+          className="flex-1"
+          variant={theme === 'light' ? 'default' : 'secondary'}
         >
-          <Icon type={IconType.Sun} /> {i18n('ThemeSelector_OptionLight')}
+          <Sun size={16} className="mr-1" />
+          {i18n('ThemeSelector_OptionLight')}
         </Button>
       </div>
     </div>
