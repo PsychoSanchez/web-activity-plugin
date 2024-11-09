@@ -1,6 +1,7 @@
 import { Settings } from 'lucide-react';
 import * as React from 'react';
 
+import { i18n } from '@shared/services/i18n';
 import { IsoDate } from '@shared/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 
@@ -41,10 +42,10 @@ export const PopupApp = () => {
       <Tabs defaultValue={Pages.Overall} className="p-2">
         <TabsList className="flex">
           <TabsTrigger className="flex-1" value={Pages.Overall}>
-            Overall
+            {i18n('PopupApp_OverallTabTitle')}
           </TabsTrigger>
           <TabsTrigger className="flex-1" value={Pages.Detailed}>
-            Detailed
+            {i18n('PopupApp_DetailedTabTitle')}
           </TabsTrigger>
           <TabsTrigger value={Pages.Preferences} className="max-w-[50px]">
             <Settings />
