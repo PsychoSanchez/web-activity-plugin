@@ -109,8 +109,8 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({
             {i18n('ActivityTable_ClickToFilterHint')}
           </p>
           <p className="dark:text-neutral-300">
-            {i18n('ActivityTable_ClickToIgnoreHintPart1')}{' '}
-            <CircleX className="m-0" size={16} />{' '}
+            {i18n('ActivityTable_ClickToIgnoreHintPart1')}
+            <CircleX className="mh-1 inline" size={16} />
             {i18n('ActivityTable_ClickToIgnoreHintPart2')}
           </p>
         </div>
