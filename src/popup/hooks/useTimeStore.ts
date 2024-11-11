@@ -13,7 +13,6 @@ export const useTimeStore = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    const startDate = new Date();
     Promise.all([getTotalActivity(), getActiveTabRecord()]).then(
       ([activity, activeRecord]) => {
         if (activeRecord?.hostname) {
@@ -26,14 +25,7 @@ export const useTimeStore = () => {
         }
 
         setStore(activity);
-
-        const endDate = new Date();
-        // Should be at least 150ms to avoid flickering
-        const delay = Math.max(
-          150 - (endDate.getTime() - startDate.getTime()),
-          0,
-        );
-        setTimeout(() => setIsLoaded(true), delay);
+        setIsLoaded(true);
       },
     );
   }, []);

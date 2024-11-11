@@ -52,7 +52,10 @@ export const PopupContextProvider = ({ children }: React.PropsWithChildren) => {
         updateSettings,
       }}
     >
-      {isLoaded ? children : <AppLoadingSkeleton />}
+      <div className="relative">
+        {children}
+        <AppLoadingSkeleton isVisible={!isLoaded} />
+      </div>
     </PopupContext.Provider>
   );
 };
