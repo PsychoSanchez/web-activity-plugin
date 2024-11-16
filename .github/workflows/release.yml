@@ -58,8 +58,7 @@ jobs:
 
       - name: Create tags
         run: |
-          git tag $NEW_VERSION
-          git push origin $NEW_VERSION
+          git push --tags
 
       - name: Create release PR
         uses: peter-evans/create-pull-request@v7
