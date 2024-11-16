@@ -1,22 +1,20 @@
 # web-activity-tracker
 
-This is a simple web activity tracker Chrome extension that can be used to track user activity on websites. It is built using Tailwind, React, Typescript and using Chrome extension manifest V3.
+This is a simple web activity tracker Chrome extension that can be used to track user activity on websites. It is built with Typescript, React, ShadcnUI + Tailwind and uses Chrome extension manifest V3.
 
 <span>
-<img width="250" alt="Screenshot 2022-12-04 at 16 18 20" src="https://user-images.githubusercontent.com/10772182/205500355-7f6c466e-8a07-427d-aced-44305b0bf1cf.png">
-<img width="250" alt="Screenshot 2022-12-04 at 16 19 15" src="https://user-images.githubusercontent.com/10772182/205500328-292588fc-d07f-417f-9240-d64bc1efd28f.png">
-<img width="250" alt="Screenshot 2022-12-04 at 16 17 52" src="https://user-images.githubusercontent.com/10772182/205500423-6cb4b75f-1a74-4215-be6f-652b0a18df25.png">
+<img width="250" alt="Screenshot 2022-12-04 at 16 18 20" src="https://github.com/user-attachments/assets/041acffb-3f4a-4abe-8e3c-ec8ff81b27dd">
+<img width="250" alt="Screenshot 2022-12-04 at 16 19 15" src="https://github.com/user-attachments/assets/062e1da2-cc91-4af5-95fb-64afc3518e81">
+<img width="250" alt="Screenshot 2022-12-04 at 16 17 52" src="https://github.com/user-attachments/assets/44624aa2-15b4-41d3-8860-775ec1fdd918">
 </span>
-
 
 ## Privacy
 
 Extension does not share collected data from the user. It stores data locally on the user's machine.
 
-- Data is stored in the browser's storage. ([chrome.storage](https://developer.chrome.com/docs/apps/manifest/storage/), [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API))])
-- Data is not sent to any server.
-- Data is only used to display the activity on the website.
-- Data is not shared with any third party.
+- Data is stored in the browser's storage ([chrome.storage](https://developer.chrome.com/docs/apps/manifest/storage/), [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API))
+- Data is not shared with third-party services or servers
+- Data is only used to display activity statistics to the user
 
 ## Features
 
@@ -28,15 +26,6 @@ Extension does not share collected data from the user. It stores data locally on
 - Graph of top 5 active websites.
 - Compares daily activity with current week average.
 
-### Installing from source
-
-- Clone the repository
-- Run `npm install`
-- Run `npm run build`
-- Go to `chrome://extensions/`
-- Enable developer mode
-- Click on `Load unpacked` and select the `dist` folder
-
 ## Development
 
 Install [nvm](https://github.com/nvm-sh/nvm)
@@ -44,16 +33,35 @@ Install [nvm](https://github.com/nvm-sh/nvm)
 Clone the repository and run the following commands:
 
 ```bash
+nvm install
 nvm use
+
 npm install
 npm start
 ```
 
-Build production version
+### Storybook
+
+To test your components in isolation, you can use Storybook.
 
 ```bash
-npm run build
+npm run storybook
 ```
+
+### Installing from source
+
+- Clone the repository
+- Install NodeJS
+  - Using [nvm](https://github.com/nvm-sh/nvm)
+    - Run `nvm install`
+    - Run `nvm use`
+  - Using [NodeJS](https://nodejs.org/en/download/prebuilt-installer)
+    - Install NodeJS version specified in `.nvmrc` file
+- Run `npm install`
+- Run `npm run build` to build production version or `npm start` to run development version
+- Go to `chrome://extensions/`
+- Enable developer mode
+- Click on `Load unpacked` and select the `dist` folder
 
 ## Testing
 
