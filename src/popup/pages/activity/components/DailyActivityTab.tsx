@@ -1,12 +1,12 @@
+import { ChartPie } from 'lucide-react';
 import * as React from 'react';
 
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Panel, PanelHeader } from '@shared/blocks/Panel';
 import { ActivityDoughnutChart } from '@shared/components/ActivityDoughnutChart';
 import { TimelineRecord } from '@shared/db/types';
 import { i18n } from '@shared/services/i18n';
 import { getActivityTimeline } from '@shared/tables/activity-timeline';
 import { IsoDate } from '@shared/types';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
 import { getMinutesInMs } from '@shared/utils/date';
 import { getTotalDailyActivity } from '@shared/utils/time-store';
 
@@ -73,31 +73,38 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
     : i18n('ActivityPageDailyActivityTab_ActivityTimelineHeader');
 
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <TimeUsagePanel
         title={i18n('ActivityPageDailyActivityTab_TimeUsagePanelHeader')}
         totalActivityTime={totalDailyActivity}
         averageTime={weeklyUsage / 7}
       />
-      <Panel className="min-h-[160px] flex flex-col justify-center">
-        <PanelHeader>
-          <Icon type={IconType.ChartPieAlt} />
-          {i18n('ActivityPageDailyActivityTab_TopFiveActiveWebsites', { date })}
-        </PanelHeader>
-        {totalDailyActivity > MINUTE_IN_MS ? (
-          <div className="[&>canvas]:max-h-[150px]">
-            <ActivityDoughnutChart
-              datasetLabel={date}
-              activity={activityByDate}
-              isDarkMode={isDarkMode}
-            />
-          </div>
-        ) : (
-          <div className="text-center text-neutral-800">
-            {i18n('ActivityPageDailyActivityTab_EmptyActivity')}
-          </div>
-        )}
-      </Panel>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex gap-2">
+            <ChartPie size={16} />
+            {i18n('ActivityPageDailyActivityTab_TopFiveActiveWebsites', {
+              date,
+            })}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {totalDailyActivity > MINUTE_IN_MS ? (
+            <div className="[&>canvas]:max-h-[150px]">
+              <ActivityDoughnutChart
+                datasetLabel={date}
+                activity={activityByDate}
+                isDarkMode={isDarkMode}
+              />
+            </div>
+          ) : (
+            <div className="text-center text-neutral-800">
+              {i18n('ActivityPageDailyActivityTab_EmptyActivity')}
+            </div>
+          )}
+        </CardContent>
+      </Card>
       <div ref={scrollToRef}>
         <ActivityTimelineChart
           title={activityTimelineHeader}
@@ -110,6 +117,6 @@ export const DailyActivityTab: React.FC<DailyActivityTabProps> = ({
         websiteTimeMap={activityByDate}
         onDomainRowClicked={handleDomainRowClick}
       />
-    </>
+    </div>
   );
 };

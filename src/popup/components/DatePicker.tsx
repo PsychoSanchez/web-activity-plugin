@@ -1,8 +1,8 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import * as React from 'react';
 
-import { Button, ButtonType } from '@shared/blocks/Button';
-import { Icon, IconType } from '@shared/blocks/Icon';
 import { IsoDate } from '@shared/types';
+import { Button } from '@shared/ui/button';
 import { assertIsIsoDate, getDaysInMs, getIsoDate } from '@shared/utils/date';
 
 const DAY_IN_MS = getDaysInMs(1);
@@ -37,10 +37,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({ date, onChange }) => {
   return (
     <div className="flex flex-1 justify-between items-center">
       <Button
-        buttonType={ButtonType.Secondary}
+        variant="outline"
+        size="icon"
         onClick={() => onDateChangeButtonClick(-1)}
       >
-        <Icon className="m-0 flex" type={IconType.LeftArrow} />
+        <ChevronLeft />
       </Button>
       <input
         type="date"
@@ -49,10 +50,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({ date, onChange }) => {
         onChange={handleChangeToSpecificDate}
       />
       <Button
-        buttonType={ButtonType.Secondary}
+        variant="outline"
+        size="icon"
         onClick={() => onDateChangeButtonClick(1)}
       >
-        <Icon className="m-0 flex" type={IconType.RightArrow} />
+        <ChevronRight />
       </Button>
     </div>
   );

@@ -160,5 +160,14 @@
     },
     "IgnoredDomainSetting_ViewAllIgnoredDomainsLink": {
         "message": "Просмотреть все игнорируемые домены"
+    },
+    "IgnoredDomainSetting_NoIgnoredDomains": {
+        "message": "Нет игнорируемых доменов"
+    },
+    "PopupApp_OverallTabTitle": {
+        "message": "Общее"
+    },
+    "PopupApp_DetailedTabTitle": {
+        "message": "Подробно"
     }
 }

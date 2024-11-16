@@ -160,5 +160,14 @@
     },
     "IgnoredDomainSetting_ViewAllIgnoredDomainsLink": {
         "message": "Alle ignorierten Domains anzeigen"
+    },
+    "IgnoredDomainSetting_NoIgnoredDomains": {
+        "message": "Keine ignorierten Domains"
+    },
+    "PopupApp_OverallTabTitle": {
+        "message": "Gesamt"
+    },
+    "PopupApp_DetailedTabTitle": {
+        "message": "Detailiert"
     }
 }

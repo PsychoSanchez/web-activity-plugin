@@ -11,6 +11,7 @@ import { useSettings } from './useSettings';
 import { TimeStore, useTimeStore } from './useTimeStore';
 
 export type PopupContextType = {
+  isStoreLoaded: boolean;
   store: TimeStore;
   activeHostname: string;
   settings: DeepReadonly<Preferences>;
@@ -18,6 +19,7 @@ export type PopupContextType = {
 };
 
 const DEFAULT_CONTEXT: PopupContextType = {
+  isStoreLoaded: false,
   store: {},
   activeHostname: '',
   settings: DEFAULT_PREFERENCES,
@@ -29,7 +31,7 @@ const PopupContext = React.createContext<PopupContextType>(DEFAULT_CONTEXT);
 export const usePopupContext = () => React.useContext(PopupContext);
 
 export const PopupContextProvider = ({ children }: React.PropsWithChildren) => {
-  const store = useTimeStore();
+  const [store, isLoaded] = useTimeStore();
   const host = useActiveTabHostname();
   const [settings, updateSettings] = useSettings();
 
@@ -45,6 +47,7 @@ export const PopupContextProvider = ({ children }: React.PropsWithChildren) => {
   return (
     <PopupContext.Provider
       value={{
+        isStoreLoaded: isLoaded,
         store: filteredStore,
         activeHostname: host || '',
         settings,

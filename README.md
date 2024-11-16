@@ -1,59 +1,68 @@
-# web-activity-tracker
+# Web Activity Tracker (BroTime)
 
-This is a simple web activity tracker Chrome extension that can be used to track user activity on websites. It is built using Tailwind, React, Typescript and using Chrome extension manifest V3.
+A comprehensive web activity tracker Chrome extension built with TypeScript, React, ShadcnUI, and Tailwind. This extension leverages Chrome extension manifest V3 to provide detailed insights into user activity on websites.
 
 <span>
-<img width="250" alt="Screenshot 2022-12-04 at 16 18 20" src="https://user-images.githubusercontent.com/10772182/205500355-7f6c466e-8a07-427d-aced-44305b0bf1cf.png">
-<img width="250" alt="Screenshot 2022-12-04 at 16 19 15" src="https://user-images.githubusercontent.com/10772182/205500328-292588fc-d07f-417f-9240-d64bc1efd28f.png">
-<img width="250" alt="Screenshot 2022-12-04 at 16 17 52" src="https://user-images.githubusercontent.com/10772182/205500423-6cb4b75f-1a74-4215-be6f-652b0a18df25.png">
+<img width="250" alt="Screenshot 2022-12-04 at 16 18 20" src="https://github.com/user-attachments/assets/041acffb-3f4a-4abe-8e3c-ec8ff81b27dd">
+<img width="250" alt="Screenshot 2022-12-04 at 16 19 15" src="https://github.com/user-attachments/assets/062e1da2-cc91-4af5-95fb-64afc3518e81">
+<img width="250" alt="Screenshot 2022-12-04 at 16 17 52" src="https://github.com/user-attachments/assets/44624aa2-15b4-41d3-8860-775ec1fdd918">
 </span>
-
 
 ## Privacy
 
-Extension does not share collected data from the user. It stores data locally on the user's machine.
+This extension prioritizes user privacy by ensuring that all collected data is stored locally on the user's machine. 
 
-- Data is stored in the browser's storage. ([chrome.storage](https://developer.chrome.com/docs/apps/manifest/storage/), [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API))])
-- Data is not sent to any server.
-- Data is only used to display the activity on the website.
-- Data is not shared with any third party.
+- Data is stored using the browser's storage mechanisms ([chrome.storage](https://developer.chrome.com/docs/apps/manifest/storage/), [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)).
+- No data is shared with third-party services or servers.
+- Collected data is solely used to display activity statistics to the user.
 
 ## Features
 
-- Tracks activity on websites as well as local files (PDFs).
-- Supports activity tracking on audible websites with idle behavior (like Youtube, Netflix, Spotify, Discord) without extra permissions
-- Displays total activity on every website on a specific date or week with a second precision.
-- Minute by minute activity timeline for a specific website or all websites on a specific date or week.
-- Overall activity heat calendar
-- Graph of top 5 active websites.
-- Compares daily activity with current week average.
-
-### Installing from source
-
-- Clone the repository
-- Run `npm install`
-- Run `npm run build`
-- Go to `chrome://extensions/`
-- Enable developer mode
-- Click on `Load unpacked` and select the `dist` folder
+- Tracks activity on websites and local files (e.g., PDFs).
+- Supports activity tracking on audible websites with idle behavior (e.g., YouTube, Netflix, Spotify, Discord) without requiring extra permissions.
+- Displays total activity on each website for a specific date or week with second-level precision.
+- Provides a minute-by-minute activity timeline for specific websites or all websites on a given date or week.
+- Includes an overall activity heat calendar.
+- Features a graph of the top 5 active websites.
+- Compares daily activity with the current week's average.
 
 ## Development
 
-Install [nvm](https://github.com/nvm-sh/nvm)
+To set up the development environment, follow these steps:
 
-Clone the repository and run the following commands:
+1. Install [nvm](https://github.com/nvm-sh/nvm).
+2. Clone the repository.
+3. Run the following commands:
 
 ```bash
+nvm install
 nvm use
 npm install
 npm start
 ```
 
-Build production version
+### Storybook
+
+To test your components in isolation, you can use Storybook.
 
 ```bash
-npm run build
+npm run storybook
 ```
+
+### Installing from source
+
+- Clone the repository
+- Install NodeJS
+  - Using [nvm](https://github.com/nvm-sh/nvm)
+    - Run `nvm install`
+    - Run `nvm use`
+  - Using [NodeJS](https://nodejs.org/en/download/prebuilt-installer)
+    - Install NodeJS version specified in `.nvmrc` file
+- Run `npm install`
+- Run `npm run build` to build production version or `npm start` to run development version
+- Go to `chrome://extensions/`
+- Enable developer mode
+- Click on `Load unpacked` and select the `dist` folder
 
 ## Testing
 

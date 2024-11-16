@@ -1,9 +1,9 @@
+import { BarChartHorizontal } from 'lucide-react';
 import * as React from 'react';
 
-import { Icon, IconType } from '@shared/blocks/Icon';
-import { Panel, PanelHeader } from '@shared/blocks/Panel';
 import { Bar, ChartOptions } from '@shared/libs/ChartJs';
 import { i18n } from '@shared/services/i18n';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
 import {
   generatePrior7DaysDates,
   getHoursInMs,
@@ -123,15 +123,19 @@ export const WeeklyWebsiteActivityChart: React.FC<
   );
 
   return (
-    <Panel>
-      <PanelHeader>
-        <Icon type={IconType.ChartHistogram} />
-        {presentChartTitle?.(weekName) ?? weekName}
-      </PanelHeader>
-      <Bar
-        options={isDarkMode ? DARK_MODE_BAR_OPTIONS : BAR_OPTIONS}
-        data={chartData}
-      />
-    </Panel>
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex gap-2">
+          <BarChartHorizontal size={16} />
+          {presentChartTitle?.(weekName) ?? weekName}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Bar
+          options={isDarkMode ? DARK_MODE_BAR_OPTIONS : BAR_OPTIONS}
+          data={chartData}
+        />
+      </CardContent>
+    </Card>
   );
 };

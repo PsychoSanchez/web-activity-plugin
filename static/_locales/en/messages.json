@@ -213,5 +213,17 @@
     "IgnoredDomainSetting_ViewAllIgnoredDomainsLink": {
         "message": "View all ignored domains",
         "description": "Link to view all ignored domains"
+    },
+    "IgnoredDomainSetting_NoIgnoredDomains": {
+        "message": "No ignored domains",
+        "description": "Message displayed when no domains are ignored"
+    },
+    "PopupApp_OverallTabTitle": {
+        "message": "Overall",
+        "description": "Overall tab title"
+    },
+    "PopupApp_DetailedTabTitle": {
+        "message": "Detailed",
+        "description": "Detailed tab title"
     }
 }

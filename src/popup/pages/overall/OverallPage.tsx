@@ -32,7 +32,7 @@ export const OverallPage: React.FC<OverallPageProps> = ({
   const isDarkMode = useIsDarkMode();
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {todaysUsage > MINUTE_IN_MS ? (
         <TimeUsagePanel
           title={i18n('OverallPage_TimeUsagePanelHeader')}

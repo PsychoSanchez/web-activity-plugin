@@ -1,33 +1,42 @@
 import * as React from 'react';
 
-import { Checkbox } from '@shared/blocks/Input';
+// import { Checkbox } from '@shared/blocks/Input';
 import { i18n } from '@shared/services/i18n';
+import { Checkbox } from '@shared/ui/checkbox';
 
-import { usePopupContext } from '../../../hooks/PopupContext';
+import { usePopupContext } from '@popup/hooks/PopupContext';
 
-export const DisplayTimeOnBadge = () => {
+export const DisplayTimeOnBadgeSetting = () => {
   const { settings, updateSettings } = usePopupContext();
   const [isDisplayTimeOnIconChecked, setIsDisplayTimeOnIconChecked] =
     React.useState<boolean>(settings.displayTimeOnBadge);
 
-  const handleDisplayTimeOnIconChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setIsDisplayTimeOnIconChecked(e.target.checked);
+  const handleDisplayTimeOnIconChange = React.useCallback<
+    NonNullable<React.ComponentProps<typeof Checkbox>['onCheckedChange']>
+  >(
+    (e) => {
+      const isChecked = e === true;
+      setIsDisplayTimeOnIconChecked(isChecked);
       updateSettings({
-        displayTimeOnBadge: e.target.checked,
+        displayTimeOnBadge: isChecked,
       });
     },
     [setIsDisplayTimeOnIconChecked, updateSettings],
   );
 
   return (
-    <label className="flex items-center cursor-pointer">
+    <div className="flex items-center gap-2">
       <Checkbox
-        className="mr-2"
+        id="time-on-badge"
         checked={isDisplayTimeOnIconChecked}
-        onChange={handleDisplayTimeOnIconChange}
+        onCheckedChange={handleDisplayTimeOnIconChange}
       />
-      <span>{i18n('DisplayTimeOnBadge_OptionToEnable')}</span>
-    </label>
+      <label
+        htmlFor="time-on-badge"
+        className="text-sm font-medium leading-none cursor-pointer"
+      >
+        {i18n('DisplayTimeOnBadge_OptionToEnable')}
+      </label>
+    </div>
   );
 };

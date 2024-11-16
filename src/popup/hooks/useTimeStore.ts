@@ -10,6 +10,7 @@ export { TimeStore };
 
 export const useTimeStore = () => {
   const [store, setStore] = React.useState<TimeStore>({});
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
   React.useEffect(() => {
     Promise.all([getTotalActivity(), getActiveTabRecord()]).then(
@@ -24,9 +25,10 @@ export const useTimeStore = () => {
         }
 
         setStore(activity);
+        setIsLoaded(true);
       },
     );
   }, []);
 
-  return store;
+  return [store, isLoaded] as const;
 };
