@@ -1,9 +1,6 @@
 name: Release Flow
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       version_type:
