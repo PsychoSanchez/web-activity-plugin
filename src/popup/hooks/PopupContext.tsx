@@ -4,7 +4,6 @@ import { DeepReadonly } from 'utility-types';
 import { Preferences } from '@shared/db/types';
 import { DEFAULT_PREFERENCES } from '@shared/preferences';
 
-import { AppLoadingSkeleton } from '@popup/components/AppLoadingSkeleton';
 import { getFilteredWebsiteTimeStoreSlice } from '@popup/services/time-store';
 
 import { useActiveTabHostname } from './useActiveTab';
@@ -12,6 +11,7 @@ import { useSettings } from './useSettings';
 import { TimeStore, useTimeStore } from './useTimeStore';
 
 export type PopupContextType = {
+  isStoreLoaded: boolean;
   store: TimeStore;
   activeHostname: string;
   settings: DeepReadonly<Preferences>;
@@ -19,6 +19,7 @@ export type PopupContextType = {
 };
 
 const DEFAULT_CONTEXT: PopupContextType = {
+  isStoreLoaded: false,
   store: {},
   activeHostname: '',
   settings: DEFAULT_PREFERENCES,
@@ -46,16 +47,14 @@ export const PopupContextProvider = ({ children }: React.PropsWithChildren) => {
   return (
     <PopupContext.Provider
       value={{
+        isStoreLoaded: isLoaded,
         store: filteredStore,
         activeHostname: host || '',
         settings,
         updateSettings,
       }}
     >
-      <div className="relative">
-        {children}
-        <AppLoadingSkeleton isVisible={!isLoaded} />
-      </div>
+      {children}
     </PopupContext.Provider>
   );
 };
