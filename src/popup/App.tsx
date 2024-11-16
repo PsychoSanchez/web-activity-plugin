@@ -12,6 +12,7 @@ import { PreferencesPage } from '@popup/pages/preferences/PreferencesPage';
 
 import '../tailwind.css';
 import './App.css';
+import { AppLoadingSkeletonWrapper } from './components/AppLoadingSkeleton';
 
 enum Pages {
   Overall = 'overall',
@@ -39,30 +40,32 @@ export const PopupApp = () => {
 
   return (
     <PopupContextProvider>
-      <Tabs defaultValue={Pages.Overall} className="p-2">
-        <TabsList className="flex">
-          <TabsTrigger className="flex-1" value={Pages.Overall}>
-            {i18n('PopupApp_OverallTabTitle')}
-          </TabsTrigger>
-          <TabsTrigger className="flex-1" value={Pages.Detailed}>
-            {i18n('PopupApp_DetailedTabTitle')}
-          </TabsTrigger>
-          <TabsTrigger value={Pages.Preferences} className="max-w-[50px]">
-            <Settings />
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value={Pages.Overall}>
-          <OverallPage
-            onNavigateToActivityPage={handleNavigateToActivityDatePage}
-          />
-        </TabsContent>
-        <TabsContent value={Pages.Detailed}>
-          <ActivityPage date={activePage.params?.date} />
-        </TabsContent>
-        <TabsContent value={Pages.Preferences}>
-          <PreferencesPage />
-        </TabsContent>
-      </Tabs>
+      <AppLoadingSkeletonWrapper>
+        <Tabs defaultValue={Pages.Overall} className="p-2">
+          <TabsList className="flex">
+            <TabsTrigger className="flex-1" value={Pages.Overall}>
+              {i18n('PopupApp_OverallTabTitle')}
+            </TabsTrigger>
+            <TabsTrigger className="flex-1" value={Pages.Detailed}>
+              {i18n('PopupApp_DetailedTabTitle')}
+            </TabsTrigger>
+            <TabsTrigger value={Pages.Preferences} className="max-w-[50px]">
+              <Settings />
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value={Pages.Overall}>
+            <OverallPage
+              onNavigateToActivityPage={handleNavigateToActivityDatePage}
+            />
+          </TabsContent>
+          <TabsContent value={Pages.Detailed}>
+            <ActivityPage date={activePage.params?.date} />
+          </TabsContent>
+          <TabsContent value={Pages.Preferences}>
+            <PreferencesPage />
+          </TabsContent>
+        </Tabs>
+      </AppLoadingSkeletonWrapper>
     </PopupContextProvider>
   );
 };
