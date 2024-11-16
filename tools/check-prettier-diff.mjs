@@ -5,7 +5,7 @@ const changedFiles = execSync('git diff --name-only HEAD --diff-filter=d')
   .toString()
   .split('\n');
 
-const EXTENSIONS = ['js', 'mjs', 'ts', 'tsx'];
+const EXTENSIONS = ['ts', 'tsx'];
 const prettierFiles = changedFiles.filter((file) =>
   EXTENSIONS.some((ext) => file.endsWith(ext)),
 );
