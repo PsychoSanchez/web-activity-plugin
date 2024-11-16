@@ -1,7 +1,7 @@
 import CopyPlugin from 'copy-webpack-plugin';
 import path from 'path';
 
-import tsConfig from './tsconfig.json' with { type: "json" };;
+import tsConfig from './tsconfig.json' with { type: "json" };
 
 const __dirname = path.resolve();
 
@@ -48,5 +48,10 @@ export default (_env, argv) => ({
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 1024000,
+    maxAssetSize: 1024000
   },
 });
