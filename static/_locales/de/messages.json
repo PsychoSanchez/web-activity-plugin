@@ -107,6 +107,9 @@
     "PreferencesPage_Header": {
         "message": "Einstellungen"
     },
+    "PreferencesPage_Description": {
+        "message": "Passen Sie Ihre Erfahrung mit verschiedenen Einstellungen und Präferenzen an"
+    },
     "Backup_Header": {
         "message": "Sicherung"
     },
@@ -144,7 +147,12 @@
         "message": "Zeitlimit"
     },
     "LimitsSetting_AddButton": {
-        "message": "Hinzufügen"
+        "message": "Hinzufügen",
+        "description": "Add button"
+    },
+    "LimitsSetting_ActiveLimits": {
+        "message": "Aktive Limits",
+        "description": "Header for active limits section"
     },
     "IgnoredDomainSetting_Header": {
         "message": "Ignorierte Domains"

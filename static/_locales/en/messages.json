@@ -142,6 +142,10 @@
         "message": "Preferences",
         "description": "Header for preferences page"
     },
+    "PreferencesPage_Description": {
+        "message": "Customize your experience with various settings and preferences",
+        "description": "Description for preferences page"
+    },
     "Backup_Header": {
         "message": "Backup",
         "description": "Header for backup page"
@@ -193,6 +197,10 @@
     "LimitsSetting_AddButton": {
         "message": "Add",
         "description": "Add button"
+    },
+    "LimitsSetting_ActiveLimits": {
+        "message": "Active Limits",
+        "description": "Header for active limits section"
     },
     "IgnoredDomainSetting_Header": {
         "message": "Ignored Domains",

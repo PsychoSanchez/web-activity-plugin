@@ -21,6 +21,7 @@ export default (_env, argv) => ({
     background: './src/background.index.ts',
     popup: './src/popup.index.tsx',
     content: './src/content.index.ts',
+    dashboard: './src/dashboard.index.tsx', // Added dashboard entry
   },
   devtool: argv.mode === 'development' ? 'inline-source-map' : undefined,
   module: {

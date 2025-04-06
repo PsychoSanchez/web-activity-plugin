@@ -3,7 +3,7 @@
     "style": "new-york",
     "tailwind": {
         "config": "tailwind.config.js",
-        "css": "src/tailwind.css",
+        "css": "src/shared/styles/tailwind.css",
         "baseColor": "zinc",
         "cssVariables": true
     },

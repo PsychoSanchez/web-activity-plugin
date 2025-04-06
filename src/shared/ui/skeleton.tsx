@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { cn } from '@shared/utils';
 
@@ -14,13 +14,4 @@ function Skeleton({
   );
 }
 
-function SkeletonStatic({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn('rounded-md bg-primary/50', className)} {...props} />
-  );
-}
-
-export { Skeleton, SkeletonStatic };
+export { Skeleton };

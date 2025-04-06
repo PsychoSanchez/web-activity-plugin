@@ -2,6 +2,7 @@ import { Settings } from 'lucide-react';
 import * as React from 'react';
 
 import { i18n } from '@shared/services/i18n';
+import '@shared/styles/tailwind.css';
 import { IsoDate } from '@shared/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 
@@ -10,7 +11,6 @@ import { ActivityPage } from '@popup/pages/activity/ActivityPage';
 import { OverallPage } from '@popup/pages/overall/OverallPage';
 import { PreferencesPage } from '@popup/pages/preferences/PreferencesPage';
 
-import '../tailwind.css';
 import './App.css';
 import { AppLoadingSkeletonWrapper } from './components/AppLoadingSkeleton';
 

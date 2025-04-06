@@ -107,6 +107,9 @@
     "PreferencesPage_Header": {
         "message": "Настройки"
     },
+    "PreferencesPage_Description": {
+        "message": "Настройте свой опыт с помощью различных параметров и предпочтений"
+    },
     "Backup_Header": {
         "message": "Резервное копирование"
     },
@@ -144,7 +147,12 @@
         "message": "Лимит времени"
     },
     "LimitsSetting_AddButton": {
-        "message": "Добавить"
+        "message": "Добавить",
+        "description": "Add button"
+    },
+    "LimitsSetting_ActiveLimits": {
+        "message": "Активные ограничения",
+        "description": "Header for active limits section"
     },
     "IgnoredDomainSetting_Header": {
         "message": "Игнорируемые домены"
